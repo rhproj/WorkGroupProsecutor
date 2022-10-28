@@ -16,9 +16,5 @@
     <ProjectReference Include="..\Shared\WorkGroupProsecutor.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Data\Repositories\" />
-  </ItemGroup>
-
 
 </Project>
