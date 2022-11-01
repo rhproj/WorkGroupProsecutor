@@ -24,7 +24,7 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
 
         public async Task AddDistrictRegister(DistrictRegisterModel register)
         {
-            ArgumentNullException.ThrowIfNull(register);
+            //ArgumentNullException.ThrowIfNull(register);
             await _dbContext.DistrictRegister.AddAsync(register);
             await _dbContext.SaveChangesAsync();
         }
