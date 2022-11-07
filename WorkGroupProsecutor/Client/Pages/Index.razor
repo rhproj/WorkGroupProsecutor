@@ -1,9 +1,40 @@
 ﻿@page "/"
 
 <PageTitle>Index</PageTitle>
+<h1 class="text-center">Рабочая группа по обращениям</h1>
 
-<h1>Hello, world!</h1>
-
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?" />
+<div class="container mt-5">
+    <div class="row">
+        <div class="col">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h4 class="card-title text-center text-primary">Переадресация</h4>
+                    <p class="card-text">Реестры обращений, предполагаемых к переадресации в иные органы и ведомства</p>
+                    <p class="card-text text-secondary fst-italic">дважды в месяц</p>
+@*                    <a href="#" class="btn btn-primary">Go somewhere</a>*@
+                    <a href="redirectedpage" class="stretched-link"></a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h4 class="card-title text-center text-success">Удовлетворено</h4>
+                    <p class="card-text">Реестры обращений, по которым приняты решения "Удовлетворено" и "Удовлетворено частично"</p>
+                    <p class="card-text text-secondary fst-italic">раз в квартал</p>
+                    <a href="satisfiedpage" class="stretched-link"></a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card" style="width: 18rem;">
+                <div class="card-body">
+                    <h4 class="card-title text-center text-warning">Без разрешения</h4>
+                    <p class="card-text">Реестры обращений, по которым приняты решения "Оставлено без разрешения и (или) приобщено к НП"</p>
+                    <p class="card-text text-secondary fst-italic">раз в квартал</p>
+                    <a href="nosolutionpage" class="stretched-link"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

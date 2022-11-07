@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WorkGroupProsecutor.Shared.Models;
+using WorkGroupProsecutor.Shared.Models.Appeal;
 using WorkGroupProsecutor.Shared.Models.Recipients;
 
 namespace WorkGroupProsecutor.Server.Data.Context

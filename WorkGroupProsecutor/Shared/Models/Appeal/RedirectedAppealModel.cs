@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using WorkGroupProsecutor.Shared.Models.Base;
 using WorkGroupProsecutor.Shared.Models.Recipients;
 
-namespace WorkGroupProsecutor.Shared.Models
+namespace WorkGroupProsecutor.Shared.Models.Appeal
 {
     public class RedirectedAppealModel : AppealRegister
     {

@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using WorkGroupProsecutor.Shared.Models.Base;
 
-namespace WorkGroupProsecutor.Shared.Models
+namespace WorkGroupProsecutor.Shared.Models.Appeal
 {
     public class SatisfiedAppealModel : AppealRegister
     {
