@@ -12,6 +12,7 @@ namespace WorkGroupProsecutor.Shared.Models
         public string District { get; set; }
 
         //will be passed further:
+        public string DateInfo { get; set; }
         public int YearInfo { get; set; }
         public int QuarterInfo { get; set; }
         public DateTime EntryDate { get; set; }

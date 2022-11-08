@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Pages\AppealRegistry\" />
     <Folder Include="Pages\Components\" />
   </ItemGroup>
 

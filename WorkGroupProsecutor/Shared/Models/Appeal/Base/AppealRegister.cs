@@ -14,5 +14,6 @@ namespace WorkGroupProsecutor.Shared.Models.Base
         public string ApplicantFullName { get; set; }
         public Department AppealClassification { get; set; } //possible dropdown
         public string DepartmentAssessment { get; set; }
+        public string DateInfo { get; set; }
     }
 }

@@ -1,0 +1,66 @@
+﻿@page "/redirectedpage"
+@inject HttpClient httpClient
+
+<h2 class="text-center mb-5">Реестры обращений, предполагаемых к переадресации в иные органы и ведомства</h2>
+<div class="row mb-2">
+    <div class="col-md-6">
+        <a href="/addredirectedappeal" class="btn btn-outline-primary" role="button">
+            <p class="h4 pt-2">Создать запись</p>
+        </a>
+    </div>
+</div>
+
+@if (appealsList.Count == 0)
+{
+    <p>Загружается...</p>
+}
+else
+{
+@*  <ul class="text-center list-unstyled">
+      @foreach (var appeal in appealsList)
+      {
+          <li>
+              @appeal.DateInfo  Переадресация  
+              <a href="/updateappeal/@appeal.Id" class="btn btn-outline-dark">Смотреть</a>
+              <a href="/deleteappeal/@appeal.Id" class="btn btn-outline-danger">Удалить</a>
+              <hr />
+          </li>
+      }
+    </ul>
+    <hr />*@
+    <table class="table table-striped align-middle text-center">
+        <thead class="table-success">
+            <tr>
+                <th class="h4">Дата</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var appeal in appealsList)
+            {
+                <tr>
+                    <td class="h4">@appeal.DateInfo г. Переадресация</td>
+                    <td>
+                        <a href="/updateappeal/@appeal.Id" class="btn btn-outline-dark">Смотреть</a>
+                        <a href="/deleteappeal/@appeal.Id" class="btn btn-outline-danger">Удалить</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<DistrictRegisterModel> appealsList = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        appealsList = new List<DistrictRegisterModel>(){
+            new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")},
+            new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")},
+            new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")}
+        };
+        //appealsList = await HttpClient.GetFromJsonAsync<List<DistrictRegisterModel>>("api/developer");
+    }
+}

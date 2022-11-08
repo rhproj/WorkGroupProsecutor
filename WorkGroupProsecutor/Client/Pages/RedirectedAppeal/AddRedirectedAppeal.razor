@@ -1,0 +1,50 @@
+﻿@page "/addredirectedappeal"
+@inject NavigationManager navManager
+@inject HttpClient httpClient
+
+<h3>Создать запись Переадресация</h3>
+<EditForm Model="@appeal" OnValidSubmit="SaveDeveloper">
+    <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label class="form-label">Регистрационный номер в системе Надзор-WEB:</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="appeal.RegistrationNumber" />
+        </div>
+        <ValidationMessage For="@(() => appeal.RegistrationNumber)" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">ФИО заявителя</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="appeal.ApplicantFullName" />
+        </div>
+        <ValidationMessage For="@(() => appeal.ApplicantFullName)" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Дата</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="appeal.DateInfo" />
+        </div>
+        <ValidationMessage For="@(() => appeal.DateInfo)" />
+    </div>
+    <div class="form-group">
+        <button type="submit" class="btn btn-primary">Сохранить</button>
+        <button class="btn btn-light" @onclick="GoToRedirectedPage">Отменить</button>
+    </div>
+</EditForm>
+
+
+@code {
+    private RedirectedAppealModel appeal = new();
+
+    private async Task SaveDeveloper() //for new and edit
+    {
+        await httpClient.PostAsJsonAsync<RedirectedAppealModel>("api/redirectedappeal", appeal);
+
+        GoToRedirectedPage();
+    }
+
+    private void GoToRedirectedPage()
+    {
+        navManager.NavigateTo("/redirectedappealregistry");
+    }
+}

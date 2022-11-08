@@ -49,6 +49,5 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
             _dbContext.DistrictRegister.Remove(regiterToDelete);
             await _dbContext.SaveChangesAsync();
         }
-
     }
 }
