@@ -10,7 +10,7 @@ namespace WorkGroupProsecutor.Server.Controllers
     [ApiController]
     public class RedirectedAppealController : ControllerBase
     {
-        private readonly RedirectedAppealRepository _repository;
+        private readonly IRedirectedAppealRepository _repository;
 
         public RedirectedAppealController(RedirectedAppealRepository repository)
         {
