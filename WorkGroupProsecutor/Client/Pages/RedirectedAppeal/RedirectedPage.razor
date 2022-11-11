@@ -61,6 +61,6 @@ else
             new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")},
             new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")}
         };
-        //appealsList = await HttpClient.GetFromJsonAsync<List<DistrictRegisterModel>>("api/developer");
+        //appealsList = await httpClient.GetFromJsonAsync<List<DistrictRegisterModel>>("api/redirectedappeal/{district}/{period}/{year}");
     }
 }

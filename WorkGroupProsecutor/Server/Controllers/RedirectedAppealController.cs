@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WorkGroupProsecutor.Server.Data.Repositories;
 using WorkGroupProsecutor.Shared.Models.Appeal;
+using WorkGroupProsecutor.Shared.Models.Participants;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -12,15 +13,23 @@ namespace WorkGroupProsecutor.Server.Controllers
     {
         private readonly IRedirectedAppealRepository _repository;
 
-        public RedirectedAppealController(RedirectedAppealRepository repository)
+        public RedirectedAppealController(IRedirectedAppealRepository repository)
         {
             _repository = repository;
         }
+
         // GET: api/<RedirectedAppealController>
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        //[HttpGet()]
+        //public async Task<IActionResult> Get()
+        //{
+        //    return Ok(await _repository.GetAllRedirectedAppeals("Mamadysh", "17.10", 2022)); //"Mamadysh", "17.10", 2022));
+        //}
+
+        // GET: api/<RedirectedAppealController>
+        [HttpGet("{district}/{period}/{year}")]
+        public async Task<IActionResult> Get(string district, string period, int year)
         {
-            return Ok(await _repository.GetAllRedirectedAppeals());
+            return Ok(await _repository.GetAllRedirectedAppeals(district, period, year));
         }
 
         // GET api/<RedirectedAppealController>/5

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace WorkGroupProsecutor.Shared.Models.Recipients
+namespace WorkGroupProsecutor.Shared.Models.Participants
 {
     public class Department
     {

@@ -1,8 +1,6 @@
 ﻿@page "/redirectedappealregistry"
 @inject HttpClient httpClient
 
-<h3>RedirectedAppealRegistryPage</h3>
-
 <div class="container">
   <p class="float-end"> ПРИЛОЖЕНИЕ №4 <br/>к распоряжению прокурора Республики Татарстан 
   <br/>от 22.08.2021 №174/25р 
@@ -11,7 +9,15 @@
 <div class="container mt-5">
   <h5 class="text-center my-3">Реестр обращений, предполагаемых к переадресации в иные органы и ведомства</h5>            
   <h4 class="text-center my-3">Нижнекамская городская прокуратура</h4>
-  <table class="table table-bordered">
+
+  @foreach (var a in appealsList)
+    {
+        <ul>
+            <li>@a.RegistrationNumber @a.ApplicantFullName @a.DepartmentAssessment</li>
+        </ul>
+    }
+
+@*  <table class="table table-bordered">
     <thead>
       <tr class="text-center align-middle">
         <th style="width: 2.5%">№</th>
@@ -34,21 +40,20 @@
           микрофинансовой организации</td>
           <td> Да с контролем </td>
       </tr>
-            @foreach (var appeals in appealsList)
+            @foreach (var appeal in appealsList)
       {
           <tr>
-              <td>@appeals.Id</td>
-              <td>@appeals.RegistrationNumber</td>
-              <td>@appeals.ApplicantFullName</td>
-              <td>@appeals.DateInfo</td>
+              <td>@appeal.Id</td>
+              <td>@appeal.RegistrationNumber</td>
+              <td>@appeal.ApplicantFullName</td>
               <td>
-                  <a href="/developer/edit/@dev.Id" class="btn btn-outline-dark">Edit</a>
-                  <a href="/developer/delete/@dev.Id" class="btn btn-outline-danger">Delete</a>
+                        <a href="/developer/edit/@appeal.Id" class="btn btn-outline-dark">Edit</a>
+                        <a href="/developer/delete/@appeal.Id" class="btn btn-outline-danger">Delete</a>
               </td>
           </tr>
       }
     </tbody>
-  </table>
+  </table>*@
   <div> 
     <p>* В графе «Характер обращения» проставляется индекс подразделения аппарата прокуратуры Республики Татарстан, 
       в компетенцию которого входит разрешение вопросов, поставленных заявителем: управление по надзору 
@@ -101,6 +106,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        appealsList = await httpClient.GetFromJsonAsync<List<RedirectedAppealModel>>("api/redirectedappeal");
+        appealsList = await httpClient.GetFromJsonAsync<List<RedirectedAppealModel>>($"api/redirectedappeal/{"Mamadysh"}/{"17.10"}/{2022}");  //{district}/{period}/{year}
     }
 }

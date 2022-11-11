@@ -5,7 +5,8 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
 {
     public interface IRedirectedAppealRepository
     {
-        Task<IList<RedirectedAppealModel>> GetAllRedirectedAppeals();
+        //Task<List<RedirectedAppealModel>> GetAllRedirectedAppeals();
+        Task<List<RedirectedAppealModel>> GetAllRedirectedAppeals(string district, string period, int year);
         Task<RedirectedAppealModel> GetRedirectedAppealById(int id);
         Task AddRedirectedAppeal(RedirectedAppealModel appeal);
         Task UpdateRedirectedAppeal(RedirectedAppealModel appeal);

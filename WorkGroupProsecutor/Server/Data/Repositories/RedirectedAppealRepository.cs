@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using WorkGroupProsecutor.Server.Data.Context;
 using WorkGroupProsecutor.Shared.Models.Appeal;
+using WorkGroupProsecutor.Shared.Models.Participants;
 
 namespace WorkGroupProsecutor.Server.Data.Repositories
 {
@@ -13,20 +14,20 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task AddRedirectedAppeal(RedirectedAppealModel appeal)
-        {
-            await _dbContext.RedirectedAppeal.AddAsync(appeal);
-            await _dbContext.SaveChangesAsync();
-        }
+        //public async Task<List<RedirectedAppealModel>> GetAllRedirectedAppeals()
+        //{
+        //    return await _dbContext.RedirectedAppeal
+        //        .Where(a => a.District == "Mamadysh")
+        //        .Where(a => a.PeriodInfo == "17.10")
+        //        .Where(a => a.YearInfo == 2022).ToListAsync();
+        //}
 
-        public Task DeleteRedirectedAppeal(int id)
+        public async Task<List<RedirectedAppealModel>> GetAllRedirectedAppeals(string district, string period, int year)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<IList<RedirectedAppealModel>> GetAllRedirectedAppeals()
-        {
-            return await _dbContext.RedirectedAppeal.ToListAsync();
+            return await _dbContext.RedirectedAppeal
+                .Where(a => a.District == district)
+                .Where(a => a.PeriodInfo == period)
+                .Where(a => a.YearInfo == year).ToListAsync();
         }
 
         public Task<RedirectedAppealModel> GetRedirectedAppealById(int id)
@@ -34,9 +35,19 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
             throw new NotImplementedException();
         }
 
+        public async Task AddRedirectedAppeal(RedirectedAppealModel appeal)
+        {
+            await _dbContext.RedirectedAppeal.AddAsync(appeal);
+            await _dbContext.SaveChangesAsync();
+        }
         public Task UpdateRedirectedAppeal(RedirectedAppealModel appeal)
         {
             throw new NotImplementedException();
         }
+        public Task DeleteRedirectedAppeal(int id)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Win32;
 using WorkGroupProsecutor.Server.Data.Context;
 using WorkGroupProsecutor.Shared.Models;
+using WorkGroupProsecutor.Shared.Models.Participants;
 
 namespace WorkGroupProsecutor.Server.Data.Repositories
 {
@@ -14,18 +15,21 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
         }
         public async Task<IList<DistrictRegisterModel>> GetAllDistrictRegistry()
         {
-            return await _dbContext.DistrictRegister.ToListAsync();
+            throw new NotImplementedException();
+            //return await _dbContext.DistrictRegister.Where(a=>a.Dis = District.Mamadysh).ToListAsync();
         }
 
         public async Task<DistrictRegisterModel> GetDistrictRegisterById(int id)
         {
-            return await _dbContext.DistrictRegister.FirstOrDefaultAsync(r => r.Id == id);
+            throw new NotImplementedException();
+            // return await _dbContext.DistrictRegister.FirstOrDefaultAsync(r => r.Id == id);
         }
 
         public async Task AddDistrictRegister(DistrictRegisterModel register)
         {
+            throw new NotImplementedException();
             //ArgumentNullException.ThrowIfNull(register);
-            await _dbContext.DistrictRegister.AddAsync(register);
+            //await _dbContext.DistrictRegister.AddAsync(register);
             await _dbContext.SaveChangesAsync();
         }
 

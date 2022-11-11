@@ -1,4 +1,4 @@
-﻿namespace WorkGroupProsecutor.Shared.Models.Recipients
+﻿namespace WorkGroupProsecutor.Shared.Models.Participants
 {
     public class RecipientAgency
     {

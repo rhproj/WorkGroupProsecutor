@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorkGroupProsecutor.Shared.Models.Base;
-using WorkGroupProsecutor.Shared.Models.Recipients;
 
 namespace WorkGroupProsecutor.Shared.Models.Appeal
 {
