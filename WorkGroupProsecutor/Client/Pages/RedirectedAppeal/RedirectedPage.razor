@@ -10,7 +10,7 @@
     </div>
 </div>
 
-@if (appealsList.Count == 0)
+@if (periodsList.Count == 0)
 {
     <p>Загружается...</p>
 }
@@ -28,6 +28,10 @@ else
       }
     </ul>
     <hr />*@
+    <div class="modal-header">
+        <h3>Данные за (#Apastovo) (#2022)</h3>
+    </div>
+    <></>
     <table class="table table-striped align-middle text-center">
         <thead class="table-success">
             <tr>
@@ -36,13 +40,13 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var appeal in appealsList)
+            @foreach (var period in periodsList)
             {
                 <tr>
-                    <td class="h4">@appeal.DateInfo г. Переадресация</td>
+                    <td class="h4">@period Переадресация</td>
                     <td>
-                        <a href="/updateappeal/@appeal.Id" class="btn btn-outline-dark">Смотреть</a>
-                        <a href="/deleteappeal/@appeal.Id" class="btn btn-outline-danger">Удалить</a>
+                        <a href="/redirectedappealregistry/@period" class="btn btn-outline-dark">Смотреть</a>
+                        <a href="/deleteredirectedappeal/@period" class="btn btn-outline-danger">Удалить</a>
                     </td>
                 </tr>
             }
@@ -51,16 +55,20 @@ else
 }
 
 @code {
-    private List<DistrictRegisterModel> appealsList = new();
+    [Inject]
+    public IRedirectedAppealDataService? RedirectedAppealDataService { get; set; }
 
+    private List<string> periodsList = new();
 
     protected override async Task OnInitializedAsync()
     {
-        appealsList = new List<DistrictRegisterModel>(){
-            new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")},
-            new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")},
-            new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")}
-        };
-        //appealsList = await httpClient.GetFromJsonAsync<List<DistrictRegisterModel>>("api/redirectedappeal/{district}/{period}/{year}");
+        //appealsList = new List<DistrictRegisterModel>(){
+        //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")},
+        //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")},
+        //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")}
+        //};
+        periodsList = (await RedirectedAppealDataService.GetRedirectedAppealPeriods("Apastovo", 2022)).ToList();
+
+        //await httpClient.GetFromJsonAsync<List<DistrictRegisterModel>>("api/redirectedappeal/{district}/{period}/{year}");
     }
 }

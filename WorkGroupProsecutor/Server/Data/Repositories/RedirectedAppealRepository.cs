@@ -22,12 +22,19 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
         //        .Where(a => a.YearInfo == 2022).ToListAsync();
         //}
 
-        public async Task<List<RedirectedAppealModel>> GetAllRedirectedAppeals(string district, string period, int year)
+        public async Task<IEnumerable<RedirectedAppealModel>> GetAllRedirectedAppeals(string district, string period, int year)
         {
-            return await _dbContext.RedirectedAppeal
+            return await _dbContext.RedirectedAppeal.Include("AppealClassification")
                 .Where(a => a.District == district)
                 .Where(a => a.PeriodInfo == period)
                 .Where(a => a.YearInfo == year).ToListAsync();
+        }
+
+        public async Task<IEnumerable<string>> GetRedirectedAppealPeriods(string district, int year)
+        {
+            return await _dbContext.RedirectedAppeal
+                .Where(a => a.District == district)
+                .Where(a => a.YearInfo == year).Select(p => p.PeriodInfo).Distinct().ToListAsync(); ; //.ToListAsync();
         }
 
         public Task<RedirectedAppealModel> GetRedirectedAppealById(int id)

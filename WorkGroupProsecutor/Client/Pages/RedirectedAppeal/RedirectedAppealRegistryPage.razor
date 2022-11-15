@@ -1,4 +1,5 @@
-﻿@page "/redirectedappealregistry"
+﻿@page "/redirectedappealregistry/{Period?}"
+@*@page "/testmaintable"*@
 @inject HttpClient httpClient
 
 <div class="container">
@@ -8,16 +9,16 @@
 </div>
 <div class="container mt-5">
   <h5 class="text-center my-3">Реестр обращений, предполагаемых к переадресации в иные органы и ведомства</h5>            
-  <h4 class="text-center my-3">Нижнекамская городская прокуратура</h4>
+  <h4 class="text-center my-3">{#Нижнекамская городская прокуратура} на @Period</h4>
 
-  @foreach (var a in appealsList)
+@*    @foreach (var appeal in appealsList)
     {
         <ul>
-            <li>@a.RegistrationNumber @a.ApplicantFullName @a.DepartmentAssessment</li>
+            <li>@appeal.RegistrationNumber @appeal.ApplicantFullName @appeal.DepartmentAssessment</li>
         </ul>
-    }
+    }*@
 
-@*  <table class="table table-bordered">
+  <table class="table table-bordered">
     <thead>
       <tr class="text-center align-middle">
         <th style="width: 2.5%">№</th>
@@ -43,17 +44,21 @@
             @foreach (var appeal in appealsList)
       {
           <tr>
-              <td>@appeal.Id</td>
+              <td>@appeal.Id</td> <!--swap with counter-->
               <td>@appeal.RegistrationNumber</td>
               <td>@appeal.ApplicantFullName</td>
+              <td>@appeal.AppealClassification.DepartmentIndex</td>
+              <td>@appeal.RecipientAgency</td>
+              <td>@appeal.DecisionBasis</td>
+              <td>@appeal.DepartmentAssessment</td>
               <td>
-                        <a href="/developer/edit/@appeal.Id" class="btn btn-outline-dark">Edit</a>
-                        <a href="/developer/delete/@appeal.Id" class="btn btn-outline-danger">Delete</a>
+                    <a href="/developer/edit/@appeal.Id" class="btn btn-outline-dark">Edit</a>
+                    <a href="/developer/delete/@appeal.Id" class="btn btn-outline-danger">Delete</a>
               </td>
           </tr>
       }
     </tbody>
-  </table>*@
+  </table>
   <div> 
     <p>* В графе «Характер обращения» проставляется индекс подразделения аппарата прокуратуры Республики Татарстан, 
       в компетенцию которого входит разрешение вопросов, поставленных заявителем: управление по надзору 
@@ -101,11 +106,57 @@
 
 
 @code {
-    private List<RedirectedAppealModel> appealsList = new(); //try w/o new
+    [Inject]
+    public IRedirectedAppealDataService? RedirectedAppealDataService { get; set; }
+    [Parameter]
+    public string? Period { get; set; }
+
+    private List<RedirectedAppealModel> appealsList = new();
 
 
     protected override async Task OnInitializedAsync()
     {
-        appealsList = await httpClient.GetFromJsonAsync<List<RedirectedAppealModel>>($"api/redirectedappeal/{"Mamadysh"}/{"17.10"}/{2022}");  //{district}/{period}/{year}
+        appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals("Apastovo", Period, 2022)).ToList();
+        //await httpClient.GetFromJsonAsync<List<RedirectedAppealModel>>($"api/redirectedappeal/{"Mamadysh"}/{"17.10"}/{2022}");  //{district}/{period}/{year}
     }
 }
+
+
+
+@*  <table class="table table-bordered">
+    <thead>
+      <tr class="text-center align-middle">
+        <th style="width: 2.5%">№</th>
+        <th style="width: 10%">Регистрационный номер в системе Надзор-WEB</th>
+        <th style="width: 15%">ФИО заявителя</th>
+        <th style="width: 2.5%">Характер обращения*</th>
+        <th style="width: 30%">Орган, в который предполагается переадресовать обращение</th>
+        <th style="width: 30%">Основание переадресации</th>
+        <th style="width: 10%">Оценка возможности переадресации**</th>
+      </tr>
+    </thead>
+    <tbody class="text-center align-middle">
+      <tr>
+        <td>1.</td>
+        <td>ВО-1242-22</td>
+        <td>ООО МФК ОТП Финанс</td>
+        <td>7</td>
+        <td>ГУФССП РФ по РТ </td>
+        <td>Обращение содержит доводы о бездействии судебного приставов при взыскании задолженности в пользу
+          микрофинансовой организации</td>
+          <td> Да с контролем </td>
+      </tr>
+            @foreach (var appeal in appealsList)
+      {
+          <tr>
+              <td>@appeal.Id</td>
+              <td>@appeal.RegistrationNumber</td>
+              <td>@appeal.ApplicantFullName</td>
+              <td>
+                        <a href="/developer/edit/@appeal.Id" class="btn btn-outline-dark">Edit</a>
+                        <a href="/developer/delete/@appeal.Id" class="btn btn-outline-danger">Delete</a>
+              </td>
+          </tr>
+      }
+    </tbody>
+  </table>*@

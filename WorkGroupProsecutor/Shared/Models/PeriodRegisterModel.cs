@@ -7,15 +7,12 @@ using WorkGroupProsecutor.Shared.Models.Participants;
 
 namespace WorkGroupProsecutor.Shared.Models
 {
-    public class DistrictRegisterModel //bin
+    public class PeriodRegisterModel //bin
     {
         public int Id { get; set; }
         public District District { get; set; } //string
-
-        //will be passed further:
-        public string DateInfo { get; set; }
+        public int Period { get; set; }
         public int YearInfo { get; set; }
-        public int QuarterInfo { get; set; }
         public DateTime EntryDate { get; set; }
     }
 }

@@ -1,0 +1,10 @@
+﻿@page "/deleteredirectedappeal/{Period?}"
+
+
+<h3>Вы уверены что хотите удалить Реестр обращений на @Period ?</h3>
+
+
+@code {
+    [Parameter]
+    public string? Period { get; set; }
+}

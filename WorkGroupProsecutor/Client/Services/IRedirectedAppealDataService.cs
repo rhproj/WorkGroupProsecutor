@@ -1,11 +1,9 @@
-﻿using WorkGroupProsecutor.Shared.Models;
-using WorkGroupProsecutor.Shared.Models.Appeal;
+﻿using WorkGroupProsecutor.Shared.Models.Appeal;
 
-namespace WorkGroupProsecutor.Server.Data.Repositories
+namespace WorkGroupProsecutor.Client.Services
 {
-    public interface IRedirectedAppealRepository
+    public interface IRedirectedAppealDataService
     {
-        //Task<List<RedirectedAppealModel>> GetAllRedirectedAppeals();
         Task<IEnumerable<RedirectedAppealModel>> GetAllRedirectedAppeals(string district, string period, int year);
         Task<IEnumerable<string>> GetRedirectedAppealPeriods(string district, int year);
         Task<RedirectedAppealModel> GetRedirectedAppealById(int id);

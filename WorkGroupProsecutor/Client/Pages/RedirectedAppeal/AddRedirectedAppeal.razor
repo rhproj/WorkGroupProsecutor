@@ -10,9 +10,9 @@
         <div class="col-md-4">
             <InputText class="form-control" @bind-Value="appeal.RegistrationNumber" />
         </div>
-        <ValidationMessage For="@(() => appeal.RegistrationNumber)" />
+@*        <ValidationMessage For="@(() => appeal.RegistrationNumber)" />*@
     </div>
-    <div class="mb-3">
+@*    <div class="mb-3">
         <label class="form-label">ФИО заявителя</label>
         <div class="col-md-4">
             <InputText class="form-control" @bind-Value="appeal.ApplicantFullName" />
@@ -20,12 +20,26 @@
         <ValidationMessage For="@(() => appeal.ApplicantFullName)" />
     </div>
     <div class="mb-3">
-        <label class="form-label">Дата</label>
+        <label class="form-label">Период:</label>
         <div class="col-md-4">
             <InputText class="form-control" @bind-Value="appeal.PeriodInfo" />
         </div>
         <ValidationMessage For="@(() => appeal.PeriodInfo)" />
     </div>
+    <div class="mb-3">
+        <label class="form-label">Year:</label>
+        <div class="col-md-4">
+            <InputNumber class="form-control" @bind-Value="appeal.YearInfo" />
+        </div>
+        <ValidationMessage For="@(() => appeal.YearInfo)" />
+    </div>
+    <div class="mb-3">
+        <label class="form-label">District:</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="appeal.District" />
+        </div>
+        <ValidationMessage For="@(() => appeal.District)" />
+    </div>*@
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Сохранить</button>
         <button class="btn btn-light" @onclick="GoToRedirectedPage">Отменить</button>
@@ -34,17 +48,21 @@
 
 
 @code {
+    [Inject]
+    public IRedirectedAppealDataService? RedirectedAppealDataService { get; set; }
+
     private RedirectedAppealModel appeal = new();
 
     private async Task SaveAppeal() //year and District will be added
     {
-        await httpClient.PostAsJsonAsync<RedirectedAppealModel>("api/redirectedappeal", appeal);
+        await httpClient.PostAsJsonAsync<RedirectedAppealModel>("api/RedirectedAppeal", appeal);
+        //await RedirectedAppealDataService.AddRedirectedAppeal(appeal);
 
         GoToRedirectedPage();
     }
 
     private void GoToRedirectedPage()
     {
-        navManager.NavigateTo("/redirectedappealregistry");
+        navManager.NavigateTo($"/redirectedappealregistry/{appeal.PeriodInfo}");
     }
 }

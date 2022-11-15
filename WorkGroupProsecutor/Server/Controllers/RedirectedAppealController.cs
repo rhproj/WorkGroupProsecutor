@@ -25,11 +25,17 @@ namespace WorkGroupProsecutor.Server.Controllers
         //    return Ok(await _repository.GetAllRedirectedAppeals("Mamadysh", "17.10", 2022)); //"Mamadysh", "17.10", 2022));
         //}
 
-        // GET: api/<RedirectedAppealController>
+
         [HttpGet("{district}/{period}/{year}")]
         public async Task<IActionResult> Get(string district, string period, int year)
         {
             return Ok(await _repository.GetAllRedirectedAppeals(district, period, year));
+        }
+
+        [HttpGet("{district}/{year}")]
+        public async Task<IActionResult> Get(string district, int year)
+        {
+            return Ok(await _repository.GetRedirectedAppealPeriods(district, year));
         }
 
         // GET api/<RedirectedAppealController>/5
