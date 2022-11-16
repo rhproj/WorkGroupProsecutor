@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
 using WorkGroupProsecutor.Server.Data.Context;
 using WorkGroupProsecutor.Shared.Models.Appeal;
 using WorkGroupProsecutor.Shared.Models.Participants;
@@ -8,23 +9,14 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
     public class RedirectedAppealRepository : IRedirectedAppealRepository
     {
         private readonly ApplicationDbContext _dbContext;
-
         public RedirectedAppealRepository(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        //public async Task<List<RedirectedAppealModel>> GetAllRedirectedAppeals()
-        //{
-        //    return await _dbContext.RedirectedAppeal
-        //        .Where(a => a.District == "Mamadysh")
-        //        .Where(a => a.PeriodInfo == "17.10")
-        //        .Where(a => a.YearInfo == 2022).ToListAsync();
-        //}
-
         public async Task<IEnumerable<RedirectedAppealModel>> GetAllRedirectedAppeals(string district, string period, int year)
         {
-            return await _dbContext.RedirectedAppeal.Include("AppealClassification")
+            return await _dbContext.RedirectedAppeal.Include(a=>a.AppealClassification) //"AppealClassification"
                 .Where(a => a.District == district)
                 .Where(a => a.PeriodInfo == period)
                 .Where(a => a.YearInfo == year).ToListAsync();
@@ -55,6 +47,5 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
         {
             throw new NotImplementedException();
         }
-
     }
 }

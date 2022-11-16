@@ -12,7 +12,7 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
             _dbContext = dbContext;
         }
 
-        public async Task<IList<DistrictRegisterModel>> GetAllAppealRegisters()
+        public async Task<IEnumerable<DistrictRegisterModel>> GetAllAppealRegisters()
         {
             //return await _dbContext.
             throw new NotImplementedException();

@@ -47,11 +47,19 @@ namespace WorkGroupProsecutor.Server.Controllers
 
         // POST api/<RedirectedAppealController>
         [HttpPost]
-        public async Task<IActionResult> Post(RedirectedAppealModel appeal)
+        public async Task<IActionResult> Post(RedirectedAppealModel redirectedAppealModel)
         {
-            await _repository.AddRedirectedAppeal(appeal);
+            await _repository.AddRedirectedAppeal(redirectedAppealModel);
             return Ok("Обращение добавлено");
         }
+
+        // POST api/<RedirectedAppealController>
+        //[HttpPost]
+        //public async Task<IActionResult> Post(Department department)
+        //{
+        //    await _repository.AddDepartment(department);
+        //    return Ok("Department добавлен");
+        //}
 
         // PUT api/<RedirectedAppealController>/5
         [HttpPut("{id}")]

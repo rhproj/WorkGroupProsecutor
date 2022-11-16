@@ -7,7 +7,7 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
     /// </summary>
     public interface IAppealRegisterRepository //NOT USED YET
     {
-        Task<IList<DistrictRegisterModel>> GetAllAppealRegisters();
+        Task<IEnumerable<DistrictRegisterModel>> GetAllAppealRegisters();
         Task<DistrictRegisterModel> GetAppealRegisterById(int id);
         Task AddAppealRegister(DistrictRegisterModel register);
         Task UpdateAppealRegister(DistrictRegisterModel register); //Guid id, 

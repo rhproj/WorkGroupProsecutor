@@ -30,15 +30,15 @@ namespace WorkGroupProsecutor.Server.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    DepartmentResolution = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DecisionBasis = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DepartmentResolution = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DecisionBasis = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ApplicantFullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AppealClassificationId = table.Column<int>(type: "int", nullable: false),
-                    DepartmentAssessment = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    YearInfo = table.Column<int>(type: "int", nullable: false),
-                    PeriodInfo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    District = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    AppealClassificationId = table.Column<int>(type: "int", nullable: true),
+                    DepartmentAssessment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    YearInfo = table.Column<int>(type: "int", nullable: true),
+                    PeriodInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    District = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -57,15 +57,15 @@ namespace WorkGroupProsecutor.Server.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    RecipientAgency = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DecisionBasis = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    RecipientAgency = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DecisionBasis = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ApplicantFullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AppealClassificationId = table.Column<int>(type: "int", nullable: false),
-                    DepartmentAssessment = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    YearInfo = table.Column<int>(type: "int", nullable: false),
-                    PeriodInfo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    District = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    AppealClassificationId = table.Column<int>(type: "int", nullable: true),
+                    DepartmentAssessment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    YearInfo = table.Column<int>(type: "int", nullable: true),
+                    PeriodInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    District = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -84,17 +84,17 @@ namespace WorkGroupProsecutor.Server.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ProsecutorAction = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    InvestigationResults = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RightsRestoration = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ApplicantNotification = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    RegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ProsecutorAction = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    InvestigationResults = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RightsRestoration = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    ApplicantNotification = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ApplicantFullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AppealClassificationId = table.Column<int>(type: "int", nullable: false),
-                    DepartmentAssessment = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    YearInfo = table.Column<int>(type: "int", nullable: false),
-                    PeriodInfo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    District = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    AppealClassificationId = table.Column<int>(type: "int", nullable: true),
+                    DepartmentAssessment = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    YearInfo = table.Column<int>(type: "int", nullable: true),
+                    PeriodInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    District = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {

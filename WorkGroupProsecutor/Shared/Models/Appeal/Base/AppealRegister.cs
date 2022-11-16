@@ -12,8 +12,11 @@ namespace WorkGroupProsecutor.Shared.Models.Base
         public int Id { get; set; }
         public string RegistrationNumber { get; set; }
         public string ApplicantFullName { get; set; }
-        public Department AppealClassification { get; set; }
-        //public string DepartmentIndex { get; set; } //possible dropdown
+
+        //public int DepartmentId { get; set; }
+        public Department AppealClassification { get; set; } = new();
+
+        //public string DepartmentIndex { get; set; } //dropdown
         //public Department AppealClassification 
         //{
         //    get

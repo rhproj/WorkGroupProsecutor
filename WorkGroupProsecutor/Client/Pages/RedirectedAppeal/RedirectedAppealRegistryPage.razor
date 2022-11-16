@@ -117,7 +117,7 @@
     protected override async Task OnInitializedAsync()
     {
         appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals("Apastovo", Period, 2022)).ToList();
-        //await httpClient.GetFromJsonAsync<List<RedirectedAppealModel>>($"api/redirectedappeal/{"Mamadysh"}/{"17.10"}/{2022}");  //{district}/{period}/{year}
+        //await httpClient.GetFromJsonAsync<List<RedirectedAppealModel>>($"api/redirectedappeal/{"Apastovo"}/{Period}/{2022}");  //{district}/{period}/{year}
     }
 }
 
