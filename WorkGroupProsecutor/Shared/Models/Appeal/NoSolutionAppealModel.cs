@@ -9,7 +9,7 @@ namespace WorkGroupProsecutor.Shared.Models.Appeal
 {
     public class NoSolutionAppealModel : AppealRegister
     {
-        public string DepartmentResolution { get; set; }
-        public string DecisionBasis { get; set; }
+        public string? DepartmentResolution { get; set; }
+        public string? DecisionBasis { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
 
         public async Task<IEnumerable<RedirectedAppealModel>> GetAllRedirectedAppeals(string district, string period, int year)
         {
-            return await _dbContext.RedirectedAppeal.Include(a=>a.AppealClassification) //"AppealClassification"
+            return await _dbContext.RedirectedAppeal.Include(a=>a.Department) //"AppealClassification"
                 .Where(a => a.District == district)
                 .Where(a => a.PeriodInfo == period)
                 .Where(a => a.YearInfo == year).ToListAsync();

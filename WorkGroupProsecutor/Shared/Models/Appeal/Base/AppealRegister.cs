@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,7 +15,9 @@ namespace WorkGroupProsecutor.Shared.Models.Base
         public string ApplicantFullName { get; set; }
 
         //public int DepartmentId { get; set; }
-        public Department AppealClassification { get; set; } = new();
+        public int? DepartmentId { get; set; }
+        [ForeignKey("DepartmentId")]
+        public Department? Department { get; set; } = new();
 
         //public string DepartmentIndex { get; set; } //dropdown
         //public Department AppealClassification 
@@ -28,9 +31,9 @@ namespace WorkGroupProsecutor.Shared.Models.Base
         //} //= new(); 
 
 
-        public string DepartmentAssessment { get; set; }
-        public int YearInfo { get; set; }
-        public string PeriodInfo { get; set; }
-        public string District { get; set; }
+        public string? DepartmentAssessment { get; set; }
+        public int? YearInfo { get; set; }
+        public string? PeriodInfo { get; set; }
+        public string? District { get; set; }
     }
 }

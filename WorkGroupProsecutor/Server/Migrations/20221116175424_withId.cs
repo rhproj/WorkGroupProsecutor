@@ -5,7 +5,7 @@
 namespace WorkGroupProsecutor.Server.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class withId : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,9 +32,9 @@ namespace WorkGroupProsecutor.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DepartmentResolution = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DecisionBasis = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ApplicantFullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AppealClassificationId = table.Column<int>(type: "int", nullable: true),
+                    DepartmentId = table.Column<int>(type: "int", nullable: true),
                     DepartmentAssessment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     YearInfo = table.Column<int>(type: "int", nullable: true),
                     PeriodInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -44,11 +44,10 @@ namespace WorkGroupProsecutor.Server.Migrations
                 {
                     table.PrimaryKey("PK_NoSolutionAppeal", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_NoSolutionAppeal_Department_AppealClassificationId",
-                        column: x => x.AppealClassificationId,
+                        name: "FK_NoSolutionAppeal_Department_DepartmentId",
+                        column: x => x.DepartmentId,
                         principalTable: "Department",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -59,9 +58,9 @@ namespace WorkGroupProsecutor.Server.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RecipientAgency = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DecisionBasis = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ApplicantFullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AppealClassificationId = table.Column<int>(type: "int", nullable: true),
+                    DepartmentId = table.Column<int>(type: "int", nullable: true),
                     DepartmentAssessment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     YearInfo = table.Column<int>(type: "int", nullable: true),
                     PeriodInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -71,11 +70,10 @@ namespace WorkGroupProsecutor.Server.Migrations
                 {
                     table.PrimaryKey("PK_RedirectedAppeal", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_RedirectedAppeal_Department_AppealClassificationId",
-                        column: x => x.AppealClassificationId,
+                        name: "FK_RedirectedAppeal_Department_DepartmentId",
+                        column: x => x.DepartmentId,
                         principalTable: "Department",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -88,9 +86,9 @@ namespace WorkGroupProsecutor.Server.Migrations
                     InvestigationResults = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RightsRestoration = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ApplicantNotification = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    RegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ApplicantFullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AppealClassificationId = table.Column<int>(type: "int", nullable: true),
+                    DepartmentId = table.Column<int>(type: "int", nullable: true),
                     DepartmentAssessment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     YearInfo = table.Column<int>(type: "int", nullable: true),
                     PeriodInfo = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -100,27 +98,26 @@ namespace WorkGroupProsecutor.Server.Migrations
                 {
                     table.PrimaryKey("PK_SatisfiedAppeal", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SatisfiedAppeal_Department_AppealClassificationId",
-                        column: x => x.AppealClassificationId,
+                        name: "FK_SatisfiedAppeal_Department_DepartmentId",
+                        column: x => x.DepartmentId,
                         principalTable: "Department",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_NoSolutionAppeal_AppealClassificationId",
+                name: "IX_NoSolutionAppeal_DepartmentId",
                 table: "NoSolutionAppeal",
-                column: "AppealClassificationId");
+                column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RedirectedAppeal_AppealClassificationId",
+                name: "IX_RedirectedAppeal_DepartmentId",
                 table: "RedirectedAppeal",
-                column: "AppealClassificationId");
+                column: "DepartmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SatisfiedAppeal_AppealClassificationId",
+                name: "IX_SatisfiedAppeal_DepartmentId",
                 table: "SatisfiedAppeal",
-                column: "AppealClassificationId");
+                column: "DepartmentId");
         }
 
         /// <inheritdoc />

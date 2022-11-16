@@ -34,7 +34,7 @@
             <InputNumber class="form-control" @bind-Value="redirectedAppealModel.AppealClassification.Id" />
         </div>*@
 
-        <InputSelect @bind-Value="@redirectedAppealModel.AppealClassification.Id">
+        <InputSelect @bind-Value="@redirectedAppealModel.Department.Id">
             <option value="">отдел:</option>
             @foreach (var department in departmentsList)
             {

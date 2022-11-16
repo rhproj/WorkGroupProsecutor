@@ -9,9 +9,9 @@ namespace WorkGroupProsecutor.Shared.Models.Appeal
 {
     public class SatisfiedAppealModel : AppealRegister
     {
-        public string ProsecutorAction { get; set; }
-        public string InvestigationResults { get; set; }
-        public string RightsRestoration { get; set; }
-        public string ApplicantNotification { get; set; }
+        public string? ProsecutorAction { get; set; }
+        public string? InvestigationResults { get; set; }
+        public string? RightsRestoration { get; set; }
+        public string? ApplicantNotification { get; set; }
     }
 }
