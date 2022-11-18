@@ -11,13 +11,12 @@ namespace WorkGroupProsecutor.Shared.Models.Base
     public abstract class AppealRegister
     {
         public int Id { get; set; }
-        public string RegistrationNumber { get; set; }
-        public string ApplicantFullName { get; set; }
+        public virtual string RegistrationNumber { get; set; }
+        public virtual string ApplicantFullName { get; set; }
 
         //public int DepartmentId { get; set; }
         public int? DepartmentId { get; set; }
-        [ForeignKey("DepartmentId")]
-        public Department? Department { get; set; } = new();
+        public virtual Department Department { get; set; } //= new();
 
         //public string DepartmentIndex { get; set; } //dropdown
         //public Department AppealClassification 
@@ -31,9 +30,9 @@ namespace WorkGroupProsecutor.Shared.Models.Base
         //} //= new(); 
 
 
-        public string? DepartmentAssessment { get; set; }
-        public int? YearInfo { get; set; }
-        public string? PeriodInfo { get; set; }
-        public string? District { get; set; }
+        public virtual string? DepartmentAssessment { get; set; }
+        public virtual int? YearInfo { get; set; }
+        public virtual string? PeriodInfo { get; set; }
+        public virtual string? District { get; set; }
     }
 }

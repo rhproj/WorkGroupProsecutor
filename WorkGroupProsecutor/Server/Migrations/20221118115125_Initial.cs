@@ -4,10 +4,8 @@
 
 namespace WorkGroupProsecutor.Server.Migrations
 {
-    /// <inheritdoc />
-    public partial class withId : Migration
+    public partial class Initial : Migration
     {
-        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -120,7 +118,6 @@ namespace WorkGroupProsecutor.Server.Migrations
                 column: "DepartmentId");
         }
 
-        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

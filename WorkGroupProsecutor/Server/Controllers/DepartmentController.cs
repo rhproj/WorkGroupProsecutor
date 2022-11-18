@@ -25,9 +25,9 @@ namespace WorkGroupProsecutor.Server.Controllers
 
         // GET api/<DepartmentController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            return "value";
+            return Ok(await _repository.GetDepartmentById(id));
         }
 
         // POST api/<DepartmentController>

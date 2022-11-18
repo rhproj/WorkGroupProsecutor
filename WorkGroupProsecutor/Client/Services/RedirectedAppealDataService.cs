@@ -27,7 +27,7 @@ namespace WorkGroupProsecutor.Client.Services
         public async Task AddRedirectedAppeal(RedirectedAppealModel appeal)
         {
             var appealJson = new StringContent(JsonSerializer.Serialize(appeal), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("api/RedirectedAppeal", appealJson);
+            await _httpClient.PostAsync("api/RedirectedAppeal", appealJson); //var response = 
         }
 
         //public async Task<Employee> AddEmployee(Employee employee)

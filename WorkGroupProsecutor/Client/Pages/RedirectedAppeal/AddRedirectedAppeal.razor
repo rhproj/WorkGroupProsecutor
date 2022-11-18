@@ -158,8 +158,11 @@
     //[Inject]
     //public IRedirectedAppealDataService? RedirectedAppealDataService { get; set; }
 
-    private RedirectedAppealModel redirectedAppealModel = new();
+    //private RedirectedAppealModel redirectedAppealModel = new();
+    public RedirectedAppealModel redirectedAppealModel { get; set; } = new();
     private List<Department> departmentsList = new();
+
+    //private int depaId; // { get; set; } //= new();
 
     //protected override async Task OnInitializedAsync()
     //{
@@ -172,10 +175,13 @@
     }
 
     private async Task SaveAppeal() //year and District will be added
-    {
-        await httpClient.PostAsJsonAsync<RedirectedAppealModel>("api/RedirectedAppeal", redirectedAppealModel);
+    {   //myDepartment
+        if (redirectedAppealModel.DepartmentId != 0)
+        {
+            redirectedAppealModel.Department = await httpClient.GetFromJsonAsync<Department>($"api/Department/{redirectedAppealModel.DepartmentId}");
+            await httpClient.PostAsJsonAsync<RedirectedAppealModel>($"api/RedirectedAppeal", redirectedAppealModel);
+        }
         //await RedirectedAppealDataService.AddRedirectedAppeal(appeal);
-
         GoToRedirectedPage();
     }
 

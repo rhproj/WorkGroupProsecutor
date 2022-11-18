@@ -17,10 +17,10 @@ namespace WorkGroupProsecutor.Server.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0")
+                .HasAnnotation("ProductVersion", "6.0.11")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
-            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder, 1L, 1);
 
             modelBuilder.Entity("WorkGroupProsecutor.Shared.Models.Appeal.NoSolutionAppealModel", b =>
                 {
@@ -28,9 +28,10 @@ namespace WorkGroupProsecutor.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ApplicantFullName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DecisionBasis")
@@ -52,6 +53,7 @@ namespace WorkGroupProsecutor.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RegistrationNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("YearInfo")
@@ -70,9 +72,10 @@ namespace WorkGroupProsecutor.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ApplicantFullName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("DecisionBasis")
@@ -94,6 +97,7 @@ namespace WorkGroupProsecutor.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RegistrationNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<int?>("YearInfo")
@@ -112,9 +116,10 @@ namespace WorkGroupProsecutor.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("ApplicantFullName")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ApplicantNotification")
@@ -139,6 +144,7 @@ namespace WorkGroupProsecutor.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RegistrationNumber")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("RightsRestoration")
@@ -160,7 +166,7 @@ namespace WorkGroupProsecutor.Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<string>("DepartmentIndex")
                         .IsRequired()
@@ -178,7 +184,7 @@ namespace WorkGroupProsecutor.Server.Migrations
             modelBuilder.Entity("WorkGroupProsecutor.Shared.Models.Appeal.NoSolutionAppealModel", b =>
                 {
                     b.HasOne("WorkGroupProsecutor.Shared.Models.Participants.Department", "Department")
-                        .WithMany()
+                        .WithMany("NoSolutionAppealRegisters")
                         .HasForeignKey("DepartmentId");
 
                     b.Navigation("Department");
@@ -187,7 +193,7 @@ namespace WorkGroupProsecutor.Server.Migrations
             modelBuilder.Entity("WorkGroupProsecutor.Shared.Models.Appeal.RedirectedAppealModel", b =>
                 {
                     b.HasOne("WorkGroupProsecutor.Shared.Models.Participants.Department", "Department")
-                        .WithMany()
+                        .WithMany("RedirectedAppealRegisters")
                         .HasForeignKey("DepartmentId");
 
                     b.Navigation("Department");
@@ -196,10 +202,19 @@ namespace WorkGroupProsecutor.Server.Migrations
             modelBuilder.Entity("WorkGroupProsecutor.Shared.Models.Appeal.SatisfiedAppealModel", b =>
                 {
                     b.HasOne("WorkGroupProsecutor.Shared.Models.Participants.Department", "Department")
-                        .WithMany()
+                        .WithMany("SatisfiedAppealRegisters")
                         .HasForeignKey("DepartmentId");
 
                     b.Navigation("Department");
+                });
+
+            modelBuilder.Entity("WorkGroupProsecutor.Shared.Models.Participants.Department", b =>
+                {
+                    b.Navigation("NoSolutionAppealRegisters");
+
+                    b.Navigation("RedirectedAppealRegisters");
+
+                    b.Navigation("SatisfiedAppealRegisters");
                 });
 #pragma warning restore 612, 618
         }
