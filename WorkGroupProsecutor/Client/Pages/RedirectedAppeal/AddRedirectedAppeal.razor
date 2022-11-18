@@ -158,7 +158,8 @@
     //[Inject]
     //public IRedirectedAppealDataService? RedirectedAppealDataService { get; set; }
 
-    private RedirectedAppealModel redirectedAppealModel = new();
+    //private RedirectedAppealModel redirectedAppealModel = new();
+    public RedirectedAppealModel redirectedAppealModel { get; set; } = new();
     private List<Department> departmentsList = new();
 
     //protected override async Task OnInitializedAsync()

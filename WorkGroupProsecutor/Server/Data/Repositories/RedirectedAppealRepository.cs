@@ -38,6 +38,9 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
         {
             await _dbContext.RedirectedAppeal.AddAsync(appeal);
             await _dbContext.SaveChangesAsync();
+
+            //await _dbContext.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.Department ON;");
+            //await _dbContext.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.Department OFF;");
         }
         public Task UpdateRedirectedAppeal(RedirectedAppealModel appeal)
         {
