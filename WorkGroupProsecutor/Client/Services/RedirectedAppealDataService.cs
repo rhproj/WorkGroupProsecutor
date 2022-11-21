@@ -2,6 +2,7 @@
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using WorkGroupProsecutor.Shared.Models.Appeal;
+using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
 
 namespace WorkGroupProsecutor.Client.Services
 {
@@ -12,9 +13,14 @@ namespace WorkGroupProsecutor.Client.Services
         {
             _httpClient= httpClient;
         }
-        public async Task<IEnumerable<RedirectedAppealModel>> GetAllRedirectedAppeals(string district, string period, int year)
+        //public async Task<IEnumerable<RedirectedAppealModel>> GetAllRedirectedAppeals(string district, string period, int year)
+        //{
+        //    return await JsonSerializer.DeserializeAsync<IEnumerable<RedirectedAppealModel>>
+        //        (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/{district}/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+        //}
+        public async Task<IEnumerable<RedirectedAppealModelDTO>> GetAllRedirectedAppeals(string district, string period, int year)
         {
-            return await JsonSerializer.DeserializeAsync<IEnumerable<RedirectedAppealModel>>
+            return await JsonSerializer.DeserializeAsync<IEnumerable<RedirectedAppealModelDTO>>
                 (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/{district}/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
@@ -24,7 +30,7 @@ namespace WorkGroupProsecutor.Client.Services
                 (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/{district}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
-        public async Task AddRedirectedAppeal(RedirectedAppealModel appeal)
+        public async Task AddRedirectedAppeal(RedirectedAppealModelDTO appeal)
         {
             var appealJson = new StringContent(JsonSerializer.Serialize(appeal), Encoding.UTF8, "application/json");
             var response = await _httpClient.PostAsync("api/RedirectedAppeal", appealJson);

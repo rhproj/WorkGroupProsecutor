@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WorkGroupProsecutor.Server.Data.Repositories;
 using WorkGroupProsecutor.Shared.Models.Appeal;
+using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
 using WorkGroupProsecutor.Shared.Models.Participants;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -49,28 +50,28 @@ namespace WorkGroupProsecutor.Server.Controllers
 
         // POST api/<RedirectedAppealController>
         [HttpPost]
-        public async Task<IActionResult> Post(RedirectedAppealModel redirectedAppealModel)
+        public async Task<IActionResult> Post(RedirectedAppealModelDTO appealDto)
         {
-            await _appealRepository.AddRedirectedAppeal(redirectedAppealModel);
+            await _appealRepository.AddRedirectedAppeal(appealDto);
             return Ok("Обращение добавлено");
         }
 
-        [HttpPost]
-        [Route("PostWithDep")]
-        public async Task<IActionResult> PostWithDep(int depId, RedirectedAppealModel redirectedAppealModel) //, Department department)
-        {
-            if (redirectedAppealModel == null)
-                return BadRequest();
+        //[HttpPost]
+        //[Route("PostWithDep")]
+        //public async Task<IActionResult> PostWithDep(int depId, RedirectedAppealModel redirectedAppealModel) //, Department department)
+        //{
+        //    if (redirectedAppealModel == null)
+        //        return BadRequest();
 
-            //if (redirectedAppealModel.RegistrationNumber == string.Empty || redirectedAppealModel.ApplicantFullName == string.Empty)
-            //    ModelState.AddModelError("RegistrationNumber", "ApplicantFullName shouldn't be empty");
-            //if (!ModelState.IsValid)
-            //    return BadRequest(ModelState);
-            redirectedAppealModel.AppealClassification = await _departmentRepository.GetDepartmentById(depId);
+        //    //if (redirectedAppealModel.RegistrationNumber == string.Empty || redirectedAppealModel.ApplicantFullName == string.Empty)
+        //    //    ModelState.AddModelError("RegistrationNumber", "ApplicantFullName shouldn't be empty");
+        //    //if (!ModelState.IsValid)
+        //    //    return BadRequest(ModelState);
+        //    redirectedAppealModel.AppealClassification = await _departmentRepository.GetDepartmentById(depId);
 
-            await _appealRepository.AddRedirectedAppeal(redirectedAppealModel); //, department);
-            return Ok("Обращение добавлено");
-        }
+        //    await _appealRepository.AddRedirectedAppeal(redirectedAppealModel); //, department);
+        //    return Ok("Обращение добавлено");
+        //}
 
         // POST api/<RedirectedAppealController>
         //[HttpPost]

@@ -10,27 +10,15 @@ namespace WorkGroupProsecutor.Shared.Models.Base
     public abstract class AppealRegister
     {
         public int Id { get; set; }
-        public string RegistrationNumber { get; set; }
-        public string ApplicantFullName { get; set; }
+        public virtual string RegistrationNumber { get; set; }
+        public virtual string ApplicantFullName { get; set; }
 
-        //public int DepartmentId { get; set; }
-        public Department AppealClassification { get; set; } = new();
+        public int? DepartmentId { get; set; }
+        public virtual Department Department { get; set; } = new();
 
-        //public string DepartmentIndex { get; set; } //dropdown
-        //public Department AppealClassification 
-        //{
-        //    get
-        //    {
-        //        //if (string.IsNullOrEmpty(Index)) return null;
-        //        // Retrieve the object with the corresponding Id
-        //        return new Department(); // << From your Venue List 
-        //    }  set { }                 
-        //} //= new(); 
-
-
-        public string DepartmentAssessment { get; set; }
-        public int YearInfo { get; set; }
-        public string PeriodInfo { get; set; }
-        public string District { get; set; }
+        public virtual string? DepartmentAssessment { get; set; }
+        public virtual int YearInfo { get; set; }
+        public virtual string PeriodInfo { get; set; }
+        public virtual string District { get; set; }
     }
 }

@@ -29,7 +29,7 @@ else
     </ul>
     <hr />*@
     <div class="modal-header">
-        <h3>Данные за (#Apastovo) (#2022)</h3>
+        <h3>Данные за (#Az) (#22)</h3>
     </div>
     <></>
     <table class="table table-striped align-middle text-center">
@@ -67,7 +67,7 @@ else
         //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")},
         //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")}
         //};
-        periodsList = (await RedirectedAppealDataService.GetRedirectedAppealPeriods("Apastovo", 2022)).ToList();
+        periodsList = (await RedirectedAppealDataService.GetRedirectedAppealPeriods("Az", 22)).ToList();
 
         //await httpClient.GetFromJsonAsync<List<DistrictRegisterModel>>("api/redirectedappeal/{district}/{period}/{year}");
     }

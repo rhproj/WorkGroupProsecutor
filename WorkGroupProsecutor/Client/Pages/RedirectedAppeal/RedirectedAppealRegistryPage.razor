@@ -1,4 +1,5 @@
 ﻿@page "/redirectedappealregistry/{Period?}"
+@using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
 @*@page "/testmaintable"*@
 @inject HttpClient httpClient
 
@@ -47,7 +48,7 @@
               <td>@appeal.Id</td> <!--swap with counter-->
               <td>@appeal.RegistrationNumber</td>
               <td>@appeal.ApplicantFullName</td>
-              <td>@appeal.AppealClassification.DepartmentIndex</td>
+              <td>@appeal.DepartmentId</td>
               <td>@appeal.RecipientAgency</td>
               <td>@appeal.DecisionBasis</td>
               <td>@appeal.DepartmentAssessment</td>
@@ -111,12 +112,12 @@
     [Parameter]
     public string? Period { get; set; }
 
-    private List<RedirectedAppealModel> appealsList = new();
+    private List<RedirectedAppealModelDTO> appealsList = new();
 
 
     protected override async Task OnInitializedAsync()
     {
-        appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals("Apastovo", Period, 2022)).ToList();
+        appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals("Az", Period, 22)).ToList();
         //await httpClient.GetFromJsonAsync<List<RedirectedAppealModel>>($"api/redirectedappeal/{"Apastovo"}/{Period}/{2022}");  //{district}/{period}/{year}
     }
 }

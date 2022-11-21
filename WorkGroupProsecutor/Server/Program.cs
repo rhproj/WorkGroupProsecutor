@@ -14,6 +14,8 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(opt =>
     opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
 builder.Services.AddScoped<IAppealRegisterRepository, AppealRegisterRepository>(); //to delete
 builder.Services.AddScoped<IRedirectedAppealRepository, RedirectedAppealRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
