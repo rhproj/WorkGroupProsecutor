@@ -1,10 +1,10 @@
-﻿@page "/redirectedpage"
+﻿@page "/redirectedpage/{Year:int}"
 @inject HttpClient httpClient
 
 <h2 class="text-center mb-5">Реестры обращений, предполагаемых к переадресации в иные органы и ведомства</h2>
 <div class="row mb-2">
     <div class="col-md-6">
-        <a href="/addredirectedappeal" class="btn btn-outline-primary" role="button">
+        <a href="/addredirectedappeal/@Year" class="btn btn-outline-primary" role="button">
             <p class="h4 pt-2">Создать запись</p>
         </a>
     </div>
@@ -29,7 +29,7 @@ else
     </ul>
     <hr />*@
     <div class="modal-header">
-        <h3>Данные за (#Az) (#22)</h3>
+        <h3>Данные (#Az) за @Year год</h3>
     </div>
     <></>
     <table class="table table-striped align-middle text-center">
@@ -45,8 +45,8 @@ else
                 <tr>
                     <td class="h4">@period Переадресация</td>
                     <td>
-                        <a href="/redirectedappealregistry/@period" class="btn btn-outline-dark">Смотреть</a>
-                        <a href="/deleteredirectedappeal/@period" class="btn btn-outline-danger">Удалить</a>
+                        <a href="/redirectedappealregistry/@period/@Year" class="btn btn-outline-dark">Смотреть</a>
+                        <a href="/deleteredirectedappeal/@period/@Year" class="btn btn-outline-danger">Удалить</a>
                     </td>
                 </tr>
             }
@@ -58,6 +58,9 @@ else
     [Inject]
     public IRedirectedAppealDataService? RedirectedAppealDataService { get; set; }
 
+    [Parameter]
+    public int Year { get; set; }
+
     private List<string> periodsList = new();
 
     protected override async Task OnInitializedAsync()
@@ -67,7 +70,7 @@ else
         //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")},
         //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")}
         //};
-        periodsList = (await RedirectedAppealDataService.GetRedirectedAppealPeriods("Az", 22)).ToList();
+        periodsList = (await RedirectedAppealDataService.GetRedirectedAppealPeriods("Az", Year)).ToList();
 
         //await httpClient.GetFromJsonAsync<List<DistrictRegisterModel>>("api/redirectedappeal/{district}/{period}/{year}");
     }

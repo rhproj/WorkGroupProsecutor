@@ -15,7 +15,7 @@ namespace WorkGroupProsecutor.Shared.Models.Appeal.DTO
 
         public int? DepartmentId { get; set; }
 
-        public string DepartmentAssessment { get; set; }
+        public string? DepartmentAssessment { get; set; }
         public int YearInfo { get; set; }
         public string PeriodInfo { get; set; }
         public string District { get; set; }

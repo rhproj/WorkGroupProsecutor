@@ -1,4 +1,4 @@
-﻿@page "/redirectedappealregistry/{Period?}"
+﻿@page "/redirectedappealregistry/{Period}/{Year:int}"
 @using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
 @*@page "/testmaintable"*@
 @inject HttpClient httpClient
@@ -29,6 +29,11 @@
         <th style="width: 30%">Орган, в который предполагается переадресовать обращение</th>
         <th style="width: 30%">Основание переадресации</th>
         <th style="width: 10%">Оценка возможности переадресации**</th>
+        <th>
+            <a href="/addredirectedappeal" class="btn btn-outline-primary" role="button">
+                <p class="h4 pt-2">Создать запись</p>
+            </a>
+        </th>
       </tr>
     </thead>
     <tbody class="text-center align-middle">
@@ -110,14 +115,16 @@
     [Inject]
     public IRedirectedAppealDataService? RedirectedAppealDataService { get; set; }
     [Parameter]
-    public string? Period { get; set; }
+    public string Period { get; set; }
+    [Parameter]
+    public int Year { get; set; }
 
     private List<RedirectedAppealModelDTO> appealsList = new();
 
 
     protected override async Task OnInitializedAsync()
     {
-        appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals("Az", Period, 22)).ToList();
+        appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals("Az", Period, Year)).ToList();
         //await httpClient.GetFromJsonAsync<List<RedirectedAppealModel>>($"api/redirectedappeal/{"Apastovo"}/{Period}/{2022}");  //{district}/{period}/{year}
     }
 }

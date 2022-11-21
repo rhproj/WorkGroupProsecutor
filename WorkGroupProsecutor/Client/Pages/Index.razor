@@ -12,7 +12,7 @@
                     <p class="card-text">Реестры обращений, предполагаемых к переадресации в иные органы и ведомства</p>
                     <p class="card-text text-secondary fst-italic">дважды в месяц</p>
 @*                    <a href="#" class="btn btn-primary">Go somewhere</a>*@
-                    <a href="redirectedpage" class="stretched-link"></a>
+                    <a href="redirectedpage/@year" class="stretched-link"></a>
                 </div>
             </div>
         </div>
@@ -22,7 +22,7 @@
                     <h4 class="card-title text-center text-success">Удовлетворено</h4>
                     <p class="card-text">Реестры обращений, по которым приняты решения "Удовлетворено" и "Удовлетворено частично"</p>
                     <p class="card-text text-secondary fst-italic">раз в квартал</p>
-                    <a href="satisfiedpage" class="stretched-link"></a>
+                    <a href="satisfiedpage/@year" class="stretched-link"></a>
                 </div>
             </div>
         </div>
@@ -32,9 +32,28 @@
                     <h4 class="card-title text-center text-warning">Без разрешения</h4>
                     <p class="card-text">Реестры обращений, по которым приняты решения "Оставлено без разрешения и (или) приобщено к НП"</p>
                     <p class="card-text text-secondary fst-italic">раз в квартал</p>
-                    <a href="nosolutionpage" class="stretched-link"></a>
+                    <a href="nosolutionpage/@year" class="stretched-link"></a>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<div class="row mt-5">
+    <div class="mb-3">
+        <label class="form-label">Год:</label>
+        <div class="col-md-4">
+            <input type="number" @bind-value=year/>
+        </div>
+    </div>
+</div>
+
+
+@code{
+    private int year;
+
+    protected override void OnInitialized()
+    {
+        year = DateTime.Now.Year;
+    }
+}

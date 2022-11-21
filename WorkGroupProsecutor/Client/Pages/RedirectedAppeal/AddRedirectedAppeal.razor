@@ -1,10 +1,12 @@
-﻿@page "/addredirectedappeal"
+﻿@page "/addredirectedappeal/{Year:int}"
+@page "/addredirectedappeal/{Year:int}/{Period}"
+
 @using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
 @using WorkGroupProsecutor.Shared.Models.Participants;
 @inject NavigationManager navManager
 @inject HttpClient httpClient
 
-<h3>Создать запись Переадресация</h3>
+<h3>Создать запись Переадресация за @Period @Year</h3>
 <EditForm Model="@appeal" OnValidSubmit="SaveAppeal">
     <DataAnnotationsValidator />
     <div class="mb-3">
@@ -70,27 +72,27 @@
 
     <br/>
     <hr/>
-    <div class="mb-3">
+@*    <div class="mb-3">***********************************
         <label class="form-label">Период:</label>
         <div class="col-md-4">
             <InputText class="form-control" @bind-Value="appeal.PeriodInfo" />
         </div>
         <ValidationMessage For="@(() => appeal.PeriodInfo)" />
-    </div>
-    <div class="mb-3">
+    </div>*@
+@*    <div class="mb-3">
         <label class="form-label">Year:</label>
         <div class="col-md-4">
             <InputNumber class="form-control" @bind-Value="appeal.YearInfo" />
         </div>
         <ValidationMessage For="@(() => appeal.YearInfo)" />
-    </div>
-    <div class="mb-3">
+    </div>*@
+@*    <div class="mb-3">
         <label class="form-label">District:</label>
         <div class="col-md-4">
             <InputText class="form-control" @bind-Value="appeal.District" />
         </div>
         <ValidationMessage For="@(() => appeal.District)" />
-    </div>
+    </div>*********************************************@
 
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Сохранить</button>
@@ -157,18 +159,28 @@
 @code {
     //[Inject]
     //public IRedirectedAppealDataService? RedirectedAppealDataService { get; set; }
-
     //private RedirectedAppealModel redirectedAppealModel = new();
+
+    [Parameter]
+    public int Year { get; set; }
+    [Parameter]
+    public string Period { get; set; }
+
     public RedirectedAppealModelDTO appeal { get; set; } = new();
     private List<Department> departmentsList = new();
+    [Parameter]
+    public int MyProperty { get; set; }
 
     //protected override async Task OnInitializedAsync()
     //{
     //    departmentsList = await httpClient.GetFromJsonAsync<List<Department>>("api/Department");
     //    // developersList = await HttpClient.GetFromJsonAsync<List<Developer>>("api/developer");
     //}
-    protected override async Task OnParametersSetAsync()
+    protected override async Task OnInitializedAsync()
     {
+        appeal.YearInfo = Year;
+        appeal.PeriodInfo = Period;
+        appeal.District = "Az"; //swap with actual param
         departmentsList = await httpClient.GetFromJsonAsync<List<Department>>("api/Department");
     }
 
