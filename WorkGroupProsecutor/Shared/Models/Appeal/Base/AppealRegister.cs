@@ -14,7 +14,7 @@ namespace WorkGroupProsecutor.Shared.Models.Base
         public virtual string ApplicantFullName { get; set; }
 
         public int? DepartmentId { get; set; }
-        public virtual Department Department { get; set; } = new();
+        public virtual Department? Department { get; set; } //= new();
 
         public virtual string? DepartmentAssessment { get; set; }
         public virtual int YearInfo { get; set; }

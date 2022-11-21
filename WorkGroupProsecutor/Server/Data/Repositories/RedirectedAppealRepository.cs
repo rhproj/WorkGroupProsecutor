@@ -49,7 +49,9 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
         //}
         public async Task AddRedirectedAppeal(RedirectedAppealModelDTO appealDto)
         {
-            //await _dbContext.RedirectedAppeal.AddAsync(appealDto);
+            var appeal = _mapper.Map<RedirectedAppealModel>(appealDto);
+
+            await _dbContext.RedirectedAppeal.AddAsync(appeal);
             await _dbContext.SaveChangesAsync();
         }
 

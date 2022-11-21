@@ -1,24 +1,25 @@
 ﻿@page "/addredirectedappeal"
+@using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
 @using WorkGroupProsecutor.Shared.Models.Participants;
 @inject NavigationManager navManager
 @inject HttpClient httpClient
 
 <h3>Создать запись Переадресация</h3>
-<EditForm Model="@redirectedAppealModel" OnValidSubmit="SaveAppeal">
+<EditForm Model="@appeal" OnValidSubmit="SaveAppeal">
     <DataAnnotationsValidator />
     <div class="mb-3">
         <label for="RegistrationNumber" class="form-label">Регистрационный номер в системе Надзор-WEB:</label>
         <div class="col-md-4">
-            <InputText class="form-control" @bind-Value="redirectedAppealModel.RegistrationNumber" />
+            <InputText class="form-control" @bind-Value="appeal.RegistrationNumber" />
         </div>
-        <ValidationMessage For="@(() => redirectedAppealModel.RegistrationNumber)" />
+        <ValidationMessage For="@(() => appeal.RegistrationNumber)" />
     </div>
     <div class="mb-3">
         <label for="ApplicantFullName" class="form-label">ФИО заявителя</label>
         <div class="col-md-4">
-            <InputText class="form-control" @bind-Value="redirectedAppealModel.ApplicantFullName" />
+            <InputText class="form-control" @bind-Value="appeal.ApplicantFullName" />
         </div>
-        <ValidationMessage For="@(() => redirectedAppealModel.ApplicantFullName)" />
+        <ValidationMessage For="@(() => appeal.ApplicantFullName)" />
     </div>
 
 @*    <div class="mb-3">
@@ -34,7 +35,7 @@
             <InputNumber class="form-control" @bind-Value="redirectedAppealModel.AppealClassification.Id" />
         </div>*@
 
-        <InputSelect @bind-Value="@redirectedAppealModel.DepartmentId">
+        <InputSelect @bind-Value="@appeal.DepartmentId">
             <option value="">отдел:</option>
             @foreach (var department in departmentsList)
             {
@@ -48,23 +49,23 @@
     <div class="mb-3">
         <label class="form-label">Орган, в который предполагается переадресовать обращение:</label>
         <div class="col-md-4">
-            <InputText class="form-control" @bind-Value="redirectedAppealModel.RecipientAgency" />
+            <InputText class="form-control" @bind-Value="appeal.RecipientAgency" />
         </div>
-        <ValidationMessage For="@(() => redirectedAppealModel.RecipientAgency)" />
+        <ValidationMessage For="@(() => appeal.RecipientAgency)" />
     </div>
     <div class="mb-3">
         <label class="form-label">Основание переадресации:</label>
         <div class="col-md-4">
-            <InputText class="form-control" @bind-Value="redirectedAppealModel.DecisionBasis" />
+            <InputText class="form-control" @bind-Value="appeal.DecisionBasis" />
         </div>
-        <ValidationMessage For="@(() => redirectedAppealModel.DecisionBasis)" />
+        <ValidationMessage For="@(() => appeal.DecisionBasis)" />
     </div>
     <div class="mb-3">
         <label class="form-label">Оценка возможности переадресации**:</label>
         <div class="col-md-4">
-            <InputText class="form-control" @bind-Value="redirectedAppealModel.DepartmentAssessment" />
+            <InputText class="form-control" @bind-Value="appeal.DepartmentAssessment" />
         </div>
-        <ValidationMessage For="@(() => redirectedAppealModel.DepartmentAssessment)" />
+        <ValidationMessage For="@(() => appeal.DepartmentAssessment)" />
     </div>
 
     <br/>
@@ -72,25 +73,24 @@
     <div class="mb-3">
         <label class="form-label">Период:</label>
         <div class="col-md-4">
-            <InputText class="form-control" @bind-Value="redirectedAppealModel.PeriodInfo" />
+            <InputText class="form-control" @bind-Value="appeal.PeriodInfo" />
         </div>
-        <ValidationMessage For="@(() => redirectedAppealModel.PeriodInfo)" />
+        <ValidationMessage For="@(() => appeal.PeriodInfo)" />
     </div>
     <div class="mb-3">
         <label class="form-label">Year:</label>
         <div class="col-md-4">
-            <InputNumber class="form-control" @bind-Value="redirectedAppealModel.YearInfo" />
+            <InputNumber class="form-control" @bind-Value="appeal.YearInfo" />
         </div>
-        <ValidationMessage For="@(() => redirectedAppealModel.YearInfo)" />
+        <ValidationMessage For="@(() => appeal.YearInfo)" />
     </div>
     <div class="mb-3">
         <label class="form-label">District:</label>
         <div class="col-md-4">
-            <InputText class="form-control" @bind-Value="redirectedAppealModel.District" />
+            <InputText class="form-control" @bind-Value="appeal.District" />
         </div>
-        <ValidationMessage For="@(() => redirectedAppealModel.District)" />
+        <ValidationMessage For="@(() => appeal.District)" />
     </div>
-
 
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Сохранить</button>
@@ -159,7 +159,7 @@
     //public IRedirectedAppealDataService? RedirectedAppealDataService { get; set; }
 
     //private RedirectedAppealModel redirectedAppealModel = new();
-    public RedirectedAppealModel redirectedAppealModel { get; set; } = new();
+    public RedirectedAppealModelDTO appeal { get; set; } = new();
     private List<Department> departmentsList = new();
 
     //protected override async Task OnInitializedAsync()
@@ -174,7 +174,7 @@
 
     private async Task SaveAppeal() //year and District will be added
     {
-        await httpClient.PostAsJsonAsync<RedirectedAppealModel>("api/RedirectedAppeal", redirectedAppealModel);
+        await httpClient.PostAsJsonAsync<RedirectedAppealModelDTO>("api/RedirectedAppeal", appeal);
         //await RedirectedAppealDataService.AddRedirectedAppeal(appeal);
 
         GoToRedirectedPage();
@@ -182,6 +182,6 @@
 
     private void GoToRedirectedPage()
     {
-        navManager.NavigateTo($"/redirectedappealregistry/{redirectedAppealModel.PeriodInfo}");
+        navManager.NavigateTo($"/redirectedappealregistry/{appeal.PeriodInfo}");
     }
 }

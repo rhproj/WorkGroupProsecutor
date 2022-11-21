@@ -13,14 +13,14 @@ namespace WorkGroupProsecutor.Shared.Models.Appeal.DTO
         public string RegistrationNumber { get; set; }
         public string ApplicantFullName { get; set; }
 
-        public int DepartmentId { get; set; }
+        public int? DepartmentId { get; set; }
 
         public string DepartmentAssessment { get; set; }
         public int YearInfo { get; set; }
         public string PeriodInfo { get; set; }
         public string District { get; set; }
 
-        public string RecipientAgency { get; set; }
-        public string DecisionBasis { get; set; }
+        public string? RecipientAgency { get; set; }
+        public string? DecisionBasis { get; set; }
     }
 }
