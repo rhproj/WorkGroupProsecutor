@@ -10,7 +10,7 @@
 </div>
 <div class="container mt-5">
   <h5 class="text-center my-3">Реестр обращений, предполагаемых к переадресации в иные органы и ведомства</h5>            
-  <h4 class="text-center my-3">{#Нижнекамская городская прокуратура} на @Period</h4>
+  <h4 class="text-center my-3">{#Нижнекамская городская прокуратура} на @Period @Year года</h4>
 
 @*    @foreach (var appeal in appealsList)
     {
@@ -30,7 +30,7 @@
         <th style="width: 30%">Основание переадресации</th>
         <th style="width: 10%">Оценка возможности переадресации**</th>
         <th>
-            <a href="/addredirectedappeal" class="btn btn-outline-primary" role="button">
+            <a href="/addredirectedappeal/@Period/@Year" class="btn btn-outline-primary" role="button">
                 <p class="h4 pt-2">Создать запись</p>
             </a>
         </th>
@@ -59,7 +59,7 @@
               <td>@appeal.DepartmentAssessment</td>
               <td>
                     <a href="/developer/edit/@appeal.Id" class="btn btn-outline-dark">Edit</a>
-                    <a href="/developer/delete/@appeal.Id" class="btn btn-outline-danger">Delete</a>
+                    <a href="/deleteredirectedappeal/@appeal.Id" class="btn btn-outline-danger">Delete</a>
               </td>
           </tr>
       }

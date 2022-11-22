@@ -35,9 +35,10 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
                 .Where(a => a.YearInfo == year).Select(p => p.PeriodInfo).Distinct().ToListAsync(); ; //.ToListAsync();
         }
 
-        public Task<RedirectedAppealModel> GetRedirectedAppealById(int id)
+        public async Task<RedirectedAppealModelDTO> GetRedirectedAppealById(int id)
         {
-            throw new NotImplementedException();
+            var appeal = await _dbContext.RedirectedAppeal.FirstOrDefaultAsync(a=>a.Id == id);
+            return _mapper.Map<RedirectedAppealModelDTO>(appeal);
         }
 
         //public async Task AddRedirectedAppeal(RedirectedAppealModel appeal)
@@ -56,13 +57,15 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
         }
 
 
-        public Task UpdateRedirectedAppeal(RedirectedAppealModel appeal)
+        public Task UpdateRedirectedAppeal(RedirectedAppealModelDTO appeal)
         {
             throw new NotImplementedException();
         }
-        public Task DeleteRedirectedAppeal(int id)
+        public async Task DeleteRedirectedAppeal(int id)
         {
-            throw new NotImplementedException();
+            var appeal = await _dbContext.RedirectedAppeal.FirstOrDefaultAsync(a => a.Id == id);
+            _dbContext.RedirectedAppeal.Remove(appeal);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

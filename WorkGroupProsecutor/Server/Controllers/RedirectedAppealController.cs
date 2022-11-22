@@ -43,9 +43,9 @@ namespace WorkGroupProsecutor.Server.Controllers
 
         // GET api/<RedirectedAppealController>/5
         [HttpGet("{id}")]
-        public Task<IActionResult> Get(int id)
+        public async Task<IActionResult> Get(int id)
         {
-            throw new NotImplementedException();
+            return Ok(await _appealRepository.GetRedirectedAppealById(id));
         }
 
         // POST api/<RedirectedAppealController>
@@ -56,31 +56,6 @@ namespace WorkGroupProsecutor.Server.Controllers
             return Ok("Обращение добавлено");
         }
 
-        //[HttpPost]
-        //[Route("PostWithDep")]
-        //public async Task<IActionResult> PostWithDep(int depId, RedirectedAppealModel redirectedAppealModel) //, Department department)
-        //{
-        //    if (redirectedAppealModel == null)
-        //        return BadRequest();
-
-        //    //if (redirectedAppealModel.RegistrationNumber == string.Empty || redirectedAppealModel.ApplicantFullName == string.Empty)
-        //    //    ModelState.AddModelError("RegistrationNumber", "ApplicantFullName shouldn't be empty");
-        //    //if (!ModelState.IsValid)
-        //    //    return BadRequest(ModelState);
-        //    redirectedAppealModel.AppealClassification = await _departmentRepository.GetDepartmentById(depId);
-
-        //    await _appealRepository.AddRedirectedAppeal(redirectedAppealModel); //, department);
-        //    return Ok("Обращение добавлено");
-        //}
-
-        // POST api/<RedirectedAppealController>
-        //[HttpPost]
-        //public async Task<IActionResult> Post(Department department)
-        //{
-        //    await _appealRepository.AddDepartment(department);
-        //    return Ok("Department добавлен");
-        //}
-
         // PUT api/<RedirectedAppealController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
@@ -89,8 +64,10 @@ namespace WorkGroupProsecutor.Server.Controllers
 
         // DELETE api/<RedirectedAppealController>/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
+            await _appealRepository.DeleteRedirectedAppeal(id);
+            return Ok("Обращение удалено");
         }
     }
 }

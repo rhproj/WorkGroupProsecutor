@@ -7,9 +7,9 @@ namespace WorkGroupProsecutor.Client.Services
     {
         Task<IEnumerable<RedirectedAppealModelDTO>> GetAllRedirectedAppeals(string district, string period, int year);
         Task<IEnumerable<string>> GetRedirectedAppealPeriods(string district, int year);
-        Task<RedirectedAppealModel> GetRedirectedAppealById(int id);
+        Task<RedirectedAppealModelDTO> GetRedirectedAppealById(int id);
         Task AddRedirectedAppeal(RedirectedAppealModelDTO appeal);
-        Task UpdateRedirectedAppeal(RedirectedAppealModel appeal);
+        Task UpdateRedirectedAppeal(RedirectedAppealModelDTO appeal);
         Task DeleteRedirectedAppeal(int id);
     }
 }

@@ -1,14 +1,21 @@
-﻿@page "/addredirectedappeal/{Year:int}"
-@page "/addredirectedappeal/{Year:int}/{Period}"
+﻿@*@page "/addredirectedappeal/{Year:int}"*@
+@page "/addredirectedappeal/{Period}/{Year:int}"
 
 @using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
 @using WorkGroupProsecutor.Shared.Models.Participants;
-@inject NavigationManager navManager
+@*@inject NavigationManager navManager*@
 @inject HttpClient httpClient
 
-<h3>Создать запись Переадресация за @Period @Year</h3>
+<h3>Создать запись Переадресация за @appeal.PeriodInfo @Year</h3>
 <EditForm Model="@appeal" OnValidSubmit="SaveAppeal">
     <DataAnnotationsValidator />
+    <div class="mb-3">
+        <label for="RegistrationNumber" class="form-label">Период:</label>
+        <div class="col-md-4">
+            <InputText class="form-control" @bind-Value="appeal.PeriodInfo" />
+        </div>
+        <ValidationMessage For="@(() => appeal.RegistrationNumber)" />
+    </div>
     <div class="mb-3">
         <label for="RegistrationNumber" class="form-label">Регистрационный номер в системе Надзор-WEB:</label>
         <div class="col-md-4">
@@ -72,28 +79,6 @@
 
     <br/>
     <hr/>
-@*    <div class="mb-3">***********************************
-        <label class="form-label">Период:</label>
-        <div class="col-md-4">
-            <InputText class="form-control" @bind-Value="appeal.PeriodInfo" />
-        </div>
-        <ValidationMessage For="@(() => appeal.PeriodInfo)" />
-    </div>*@
-@*    <div class="mb-3">
-        <label class="form-label">Year:</label>
-        <div class="col-md-4">
-            <InputNumber class="form-control" @bind-Value="appeal.YearInfo" />
-        </div>
-        <ValidationMessage For="@(() => appeal.YearInfo)" />
-    </div>*@
-@*    <div class="mb-3">
-        <label class="form-label">District:</label>
-        <div class="col-md-4">
-            <InputText class="form-control" @bind-Value="appeal.District" />
-        </div>
-        <ValidationMessage For="@(() => appeal.District)" />
-    </div>*********************************************@
-
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Сохранить</button>
         <button class="btn btn-light" @onclick="GoToRedirectedPage">Отменить</button>
@@ -194,6 +179,6 @@
 
     private void GoToRedirectedPage()
     {
-        navManager.NavigateTo($"/redirectedappealregistry/{appeal.PeriodInfo}");
+        navManager.NavigateTo($"/redirectedappealregistry/{appeal.PeriodInfo}/{Year}");
     }
 }

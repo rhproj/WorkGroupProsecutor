@@ -1,10 +1,65 @@
-﻿@page "/deleteredirectedappeal/{Period?}"
+﻿@page "/deleteredirectedappeal/{Id:int}"
 
+<div class="form-group">
+    <h3>Вы уверены что хотите удалить обращени @appeal.RegistrationNumber?</h3>
+    <table class="table">
+        <tbody>
+            <tr>
+                <td>ФИО заявителя</td>
+                <td>@appeal.ApplicantFullName</td>
+            </tr>
+            <tr>
+                <td>Орган, в который предполагается переадресовать обращение</td>
+                <td>@appeal.RecipientAgency</td>
+            </tr>
+            <tr>
+                <td>Основание переадресации</td>
+                <td>@appeal.DecisionBasis</td>
+            </tr>
+            <tr>
+                <td>>Оценка возможности переадресации</td>
+                <td>@appeal.DepartmentAssessment</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="form-group">
+    <button class="btn btn-danger" @onclick="DeleteAppeal">Delete</button>
+    <button class="btn btn-light" @onclick="GotBack">Cancel</button>
+</div>
 
-<h3>Вы уверены что хотите удалить Реестр обращений на @Period ?</h3>
 
 
 @code {
+    [Inject]
+    public IRedirectedAppealDataService? RedirectedAppealDataService { get; set; }
+
+
+
     [Parameter]
-    public string? Period { get; set; }
+    public int Id { get; set; }
+
+    private RedirectedAppealModelDTO appeal = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != 0)
+        {
+            appeal = await RedirectedAppealDataService.GetRedirectedAppealById(Id);
+        }
+    }
+
+    private async Task DeleteAppeal() //turns out we can't have method with PageName
+    {
+        if (appeal != null)
+        {
+            await RedirectedAppealDataService.DeleteRedirectedAppeal(Id); //httpClient.DeleteAsync($"api//{Id}");
+            GotBack();
+        }
+    }
+
+    private void GotBack()
+    {
+        navManager.NavigateTo($"/redirectedappealregistry/{appeal.PeriodInfo}/{appeal.YearInfo}");
+    }
 }

@@ -52,23 +52,22 @@ namespace WorkGroupProsecutor.Client.Services
         //}
 
 
-        public Task<RedirectedAppealModel> GetRedirectedAppealById(int id)
+        public async Task<RedirectedAppealModelDTO> GetRedirectedAppealById(int id)
         {
-            throw new NotImplementedException();
-            //return await JsonSerializer.DeserializeAsync<IEnumerable<RedirectedAppealModel>>
-            //    (await _httpClient.GetStreamAsync($"api/RedirectedAppeal"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+            return await JsonSerializer.DeserializeAsync<RedirectedAppealModelDTO>
+                (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/{id}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
 
 
-        public Task UpdateRedirectedAppeal(RedirectedAppealModel appeal)
+        public Task UpdateRedirectedAppeal(RedirectedAppealModelDTO appeal)
         {
             throw new NotImplementedException();
         }
 
-        public Task DeleteRedirectedAppeal(int id)
+        public async Task DeleteRedirectedAppeal(int id)
         {
-            throw new NotImplementedException();
+            await _httpClient.DeleteAsync($"api/RedirectedAppeal/{id}");
         }
     }
 }
