@@ -1,12 +1,13 @@
 ﻿@*@page "/addredirectedappeal/{Year:int}"*@
 @page "/addredirectedappeal/{Period}/{Year:int}"
+@page "/updateredirectedappeal/{Id:int}"
 
-@using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
-@using WorkGroupProsecutor.Shared.Models.Participants;
+@*@using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
+@using WorkGroupProsecutor.Shared.Models.Participants;*@
 @*@inject NavigationManager navManager*@
-@inject HttpClient httpClient
+@*@inject HttpClient httpClient*@
 
-<h3>Создать запись Переадресация за @appeal.PeriodInfo @Year</h3>
+<h3>Создать запись Переадресация за @appeal.PeriodInfo @appeal.YearInfo</h3>
 <EditForm Model="@appeal" OnValidSubmit="SaveAppeal">
     <DataAnnotationsValidator />
     <div class="mb-3">
@@ -142,10 +143,14 @@
 
 
 @code {
-    //[Inject]
-    //public IRedirectedAppealDataService? RedirectedAppealDataService { get; set; }
+    [Inject]
+    public IRedirectedAppealDataService RedirectedAppealDataService { get; set; }
     //private RedirectedAppealModel redirectedAppealModel = new();
+    [Inject]
+    public IDepartmentService DepartmentService { get; set; }
 
+    [Parameter]
+    public int Id { get; set; }
     [Parameter]
     public int Year { get; set; }
     [Parameter]
@@ -163,22 +168,40 @@
     //}
     protected override async Task OnInitializedAsync()
     {
-        appeal.YearInfo = Year;
-        appeal.PeriodInfo = Period;
-        appeal.District = "Az"; //swap with actual param
-        departmentsList = await httpClient.GetFromJsonAsync<List<Department>>("api/Department");
+        departmentsList = (await DepartmentService.GetAllDepartments()).ToList();      //httpClient.GetFromJsonAsync<List<Department>>("api/Department");
+        if (Id == 0)
+        {
+            appeal.YearInfo = Year;
+            appeal.PeriodInfo = Period;
+            appeal.District = "Az"; //swap with actual param
+        }
+        else
+        {
+            appeal = await RedirectedAppealDataService.GetRedirectedAppealById(Id);
+        }
     }
 
     private async Task SaveAppeal() //year and District will be added
     {
-        await httpClient.PostAsJsonAsync<RedirectedAppealModelDTO>("api/RedirectedAppeal", appeal);
+        //await httpClient.PostAsJsonAsync<RedirectedAppealModelDTO>("api/RedirectedAppeal", appeal);
         //await RedirectedAppealDataService.AddRedirectedAppeal(appeal);
+
+        if (Id == 0)
+        {
+            await RedirectedAppealDataService.AddRedirectedAppeal(appeal);
+        }
+        else
+        {
+            await RedirectedAppealDataService.UpdateRedirectedAppeal(appeal);
+            //await httpClient.PutAsJsonAsync<RedirectedAppealModelDTO>("api/RedirectedAppeal", appeal);
+            //HttpClient.PutAsJsonAsync<Developer>("api/developer", developer);  //<Developer>
+        }
 
         GoToRedirectedPage();
     }
 
     private void GoToRedirectedPage()
     {
-        navManager.NavigateTo($"/redirectedappealregistry/{appeal.PeriodInfo}/{Year}");
+        navManager.NavigateTo($"/redirectedappealregistry/{appeal.PeriodInfo}/{appeal.YearInfo}");
     }
 }

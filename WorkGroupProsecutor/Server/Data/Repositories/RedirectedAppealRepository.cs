@@ -57,10 +57,30 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
         }
 
 
-        public Task UpdateRedirectedAppeal(RedirectedAppealModelDTO appeal)
+        public async Task UpdateRedirectedAppeal(RedirectedAppealModelDTO appealDto)
         {
-            throw new NotImplementedException();
+            //var appeal = _mapper.Map<RedirectedAppealModel>(appealDto);
+
+            var appealToEdit = await _dbContext.RedirectedAppeal.FirstOrDefaultAsync(d => d.Id == appealDto.Id);
+
+            appealToEdit.RegistrationNumber = appealDto.RegistrationNumber;
+            appealToEdit.DecisionBasis = appealDto.DecisionBasis;
+
+            appealToEdit.District = appealDto.District;
+            appealToEdit.ApplicantFullName = appealDto.ApplicantFullName;
+
+            appealToEdit.DepartmentId = appealDto.DepartmentId;
+            appealToEdit.DepartmentAssessment = appealDto.DepartmentAssessment;
+
+            appealToEdit.PeriodInfo = appealDto.PeriodInfo;
+            appealToEdit.YearInfo = appealDto.YearInfo;
+
+            appealToEdit.RecipientAgency = appealDto.RecipientAgency;
+
+            _dbContext.RedirectedAppeal.Update(appealToEdit);
+            await _dbContext.SaveChangesAsync();
         }
+
         public async Task DeleteRedirectedAppeal(int id)
         {
             var appeal = await _dbContext.RedirectedAppeal.FirstOrDefaultAsync(a => a.Id == id);

@@ -57,9 +57,11 @@ namespace WorkGroupProsecutor.Server.Controllers
         }
 
         // PUT api/<RedirectedAppealController>/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        [HttpPut]   //("{id}")]
+        public async Task<IActionResult> Put(RedirectedAppealModelDTO appealDto)
         {
+            await _appealRepository.UpdateRedirectedAppeal(appealDto);
+            return Ok("Обращение обнавлено");
         }
 
         // DELETE api/<RedirectedAppealController>/5

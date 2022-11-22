@@ -1,7 +1,7 @@
 ﻿@page "/redirectedappealregistry/{Period}/{Year:int}"
-@using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
+@*@using WorkGroupProsecutor.Shared.Models.Appeal.DTO;*@
 @*@page "/testmaintable"*@
-@inject HttpClient httpClient
+@*@inject HttpClient httpClient*@
 
 <div class="container">
   <p class="float-end"> ПРИЛОЖЕНИЕ №4 <br/>к распоряжению прокурора Республики Татарстан 
@@ -58,8 +58,8 @@
               <td>@appeal.DecisionBasis</td>
               <td>@appeal.DepartmentAssessment</td>
               <td>
-                    <a href="/developer/edit/@appeal.Id" class="btn btn-outline-dark">Edit</a>
-                    <a href="/deleteredirectedappeal/@appeal.Id" class="btn btn-outline-danger">Delete</a>
+                    <a href="/updateredirectedappeal/@appeal.Id" class="btn btn-outline-dark">Изменить</a>
+                    <a href="/deleteredirectedappeal/@appeal.Id" class="btn btn-outline-danger">Удалить</a>
               </td>
           </tr>
       }

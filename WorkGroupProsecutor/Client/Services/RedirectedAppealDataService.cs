@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using WorkGroupProsecutor.Shared.Models.Appeal;
@@ -33,7 +34,7 @@ namespace WorkGroupProsecutor.Client.Services
         public async Task AddRedirectedAppeal(RedirectedAppealModelDTO appeal)
         {
             var appealJson = new StringContent(JsonSerializer.Serialize(appeal), Encoding.UTF8, "application/json");
-            var response = await _httpClient.PostAsync("api/RedirectedAppeal", appealJson);
+            await _httpClient.PostAsync("api/RedirectedAppeal", appealJson); //var response = 
         }
 
         //public async Task<Employee> AddEmployee(Employee employee)
@@ -59,10 +60,10 @@ namespace WorkGroupProsecutor.Client.Services
         }
 
 
-
-        public Task UpdateRedirectedAppeal(RedirectedAppealModelDTO appeal)
+        public async Task UpdateRedirectedAppeal(RedirectedAppealModelDTO appeal)
         {
-            throw new NotImplementedException();
+            var appealJson = new StringContent(JsonSerializer.Serialize(appeal), Encoding.UTF8, "application/json");
+            await _httpClient.PutAsync("api/RedirectedAppeal", appealJson);
         }
 
         public async Task DeleteRedirectedAppeal(int id)
