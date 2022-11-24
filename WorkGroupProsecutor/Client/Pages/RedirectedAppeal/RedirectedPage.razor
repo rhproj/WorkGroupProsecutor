@@ -58,7 +58,14 @@ else
                 <tr>
                     <td class="h4">@period Переадресация</td>
                     <td>
-                        <a href="/redirectedappealregistry/@period/@Year" class="btn btn-outline-dark">Смотреть</a>
+                        @if (isDepartment)
+                        {
+                            <a href="/redirecteddistrictspage/@period/@Year" class="btn btn-outline-dark">Смотреть</a>
+                        }
+                        else
+                        {
+                            <a href="/redirectedappealregistry/@period/@Year" class="btn btn-outline-dark">Смотреть</a>
+                        }
 @*                        <a href="/deleteredirectedappeal/@period/@Year" class="btn btn-outline-danger">Удалить</a>*@
                     </td>
                 </tr>
@@ -77,6 +84,8 @@ else
     private string period;
 
     private bool isDisabled = true;
+
+    private bool isDepartment = true;
 
     private void EnableNav() //KeyboardEventArgs eventArgs
     {

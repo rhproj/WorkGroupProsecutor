@@ -12,7 +12,14 @@
                     <p class="card-text">Реестры обращений, предполагаемых к переадресации в иные органы и ведомства</p>
                     <p class="card-text text-secondary fst-italic">дважды в месяц</p>
 @*                    <a href="#" class="btn btn-primary">Go somewhere</a>*@
-                    <a href="redirectedpage/@year" class="stretched-link"></a>
+                    @if (isDepartment)
+                    {
+                        <a href="redirectedpage/@year" class="stretched-link"></a>
+                    }
+                    else
+                    {
+                        <a href="redirectedpage/@year" class="stretched-link"></a>
+                    }
                 </div>
             </div>
         </div>
@@ -51,6 +58,8 @@
 
 @code{
     private int year;
+
+    private bool isDepartment = true;
 
     protected override void OnInitialized()
     {

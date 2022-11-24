@@ -32,7 +32,14 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
         {
             return await _dbContext.RedirectedAppeal
                 .Where(a => a.District == district)
-                .Where(a => a.YearInfo == year).Select(p => p.PeriodInfo).Distinct().ToListAsync(); ; //.ToListAsync();
+                .Where(a => a.YearInfo == year).Select(p => p.PeriodInfo).Distinct().ToListAsync(); //.ToListAsync();
+        }
+
+        public async Task<IEnumerable<string>> GetRedirectedByDistricts(string period, int year)
+        {
+            return await _dbContext.RedirectedAppeal
+                .Where(a => a.PeriodInfo == period)
+                .Where(a => a.YearInfo == year).Select(a => a.District).Distinct().ToListAsync();
         }
 
         public async Task<RedirectedAppealModelDTO> GetRedirectedAppealById(int id)

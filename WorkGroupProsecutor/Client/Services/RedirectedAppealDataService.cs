@@ -4,6 +4,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using WorkGroupProsecutor.Shared.Models.Appeal;
 using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
+using WorkGroupProsecutor.Shared.Models.Participants;
 
 namespace WorkGroupProsecutor.Client.Services
 {
@@ -29,6 +30,12 @@ namespace WorkGroupProsecutor.Client.Services
         {
             return await JsonSerializer.DeserializeAsync<IEnumerable<string>>
                 (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/{district}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+        }
+
+        public async Task<IEnumerable<string>> GetRedirectedByDistricts(string period, int year)
+        {
+            return await JsonSerializer.DeserializeAsync<IEnumerable<string>>
+                (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
         public async Task AddRedirectedAppeal(RedirectedAppealModelDTO appeal)

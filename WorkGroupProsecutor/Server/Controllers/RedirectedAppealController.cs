@@ -41,6 +41,12 @@ namespace WorkGroupProsecutor.Server.Controllers
             return Ok(await _appealRepository.GetRedirectedAppealPeriods(district, year));
         }
 
+        [HttpGet("getByDistricts/{period}/{year}")]
+        public async Task<IActionResult> GetByDistricts(string period, int year)
+        {
+            return Ok(await _appealRepository.GetRedirectedByDistricts(period, year));
+        }
+
         // GET api/<RedirectedAppealController>/5
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
