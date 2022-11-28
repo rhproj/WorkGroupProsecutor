@@ -1,0 +1,47 @@
+﻿@page "/login"
+
+@inject HttpClient httpClient
+@inject IJSRuntime js
+@inject AuthenticationStateProvider authStateProvider
+@inject NavigationManager navManager
+
+<div class="row">
+    <div class="col-lg-4 offset-lg-4 pt-4 pb-4 border">
+        <div class="mb-3 text-center">
+            <h3>ВХОД</h3>
+        </div>
+        <div class="mb-3">
+            <h3>Имя пользователя</h3>
+            <input @bind="loginRequest.UserName" class="form-control" placeholder="User Name" />
+        </div>
+        <div class="mb-3">
+            <h3>Пароль</h3>
+            <input @bind="loginRequest.Password" type="password" class="form-control" placeholder="Password" />
+        </div>
+        <div class="mb-3 d-grid gap-2">
+            <button @onclick="Authenticate" class="btn btn-primary">Войти</button>
+        </div>
+    </div>
+</div>
+
+@code {
+    private LoginRequest loginRequest = new LoginRequest(); //used to fetch data form inputs
+
+    private async Task Authenticate()
+    {//обратимся к нашему API:
+        var loginResponse = await httpClient.PostAsJsonAsync<LoginRequest>("/api/Account/Login", loginRequest);
+        //читаем:
+        if (loginResponse.IsSuccessStatusCode)
+        {
+            var userSession = await loginResponse.Content.ReadFromJsonAsync<UserSession>();
+            var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
+            await customAuthStateProvider.UpdateAuthenticationState(userSession);
+            navManager.NavigateTo("/", true); //go Home
+        }
+        else if (loginResponse.StatusCode == HttpStatusCode.Unauthorized)
+        {
+            await js.InvokeVoidAsync("alert", "Неверный логин или пароль");
+            return;
+        }
+    }
+}

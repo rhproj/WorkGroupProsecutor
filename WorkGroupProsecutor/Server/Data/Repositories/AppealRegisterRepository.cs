@@ -3,7 +3,7 @@ using WorkGroupProsecutor.Shared.Models;
 
 namespace WorkGroupProsecutor.Server.Data.Repositories
 {
-    public class AppealRegisterRepository : IAppealRegisterRepository
+    public class AppealRegisterRepository : IAppealRegisterRepository  //NIm
     {
         private readonly ApplicationDbContext _dbContext;
 

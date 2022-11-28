@@ -15,5 +15,12 @@
 @using WorkGroupProsecutor.Shared.Models.Participants;
 @using WorkGroupProsecutor.Client.Services;
 
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+
+@using System.Net;
+@using WorkGroupProsecutor.Client.Authentication;
+@using WorkGroupProsecutor.Shared.Authentication;
+
 @inject NavigationManager navManager;
 @inject HttpClient httpClient;
