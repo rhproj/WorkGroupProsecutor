@@ -44,7 +44,7 @@
         //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")},
         //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")}
         //};
-        districtsList = (await RedirectedAppealDataService.GetRedirectedByDistricts(Period, Year)).ToList();
+        districtsList = (await RedirectedAppealDataService.GetRedirectedAppealsByDistricts(Period, Year)).ToList();
 
         //await httpClient.GetFromJsonAsync<List<DistrictRegisterModel>>("api/redirectedappeal/{district}/{period}/{year}");
     }

@@ -3,33 +3,39 @@
 @inject NavigationManager navManager*@
 
 <h2 class="text-center mb-5">Реестры обращений, предполагаемых к переадресации в иные органы и ведомства</h2>
-<div class="row mb-2">
-    <div class="col-md-6">
-@*        <a href="/addredirectedappeal/@period/@Year" class="btn btn-outline-primary" role="button">
-            <p class="h4 pt-2">Создать</p>
-        </a>*@
-        <button class="btn btn-primary" @onclick="NavigateToAddPage" disabled=@isDisabled>
-            Создать запись
-        </button>
-    </div>
-</div>
+<h3 class="float-end">@userState.User.Identity.Name</h3>
+<AuthorizeView Roles="Administrator,District">
+    <Authorized>
+        <div class="row mb-2">
+            <div class="col-md-6">
+                @*        <a href="/addredirectedappeal/@period/@Year" class="btn btn-outline-primary" role="button">
+                <p class="h4 pt-2">Создать</p>                               v disabled=@isDisabled v
+                </a>*@
+                <button class="btn btn-primary" @onclick="NavigateToAddPage">
+                    Создать запись
+                </button>
+            </div>
+        </div>
+    </Authorized>
+</AuthorizeView>
 
-<div class="row mt-5">
+
+@*<div class="row mt-5">
     <div class="mb-3">
         <label class="form-label">Период:</label>
         <div class="col-md-4">
             <input type="number" @bind-value=period @bind-value:event="oninput" @onkeyup="EnableNav"/>
         </div>
     </div>
-</div>
+</div>*@
 
 @if (periodsList.Count == 0)
 {
-    <p>Загружается...</p>
+@*    <p>Загружается...</p>*@
 }
 else
 {
-@*  <ul class="text-center list-unstyled">
+    @*  <ul class="text-center list-unstyled">
       @foreach (var appeal in appealsList)
       {
           <li>
@@ -42,7 +48,7 @@ else
     </ul>
     <hr />*@
     <div class="modal-header">
-        <h3>Данные (#Az) за @Year год</h3>
+        <h3>Данные за @Year год</h3>
     </div>
     <></>
     <table class="table table-striped align-middle text-center">
@@ -58,6 +64,8 @@ else
                 <tr>
                     <td class="h4">@period Переадресация</td>
                     <td>
+                        <a href="/redirecteddistrictspage/@period/@Year" class="btn btn-outline-dark">Смотреть</a>
+                        @*
                         @if (isDepartment)
                         {
                             <a href="/redirecteddistrictspage/@period/@Year" class="btn btn-outline-dark">Смотреть</a>
@@ -65,8 +73,8 @@ else
                         else
                         {
                             <a href="/redirectedappealregistry/@period/@Year" class="btn btn-outline-dark">Смотреть</a>
-                        }
-@*                        <a href="/deleteredirectedappeal/@period/@Year" class="btn btn-outline-danger">Удалить</a>*@
+                        }*@
+                        @*                        <a href="/deleteredirectedappeal/@period/@Year" class="btn btn-outline-danger">Удалить</a>*@
                     </td>
                 </tr>
             }
@@ -83,32 +91,28 @@ else
 
     private string period;
 
-    private bool isDisabled = true;
-
-    private bool isDepartment = true;
-
-    private void EnableNav() //KeyboardEventArgs eventArgs
-    {
-        if (!String.IsNullOrWhiteSpace(period))
-        {
-            isDisabled = false;
-        }
-        //if (eventArgs.Key == "Enter")
-        //{
-        //    isDisabled = false;
-        //}
-    }
+    //private bool isDisabled = true;
+    //private bool isDepartment = true;
+    [CascadingParameter] //check
+    private Task<AuthenticationState> authenticationState { get; set; }
+    // private UserAccount DistrictAccount = new();
+    private AuthenticationState userState;
 
     private List<string> periodsList = new();
 
     protected override async Task OnInitializedAsync()
     {
-        //appealsList = new List<DistrictRegisterModel>(){
-        //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")},
-        //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")},
-        //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")}
-        //};
-        periodsList = (await RedirectedAppealDataService.GetRedirectedAppealPeriods("Az", Year)).ToList();
+        userState = await authenticationState;
+        var districtName = userState.User.Identity.Name;
+
+        if (userState.User.IsInRole(Participants.District))  //)    //!string.IsNullOrWhiteSpace(districtName))
+        {
+            periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsByDistrict(districtName, Year)).ToList();  //"Az"
+        }
+        else
+        {
+            periodsList = (await RedirectedAppealDataService.GetAllRedirectedPeriods(Year)).ToList();
+        }
 
         //await httpClient.GetFromJsonAsync<List<DistrictRegisterModel>>("api/redirectedappeal/{district}/{period}/{year}");
     }
@@ -116,6 +120,24 @@ else
     private void NavigateToAddPage()
     {
         navManager.NavigateTo($"/addredirectedappeal/{period}/{Year}");
-
     }
+
+
+    //appealsList = new List  DistrictRegisterModel>(){
+    //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")},
+    //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")},
+    //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")}
+    //};
+
+    //private void EnableNav() //KeyboardEventArgs eventArgs
+    //{
+    //    if (!String.IsNullOrWhiteSpace(period))
+    //    {
+    //        isDisabled = false;
+    //    }
+    //    //if (eventArgs.Key == "Enter")
+    //    //{
+    //    //    isDisabled = false;
+    //    //}
+    //}
 }

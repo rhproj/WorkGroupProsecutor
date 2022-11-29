@@ -11,15 +11,16 @@
                     <h4 class="card-title text-center text-primary">Переадресация</h4>
                     <p class="card-text">Реестры обращений, предполагаемых к переадресации в иные органы и ведомства</p>
                     <p class="card-text text-secondary fst-italic">дважды в месяц</p>
-@*                    <a href="#" class="btn btn-primary">Go somewhere</a>*@
-                    @if (isDepartment)
+@* <a href="#" class="btn btn-primary">Go somewhere</a>*@
+                    <a href="redirectedpage/@year" class="stretched-link"></a>
+@*                    @if (isDepartment)
                     {
-                        <a href="redirectedpage/@year" class="stretched-link"></a>
+                        <a href="redirectedpage/@Year" class="stretched-link"></a>
                     }
                     else
                     {
-                        <a href="redirectedpage/@year" class="stretched-link"></a>
-                    }
+                        <a href="redirectedpage/@Year" class="stretched-link"></a>
+                    }*@
                 </div>
             </div>
         </div>
@@ -50,16 +51,19 @@
     <div class="mb-3">
         <label class="form-label">Год:</label>
         <div class="col-md-4">
-            <input type="number" @bind-value=year/>
+            <input type="number" @bind-value=year />
         </div>
     </div>
 </div>
 
 
 @code{
-    private int year;
+    private int year; // instead to get to GrandChild:
+    //[CascadingParameter]
+    //public int Year { get; set; }
 
-    private bool isDepartment = true;
+
+    //private bool isDepartment = true;
 
     protected override void OnInitialized()
     {

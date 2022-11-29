@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace WorkGroupProsecutor.Shared.Models.Participants
 {
-    public enum District //OoO temporarily
+    public static class Participants
     {
-        Almetyevsk,
-        Zelenodolsk,
-        Mamadysh
+        public const string Department = "Department";
+        public const string District = "District";
     }
 }

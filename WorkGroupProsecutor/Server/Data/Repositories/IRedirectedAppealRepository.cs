@@ -10,11 +10,13 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
         ////Task<List<RedirectedAppealModel>> GetAllRedirectedAppeals();
         ///
         //Task<IEnumerable<RedirectedAppealModel>> GetAllRedirectedAppeals(string district, string period, int year);
+        Task<IEnumerable<string>> GetAllRedirectedPeriods(int year);
+
+        Task<IEnumerable<string>> GetRedirectedPeriodsByDistrict(string district, int year);
+        
         Task<IEnumerable<RedirectedAppealModelDTO>> GetAllRedirectedAppeals(string district, string period, int year);
 
-        Task<IEnumerable<string>> GetRedirectedAppealPeriods(string district, int year);
-
-        Task<IEnumerable<string>> GetRedirectedByDistricts(string period, int year);
+        Task<IEnumerable<string>> GetRedirectedAppelsByDistricts(string period, int year);
 
         Task<RedirectedAppealModelDTO> GetRedirectedAppealById(int id);
 

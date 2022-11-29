@@ -20,19 +20,28 @@ namespace WorkGroupProsecutor.Client.Services
         //    return await JsonSerializer.DeserializeAsync<IEnumerable<RedirectedAppealModel>>
         //        (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/{district}/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         //}
+
+        public async Task<IEnumerable<string>> GetAllRedirectedPeriods(int year)
+        {
+            return await JsonSerializer.DeserializeAsync<IEnumerable<string>>
+                (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/getPeriods/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+        }
+
+        public async Task<IEnumerable<string>> GetRedirectedPeriodsByDistrict(string district, int year)
+        {
+            return await JsonSerializer.DeserializeAsync<IEnumerable<string>>
+                (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/{district}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+        }
+
+
+
         public async Task<IEnumerable<RedirectedAppealModelDTO>> GetAllRedirectedAppeals(string district, string period, int year)
         {
             return await JsonSerializer.DeserializeAsync<IEnumerable<RedirectedAppealModelDTO>>
                 (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/{district}/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
-        public async Task<IEnumerable<string>> GetRedirectedAppealPeriods(string district, int year)
-        {
-            return await JsonSerializer.DeserializeAsync<IEnumerable<string>>
-                (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/{district}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-        }
-
-        public async Task<IEnumerable<string>> GetRedirectedByDistricts(string period, int year)
+        public async Task<IEnumerable<string>> GetRedirectedAppealsByDistricts(string period, int year)
         {
             return await JsonSerializer.DeserializeAsync<IEnumerable<string>>
                 (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });

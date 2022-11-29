@@ -13,48 +13,69 @@ namespace WorkGroupProsecutor.Server.Controllers
     public class RedirectedAppealController : ControllerBase
     {
         private readonly IRedirectedAppealRepository _appealRepository;
-        private readonly IDepartmentRepository _departmentRepository;
+        //private readonly IDepartmentRepository _departmentRepository; //OoO
 
-        public RedirectedAppealController(IRedirectedAppealRepository appealRepository, IDepartmentRepository departmentRepository)
+        public RedirectedAppealController(IRedirectedAppealRepository appealRepository) //, IDepartmentRepository departmentRepository)
         {
             _appealRepository = appealRepository;
-            _departmentRepository = departmentRepository;
+            //_departmentRepository = departmentRepository;
         }
 
-        // GET: api/<RedirectedAppealController>
-        //[HttpGet()]
-        //public async Task<IActionResult> Get()
-        //{
-        //    return Ok(await _appealRepository.GetAllRedirectedAppeals("Mamadysh", "17.10", 2022)); //"Mamadysh", "17.10", 2022));
-        //}
+        /// <summary>
+        /// Возвращает все отчетные периоды
+        /// </summary>
+        /// <param name="year">Отчетный год</param>
+        [HttpGet("getPeriods/{year}")]
+        public async Task<IActionResult> GetPeriods(int year)
+        {
+            return Ok(await _appealRepository.GetAllRedirectedPeriods(year));
+        }
 
+        /// <summary>
+        /// Возвращает все отчетные периоды, заполненные заданным районом
+        /// </summary>
+        /// <param name="district">Район (УЗ пользователя)</param>
+        /// <param name="year">Отчетный год</param>
+        [HttpGet("{district}/{year}")]
+        public async Task<IActionResult> Get(string district, int year)
+        {
+            return Ok(await _appealRepository.GetRedirectedPeriodsByDistrict(district, year));
+        }
 
+        /// <summary>
+        /// Возвращает все обращения района за отч.период, предполагаемые к переадресации в иные органы
+        /// </summary>
+        /// <param name="district">Район</param>
+        /// <param name="period">Отчетный период</param>
+        /// <param name="year">Отчетный год</param>
         [HttpGet("{district}/{period}/{year}")]
         public async Task<IActionResult> Get(string district, string period, int year)
         {
             return Ok(await _appealRepository.GetAllRedirectedAppeals(district, period, year));
         }
 
-        [HttpGet("{district}/{year}")]
-        public async Task<IActionResult> Get(string district, int year)
-        {
-            return Ok(await _appealRepository.GetRedirectedAppealPeriods(district, year));
-        }
-
+        #region OoO
         [HttpGet("getByDistricts/{period}/{year}")]
-        public async Task<IActionResult> GetByDistricts(string period, int year)
+        public async Task<IActionResult> GetByDistricts(string period, int year) //OoO
         {
-            return Ok(await _appealRepository.GetRedirectedByDistricts(period, year));
-        }
+            return Ok(await _appealRepository.GetRedirectedAppelsByDistricts(period, year));
+        } 
+        #endregion
 
-        // GET api/<RedirectedAppealController>/5
+
+        /// <summary>
+        /// Возвращает обращение по заданному id
+        /// </summary>
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
             return Ok(await _appealRepository.GetRedirectedAppealById(id));
         }
 
-        // POST api/<RedirectedAppealController>
+        /// <summary>
+        /// Cоздает новое обращение
+        /// </summary>
+        /// <param name="appealDto">Модель обращения</param>
         [HttpPost]
         public async Task<IActionResult> Post(RedirectedAppealModelDTO appealDto)
         {
@@ -62,7 +83,10 @@ namespace WorkGroupProsecutor.Server.Controllers
             return Ok("Обращение добавлено");
         }
 
-        // PUT api/<RedirectedAppealController>/5
+        /// <summary>
+        /// Обновляет обращение
+        /// </summary>
+        /// <param name="appealDto">Модель обращения</param>
         [HttpPut]   //("{id}")]
         public async Task<IActionResult> Put(RedirectedAppealModelDTO appealDto)
         {
@@ -70,7 +94,9 @@ namespace WorkGroupProsecutor.Server.Controllers
             return Ok("Обращение обнавлено");
         }
 
-        // DELETE api/<RedirectedAppealController>/5
+        /// <summary>
+        /// Удаляет обращение по заданному id
+        /// </summary>
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
