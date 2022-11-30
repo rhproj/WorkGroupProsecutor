@@ -1,7 +1,14 @@
 ﻿@page "/"
+@*@page "/index"*@
 
 <PageTitle>Index</PageTitle>
 <h1 class="text-center">Рабочая группа по обращениям</h1>
+
+<AuthorizeView>
+    <Authorized>
+        <h2 class="float-end">@context.User.Identity.Name!</h2>
+    </Authorized>
+</AuthorizeView>
 
 <div class="container mt-5">
     <div class="row">

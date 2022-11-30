@@ -44,7 +44,7 @@ namespace WorkGroupProsecutor.Client.Services
         public async Task<IEnumerable<string>> GetRedirectedAppealsByDistricts(string period, int year)
         {
             return await JsonSerializer.DeserializeAsync<IEnumerable<string>>
-                (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+                (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/getByDistricts/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
         public async Task AddRedirectedAppeal(RedirectedAppealModelDTO appeal)

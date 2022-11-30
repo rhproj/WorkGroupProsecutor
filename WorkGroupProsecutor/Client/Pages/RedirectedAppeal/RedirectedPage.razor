@@ -4,30 +4,31 @@
 
 <h2 class="text-center mb-5">Реестры обращений, предполагаемых к переадресации в иные органы и ведомства</h2>
 <h3 class="float-end">@userState.User.Identity.Name</h3>
-<AuthorizeView Roles="Administrator,District">
+<AuthorizeView Roles=@Participants.District>
     <Authorized>
         <div class="row mb-2">
             <div class="col-md-6">
                 @*        <a href="/addredirectedappeal/@period/@Year" class="btn btn-outline-primary" role="button">
                 <p class="h4 pt-2">Создать</p>                               v disabled=@isDisabled v
                 </a>*@
-                <button class="btn btn-primary" @onclick="NavigateToAddPage">
+                <button class="btn btn-primary" @onclick="NavigateToAddPage" disabled=@isDisabled>
                     Создать запись
                 </button>
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="mb-3">
+                <label class="form-label">Период:</label>
+                <div class="col-md-4">
+                    <input type="number" @bind-value=period @bind-value:event="oninput" @onkeyup="EnableNav" />
+                </div>
             </div>
         </div>
     </Authorized>
 </AuthorizeView>
 
 
-@*<div class="row mt-5">
-    <div class="mb-3">
-        <label class="form-label">Период:</label>
-        <div class="col-md-4">
-            <input type="number" @bind-value=period @bind-value:event="oninput" @onkeyup="EnableNav"/>
-        </div>
-    </div>
-</div>*@
+
 
 @if (periodsList.Count == 0)
 {
@@ -59,12 +60,22 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var period in periodsList)
+            @foreach (var p in periodsList)
             {
                 <tr>
-                    <td class="h4">@period Переадресация</td>
+                    <td class="h4">@p Переадресация</td>
                     <td>
-                        <a href="/redirecteddistrictspage/@period/@Year" class="btn btn-outline-dark">Смотреть</a>
+                        @if (userState.User.IsInRole(Participants.District))
+                        {
+                            <a href="/redirectedappealregistry/@p/@Year" class="btn btn-outline-dark">Смотреть</a>
+                        }
+                        else
+                        {
+                            <a href="/redirecteddistrictspage/@p/@Year" class="btn btn-outline-dark">Смотреть</a>
+                        }
+                        
+                        
+                        
                         @*
                         @if (isDepartment)
                         {
@@ -91,7 +102,7 @@ else
 
     private string period;
 
-    //private bool isDisabled = true;
+    private bool isDisabled = true;
     //private bool isDepartment = true;
     [CascadingParameter] //check
     private Task<AuthenticationState> authenticationState { get; set; }
@@ -122,22 +133,15 @@ else
         navManager.NavigateTo($"/addredirectedappeal/{period}/{Year}");
     }
 
-
-    //appealsList = new List  DistrictRegisterModel>(){
-    //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")},
-    //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")},
-    //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")}
-    //};
-
-    //private void EnableNav() //KeyboardEventArgs eventArgs
-    //{
-    //    if (!String.IsNullOrWhiteSpace(period))
-    //    {
-    //        isDisabled = false;
-    //    }
-    //    //if (eventArgs.Key == "Enter")
-    //    //{
-    //    //    isDisabled = false;
-    //    //}
-    //}
+    private void EnableNav() //KeyboardEventArgs eventArgs
+    {
+        if (!String.IsNullOrWhiteSpace(period))
+        {
+            isDisabled = false;
+        }
+        //if (eventArgs.Key == "Enter")
+        //{
+        //    isDisabled = false;
+        //}
+    }
 }

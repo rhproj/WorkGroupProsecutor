@@ -9,8 +9,8 @@
   </p><br/>
 </div>
 <div class="container mt-5">
-  <h5 class="text-center my-3">Реестр обращений, предполагаемых к переадресации в иные органы и ведомства</h5>            
-  <h4 class="text-center my-3">{#Нижнекамская городская прокуратура} на @Period @Year года</h4>
+  <h5 class="text-center my-3">Реестр обращений, предполагаемых к переадресации в иные органы и ведомства</h5>
+    <h4 class="text-center my-3">{#@districtName} на @Period @Year года</h4>
 
 @*    @foreach (var appeal in appealsList)
     {
@@ -119,12 +119,23 @@
     [Parameter]
     public int Year { get; set; }
 
+    private string districtName;
+
+    [CascadingParameter]
+    private Task<AuthenticationState> authenticationState { get; set; }
+
     private List<RedirectedAppealModelDTO> appealsList = new();
 
 
     protected override async Task OnInitializedAsync()
     {
-        appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals("Az", Period, Year)).ToList();
+        var userState = await authenticationState;
+        if (userState != null)
+        {
+            districtName = userState.User.Identity.Name;
+        }
+
+        appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals(districtName, Period, Year)).ToList();
         //await httpClient.GetFromJsonAsync<List<RedirectedAppealModel>>($"api/redirectedappeal/{"Apastovo"}/{Period}/{2022}");  //{district}/{period}/{year}
     }
 }

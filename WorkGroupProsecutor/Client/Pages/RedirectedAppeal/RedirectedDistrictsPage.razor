@@ -2,7 +2,7 @@
 
 <div class="container mt-5">
   <h5 class="text-center my-3">Реестр обращений, предполагаемых к переадресации в иные органы и ведомства</h5>            
-  <h4 class="text-center my-3">на @Period @Year года</h4>
+  <h4 class="text-center my-3">По районам на @Period @Year года</h4>
 </div>
 
 <table class="table table-striped align-middle text-center">
@@ -13,13 +13,13 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var period in districtsList)
+        @foreach (var district in districtsList)
         {
             <tr>
-                <td class="h4">@period Переадресация</td>
+                <td class="h4">@district Переадресация</td>
                 <td>
-                    <a href="/redirectedappealregistry/@period/@Year" class="btn btn-outline-dark">Смотреть</a>
-                </td>
+@*                    <a href="/redirectedappealregistry/@period/@Year" class="btn btn-outline-dark">Смотреть</a>
+*@                </td>
             </tr>
         }
     </tbody>
@@ -39,13 +39,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        //appealsList = new List<DistrictRegisterModel>(){
-        //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")},
-        //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")},
-        //    new DistrictRegisterModel{ DateInfo = DateTime.Now.ToString("dd.MM.yyyy")}
-        //};
         districtsList = (await RedirectedAppealDataService.GetRedirectedAppealsByDistricts(Period, Year)).ToList();
-
         //await httpClient.GetFromJsonAsync<List<DistrictRegisterModel>>("api/redirectedappeal/{district}/{period}/{year}");
     }
 

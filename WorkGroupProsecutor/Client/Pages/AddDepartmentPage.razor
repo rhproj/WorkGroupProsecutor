@@ -1,4 +1,5 @@
 ﻿@page "/adddepartment"
+@attribute [Authorize(Roles = "Administrator")]
 @using WorkGroupProsecutor.Shared.Models.Participants;
 
 @*@using BlazorWADevPortal.Shared.Models*@

@@ -1,4 +1,5 @@
-﻿@page "/login"
+﻿@*@page "/"*@
+@page "/login"
 
 @inject HttpClient httpClient
 @inject IJSRuntime js
@@ -7,16 +8,16 @@
 
 <div class="row">
     <div class="col-lg-4 offset-lg-4 pt-4 pb-4 border">
-        <div class="mb-3 text-center">
+        <div class="mb-5 text-center">
             <h3>ВХОД</h3>
         </div>
         <div class="mb-3">
             <h3>Имя пользователя</h3>
-            <input @bind="loginRequest.UserName" class="form-control" placeholder="User Name" />
+            <input @bind="loginRequest.UserName" class="form-control" placeholder="Логин" />
         </div>
-        <div class="mb-3">
+        <div class="mb-5 mt-3">
             <h3>Пароль</h3>
-            <input @bind="loginRequest.Password" type="password" class="form-control" placeholder="Password" />
+            <input @bind="loginRequest.Password" type="password" class="form-control" placeholder="Пароль" />
         </div>
         <div class="mb-3 d-grid gap-2">
             <button @onclick="Authenticate" class="btn btn-primary">Войти</button>
@@ -36,7 +37,7 @@
             var userSession = await loginResponse.Content.ReadFromJsonAsync<UserSession>();
             var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
             await customAuthStateProvider.UpdateAuthenticationState(userSession);
-            navManager.NavigateTo("/", true); //go Home
+            navManager.NavigateTo("/", true); //"/index" go Home
         }
         else if (loginResponse.StatusCode == HttpStatusCode.Unauthorized)
         {
