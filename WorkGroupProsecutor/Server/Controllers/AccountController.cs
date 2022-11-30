@@ -18,7 +18,7 @@ namespace WorkGroupProsecutor.Server.Controllers
 
         [HttpPost]
         [Route("Login")]
-        [AllowAnonymous]
+        [AllowAnonymous] //IActionResult vv
         public async Task<ActionResult<UserSession>> Login([FromBody] LoginRequest loginRequest)
         {
             var jwtAuthManager = new JwtAuthenticationManager(_userAccountService);
@@ -29,5 +29,17 @@ namespace WorkGroupProsecutor.Server.Controllers
             else
                 return userSession;
         }
+
+
+        [HttpGet("getUserDescription/{userName}")]
+        public async Task<IActionResult> GetUserDescription(string userName)
+        {
+            return Ok(await _userAccountService.GetUserDescriptionByUserName(userName));
+        }
+
+       //[HttpGet("getByDistricts/{period}")]
+       // public async Task<IActionResult> Get(int id)
+       // {
+       //     return Ok(await _appealRepository.GetRedirectedAppealById(id));
     }
 }

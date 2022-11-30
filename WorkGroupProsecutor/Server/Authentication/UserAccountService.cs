@@ -12,10 +12,15 @@ namespace WorkGroupProsecutor.Server.Authentication
             _dbContext = dbContext;
         }
 
-        public async Task<UserAccount?> GetUserAccountByUserName(string name)
+        public async Task<UserAccount> GetUserAccountByUserName(string name)
         {
             return await _dbContext.UserAccount.FirstOrDefaultAsync(x => x.UserName == name);
         }
 
+        public async Task<string> GetUserDescriptionByUserName(string name)
+        {
+            var user = await _dbContext.UserAccount.FirstOrDefaultAsync(x => x.UserName == name);
+            return user.Role;
+        }
     }
 }

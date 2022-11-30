@@ -28,8 +28,6 @@
 </AuthorizeView>
 
 
-
-
 @if (periodsList.Count == 0)
 {
 @*    <p>Загружается...</p>*@
@@ -95,12 +93,16 @@ else
 
 @code {
     [Inject]
+    public IUserService? UserService { get; set; }
+    [Inject]
     public IRedirectedAppealDataService? RedirectedAppealDataService { get; set; }
 
     [Parameter]
     public int Year { get; set; }
 
     private string period;
+
+    private string userDescription;
 
     private bool isDisabled = true;
     //private bool isDepartment = true;
@@ -114,7 +116,10 @@ else
     protected override async Task OnInitializedAsync()
     {
         userState = await authenticationState;
+
         var districtName = userState.User.Identity.Name;
+
+        userDescription = await UserService.GetUserDescription(districtName);
 
         if (userState.User.IsInRole(Participants.District))  //)    //!string.IsNullOrWhiteSpace(districtName))
         {

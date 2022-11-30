@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WorkGroupProsecutor.Server.Authentication;
+using WorkGroupProsecutor.Client.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,6 +44,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IAppealRegisterRepository, AppealRegisterRepository>(); //to delete
 builder.Services.AddScoped<IRedirectedAppealRepository, RedirectedAppealRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
+//builder.Services.AddScoped<IUserAccountRepository, UserAccountRepository>();
 
 var app = builder.Build();
 
