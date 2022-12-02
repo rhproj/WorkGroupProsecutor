@@ -1,0 +1,87 @@
+﻿@page "/redirectedappealassessment/{District}/{Period}/{Year:int}"
+
+<div class="container mt-5">
+<h5 class="text-center my-3">Реестр обращений, предполагаемых к переадресации в иные органы и ведомства</h5>
+<h4 class="text-center my-3">@districtDescription на @Period @Year года</h4>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr class="text-center align-middle">
+        <th style="width: 2.5%">№</th>
+        <th style="width: 10%">Регистрационный номер в системе Надзор-WEB</th>
+        <th style="width: 15%">ФИО заявителя</th>
+        <th style="width: 2.5%">Характер обращения*</th>
+        <th style="width: 30%">Орган, в который предполагается переадресовать обращение</th>
+        <th style="width: 30%">Основание переадресации</th>
+        <th style="width: 10%">Оценка возможности переадресации**</th>
+@*        <th>Примечание</th>*@
+      </tr>
+    </thead>
+    <tbody class="text-center align-middle">
+      <tr>
+        <td>1.</td>
+        <td>ВО-1242-22</td>
+        <td>ООО МФК ОТП Финанс</td>
+        <td>7</td>
+        <td>ГУФССП РФ по РТ </td>
+        <td>Обращение содержит доводы о бездействии судебного приставов при взыскании задолженности в пользу 
+          микрофинансовой организации</td>
+                <td> Да с контролем </td>
+      </tr>
+            @foreach (var appeal in appealsList)
+      {
+          <tr>
+              <td>@appeal.Id</td> <!--swap with counter-->
+              <td>@appeal.RegistrationNumber</td>
+              <td>@appeal.ApplicantFullName</td>
+              <td>@appeal.DepartmentId</td>
+              <td>@appeal.RecipientAgency</td>
+              <td>@appeal.DecisionBasis</td>
+              @if (!UserState.User.IsInRole(Participants.Department))
+              {
+                <td>@appeal.DepartmentAssessment</td>
+              }
+              else
+              {
+                <td>
+                     <a href="/estimateredirectedappeal/@appeal.Id" class="btn btn-outline-dark">Оц</a>: @appeal.DepartmentAssessment
+                </td>
+@*                <td>
+                    <a href="/deleteredirectedappeal/@appeal.Id" class="btn btn-outline-dark">Удалить</a>
+                </td>  *@           
+              }
+
+          </tr>
+      }
+    </tbody>
+  </table>
+ </div>
+
+<RedirectedAppealCommentsComponent />
+
+@code {
+    [Inject]
+    public IUserService UserService { get; set; }
+    [Inject]
+    public IRedirectedAppealDataService? RedirectedAppealDataService { get; set; }
+    [CascadingParameter(Name = "UserState")]
+    public AuthenticationState UserState { get; set; }
+
+    [Parameter]
+    public string District { get; set; }
+    [Parameter]
+    public string Period { get; set; }
+    [Parameter]
+    public int Year { get; set; }
+
+    private string districtDescription;
+
+    private List<RedirectedAppealModelDTO> appealsList = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        districtDescription = await UserService.GetUserDescription(District);
+
+        appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals(District, Period, Year)).ToList(); //districtName
+    }
+}

@@ -10,7 +10,7 @@ namespace WorkGroupProsecutor.Client.Authentication
     {
         private readonly ILocalStorageService _localStorage;
         private ClaimsPrincipal _anonymous = new ClaimsPrincipal(new ClaimsIdentity());
-        private const int SESSION_VALIDITY_MINS = 5; //#%$
+        //private const int SESSION_VALIDITY_MINS = 5; //#%$
 
         public CustomAuthenticationStateProvider(ILocalStorageService localStorage)
         {
@@ -21,7 +21,6 @@ namespace WorkGroupProsecutor.Client.Authentication
         {
             try
             {
-                //await Task.Delay(5000);
                 var userSession = await _localStorage.GetItemAsync<UserSession>("UserSession");
                 if (userSession == null)
                     return await Task.FromResult(new AuthenticationState(_anonymous));
@@ -53,7 +52,7 @@ namespace WorkGroupProsecutor.Client.Authentication
 
             if (userSession != null)
             {
-                userSession.ExpiryTimeStamp = DateTime.Now.AddMinutes(SESSION_VALIDITY_MINS);
+                userSession.ExpiryTimeStamp = DateTime.Now.AddYears(1); //AddMinutes(SESSION_VALIDITY_MINS);
                 await _localStorage.SetItemAsync("UserSession", userSession);
                 claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
                 {

@@ -11,7 +11,7 @@
 @*            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>*@
             <AuthorizeView>
                 <Authorized>
-                    <h4>@userDescription</h4>
+                    <h4>@UserDescription</h4>
                     <a @onclick="Logout" href="javascript:void(0)">Выйtи</a>
                 </Authorized>
                 <NotAuthorized>
@@ -21,9 +21,11 @@
         </div>
 
         <article class="content px-4">
-            <CascadingValue Value="userState">
-                <CascadingValue Value="districtName">
-                    @Body
+            <CascadingValue Name="UserState" Value="UserState">
+                <CascadingValue Name="DistrictName" Value="DistrictName">
+                    <CascadingValue Name="UserDescription" Value="UserDescription">
+                        @Body
+                    </CascadingValue>
                 </CascadingValue>
             </CascadingValue>
         </article>
@@ -35,22 +37,22 @@
     public IUserService? UserService { get; set; }
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
-    private string userDescription;
     
     //%// 
-    public AuthenticationState userState { get; set; }
-    public string districtName { get; set; }
+    public AuthenticationState UserState { get; set; }
+    public string DistrictName { get; set; }
+    public string UserDescription { get; set; } //private string userDescription;
     //%//
 
 
     protected override async Task OnInitializedAsync() //On Parameters set
     {
-        userState = await authenticationState;
-        districtName = userState.User.Identity.Name;
+        UserState = await authenticationState;
+        DistrictName = UserState.User.Identity.Name;
 
-        if (!string.IsNullOrEmpty(districtName))
+        if (!string.IsNullOrEmpty(DistrictName))
         {
-            userDescription = await UserService.GetUserDescription(districtName);
+            UserDescription = await UserService.GetUserDescription(DistrictName);
         }
     }
 

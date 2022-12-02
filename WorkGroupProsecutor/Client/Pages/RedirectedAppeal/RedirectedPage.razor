@@ -71,21 +71,20 @@ else
     public IUserService? UserService { get; set; }
     [Inject]
     public IRedirectedAppealDataService? RedirectedAppealDataService { get; set; }
+    //%//
+    [CascadingParameter(Name = "UserState")]
+    public AuthenticationState UserState { get; set; }
+    [CascadingParameter(Name = "DistrictName")]
+    public string DistrictName { get; set; }
+    //%//
 
     [Parameter]
     public int Year { get; set; }
 
     private string period;
     private bool isDisabled = true;
-
-    //%//
-    [CascadingParameter]
-    public AuthenticationState UserState { get; set; }
-    [CascadingParameter]
-    public string DistrictName { get; set; }
-    //%//
-
     private List<string> periodsList = new();
+
 
     protected override async Task OnInitializedAsync()
     {

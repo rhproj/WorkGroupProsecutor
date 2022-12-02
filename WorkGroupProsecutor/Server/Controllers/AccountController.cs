@@ -34,6 +34,10 @@ namespace WorkGroupProsecutor.Server.Controllers
         [HttpGet("getUserDescription/{userName}")]
         public async Task<IActionResult> GetUserDescription(string userName)
         {
+            if (string.IsNullOrEmpty(userName))
+            {
+                return BadRequest();
+            }
             return Ok(await _userAccountService.GetUserDescriptionByUserName(userName));  //userAccount.UserDescription);
         }
 

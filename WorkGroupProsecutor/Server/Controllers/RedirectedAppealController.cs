@@ -54,7 +54,13 @@ namespace WorkGroupProsecutor.Server.Controllers
             return Ok(await _appealRepository.GetAllRedirectedAppeals(district, period, year));
         }
 
-        #region OoO
+        #region for Dep-ts and w/o auth-n
+        /// <summary>
+        /// Cписок районнов имеющих обращения в указанный период
+        /// </summary>
+        /// <param name="period">Отчетный период</param>
+        /// <param name="year">Отчетный год</param>
+        /// <returns></returns>
         [HttpGet("getByDistricts/{period}/{year}")]
         public async Task<IActionResult> GetByDistricts(string period, int year) //OoO
         {
