@@ -28,7 +28,7 @@ namespace WorkGroupProsecutor.Client.Authentication
                 {
                     new Claim(ClaimTypes.Name, userSession.UserName),
                     new Claim(ClaimTypes.Role, userSession.Role)
-                }, "JwtAuth")); //JwtAuth - !важно! стринг предоставленный типу аутентификации, без него юзер будет анонимным
+                }, "JwtAuth")); //authentication type string value
 
                 return await Task.FromResult(new AuthenticationState(claimsPrincipal));
             }
@@ -37,11 +37,11 @@ namespace WorkGroupProsecutor.Client.Authentication
                 return await Task.FromResult(new AuthenticationState(_anonymous));
             }
         }
-        //когда происходит вход/выход метод кот-й апдэйтит SessionStorage(сессию) & notify bzr about auth.state change:
+
         public async Task UpdateAuthenticationState(UserSession? userSession) //при логауте этот парам-р будет null
         {
             ClaimsPrincipal claimsPrincipal;
-            if (userSession != null) //означает юзер пыт-ся войти
+            if (userSession != null)
             {
                 claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
                 {
@@ -56,7 +56,7 @@ namespace WorkGroupProsecutor.Client.Authentication
                 claimsPrincipal = _anonymous;
                 await _sessionStorage.RemoveItemAsync("UserSession");
             }
-            //notify Bzr about auth state change:
+            //notify Bzr about auth state change (part of auth-n state provider):
             NotifyAuthenticationStateChanged(Task.FromResult(new AuthenticationState(claimsPrincipal)));
         }
 

@@ -11,9 +11,6 @@
     <Authorized>
         <div class="row mb-2">
             <div class="col-md-6">
-                @*        <a href="/addredirectedappeal/@period/@Year" class="btn btn-outline-primary" role="button">
-                <p class="h4 pt-2">Создать</p>                               v disabled=@isDisabled v
-                </a>*@
                 <button class="btn btn-primary" @onclick="NavigateToAddPage" disabled=@isDisabled>
                     Создать запись
                 </button>
@@ -37,18 +34,6 @@
 }
 else
 {
-    @*  <ul class="text-center list-unstyled">
-      @foreach (var appeal in appealsList)
-      {
-          <li>
-              @appeal.DateInfo  Переадресация  
-              <a href="/updateappeal/@appeal.Id" class="btn btn-outline-dark">Смотреть</a>
-              <a href="/deleteappeal/@appeal.Id" class="btn btn-outline-danger">Удалить</a>
-              <hr />
-          </li>
-      }
-    </ul>
-    <hr />*@
     <div class="modal-header">
         <h3>Данные за @Year год</h3>
     </div>
@@ -66,27 +51,14 @@ else
                 <tr>
                     <td class="h4">@p Переадресация</td>
                     <td>
-                        @if (userState.User.IsInRole(Participants.District))
+                        @if (UserState.User.IsInRole(Participants.District))
                         {
                             <a href="/redirectedappealregistry/@p/@Year" class="btn btn-outline-dark">Смотреть</a>
                         }
                         else
                         {
                             <a href="/redirecteddistrictspage/@p/@Year" class="btn btn-outline-dark">Смотреть</a>
-                        }
-                        
-                        
-                        
-                        @*
-                        @if (isDepartment)
-                        {
-                            <a href="/redirecteddistrictspage/@period/@Year" class="btn btn-outline-dark">Смотреть</a>
-                        }
-                        else
-                        {
-                            <a href="/redirectedappealregistry/@period/@Year" class="btn btn-outline-dark">Смотреть</a>
-                        }*@
-                        @*                        <a href="/deleteredirectedappeal/@period/@Year" class="btn btn-outline-danger">Удалить</a>*@
+                        }                                                                    
                     </td>
                 </tr>
             }
@@ -104,53 +76,27 @@ else
     public int Year { get; set; }
 
     private string period;
-
-    //private string userDescription;
-
     private bool isDisabled = true;
-    //private bool isDepartment = true;
-    //[CascadingParameter] //check
-    //private Task<AuthenticationState> authenticationState { get; set; }
-    //// private UserAccount DistrictAccount = new();
-    //private AuthenticationState userState;
 
     //%//
     [CascadingParameter]
-    public AuthenticationState userState { get; set; }
+    public AuthenticationState UserState { get; set; }
     [CascadingParameter]
-    public string districtName { get; set; }
+    public string DistrictName { get; set; }
     //%//
 
     private List<string> periodsList = new();
 
     protected override async Task OnInitializedAsync()
     {
-        //userState = await authenticationState;
-        districtName = userState.User.Identity.Name; //var
-
-        //if (string.IsNullOrEmpty(districtName))
-        //{
-        //    periodsList = (await RedirectedAppealDataService.GetAllRedirectedPeriods(Year)).ToList();
-        //}
-        //else
-        //{
-        //    userDescription = await UserService.GetUserDescription(districtName);
-
-        //    if (userState.User.IsInRole(Participants.District))  //)    //!string.IsNullOrWhiteSpace(districtName))
-        //    {
-        //        periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsByDistrict(districtName, Year)).ToList();  //"Az"
-        //    }
-        //}
-
-        if (userState.User.IsInRole(Participants.District))
+        if (UserState.User.IsInRole(Participants.District))
         {
-            periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsByDistrict(districtName, Year)).ToList();  //"Az"
+            periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsByDistrict(DistrictName, Year)).ToList();  //"Az"
         }
         else
         {
             periodsList = (await RedirectedAppealDataService.GetAllRedirectedPeriods(Year)).ToList();
         }
-        //await httpClient.GetFromJsonAsync<List<DistrictRegisterModel>>("api/redirectedappeal/{district}/{period}/{year}");
     }
 
     private void NavigateToAddPage()

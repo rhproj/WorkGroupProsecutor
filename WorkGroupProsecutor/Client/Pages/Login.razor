@@ -1,5 +1,4 @@
-﻿@*@page "/"*@
-@page "/login"
+﻿@page "/login"
 
 @inject HttpClient httpClient
 @inject IJSRuntime js
@@ -32,7 +31,6 @@
 
     private async Task Authenticate()
     {
-        //
         var loginResponse = await UserService.AuthenticateUser(loginRequest);    //await httpClient.PostAsJsonAsync<LoginRequest>("/api/Account/Login", loginRequest);
 
         if (loginResponse.IsSuccessStatusCode)

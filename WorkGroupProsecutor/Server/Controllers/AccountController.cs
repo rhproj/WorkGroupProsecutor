@@ -34,19 +34,8 @@ namespace WorkGroupProsecutor.Server.Controllers
         [HttpGet("getUserDescription/{userName}")]
         public async Task<IActionResult> GetUserDescription(string userName)
         {
-            //return Ok(await _userAccountService.GetUserDescriptionByUserName(userName));
-            //return Ok((await _userAccountService.GetUserAccountByUserName(userName)).UserDescription);
-
-            var userAccount = await _userAccountService.GetUserAccountByUserName(userName);
-            if (userAccount == null)
-                return null;
-
-            return Ok(userAccount.UserDescription);
+            return Ok(await _userAccountService.GetUserDescriptionByUserName(userName));  //userAccount.UserDescription);
         }
 
-       //[HttpGet("getByDistricts/{period}")]
-       // public async Task<IActionResult> Get(int id)
-       // {
-       //     return Ok(await _appealRepository.GetRedirectedAppealById(id));
     }
 }

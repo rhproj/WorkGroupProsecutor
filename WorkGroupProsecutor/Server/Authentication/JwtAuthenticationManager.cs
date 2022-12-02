@@ -9,7 +9,7 @@ namespace WorkGroupProsecutor.Server.Authentication
     public class JwtAuthenticationManager
     {
         public const string JWT_SECURITY_KEY = "eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2Vybm";
-        private const int JWT_TOKEN_VALIDITY_MINS = 20; //ТОКЕН БУДЕТ валиден токо 20 минут
+        private const int JWT_TOKEN_VALIDITY_MINS = 20;
         private UserAccountService _userAccountService;
 
         public JwtAuthenticationManager(UserAccountService uAservice)

@@ -1,15 +1,7 @@
 ﻿@page "/"
-@*@page "/index"*@
 
 <PageTitle>Index</PageTitle>
 <h1 class="text-center">Рабочая группа по обращениям</h1>
-
-<AuthorizeView>
-    <Authorized>
-@*        <h2 class="float-end">@context.User.Identity.Name!</h2>*@
-@*        <h2 class="float-end">@userDescription</h2>*@
-    </Authorized>
-</AuthorizeView>
 
 <div class="container mt-5">
     <div class="row">
@@ -19,16 +11,8 @@
                     <h4 class="card-title text-center text-primary">Переадресация</h4>
                     <p class="card-text">Реестры обращений, предполагаемых к переадресации в иные органы и ведомства</p>
                     <p class="card-text text-secondary fst-italic">дважды в месяц</p>
-@* <a href="#" class="btn btn-primary">Go somewhere</a>*@
+
                     <a href="redirectedpage/@year" class="stretched-link"></a>
-@*                    @if (isDepartment)
-                    {
-                        <a href="redirectedpage/@Year" class="stretched-link"></a>
-                    }
-                    else
-                    {
-                        <a href="redirectedpage/@Year" class="stretched-link"></a>
-                    }*@
                 </div>
             </div>
         </div>
@@ -66,29 +50,10 @@
 
 
 @code{
-    //[Inject]
-    //public IUserService? UserService { get; set; }
-    //[CascadingParameter] //check
-    //private Task<AuthenticationState> authenticationState { get; set; }
-    //private string userDescription;
-
-    private int year; // instead to get to GrandChild:
-                      //[CascadingParameter]
-                      //public int Year { get; set; }
-
-
-    //private bool isDepartment = true;
+    private int year; 
 
     protected override async Task OnInitializedAsync()
     {
         year = DateTime.Now.Year;
-
-        //var userState = await authenticationState;
-        //var districtName = userState.User.Identity.Name;
-
-        //if (!string.IsNullOrEmpty(districtName))
-        //{
-        //    userDescription = await UserService.GetUserDescription(districtName);
-        //}
     }
 }
