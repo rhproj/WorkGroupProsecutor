@@ -20,7 +20,7 @@ namespace WorkGroupProsecutor.Server.Authentication
         public async Task<string> GetUserDescriptionByUserName(string name)
         {
             var user = await _dbContext.UserAccount.FirstOrDefaultAsync(x => x.UserName == name);
-            return user.Role;
+            return user.UserDescription;
         }
     }
 }

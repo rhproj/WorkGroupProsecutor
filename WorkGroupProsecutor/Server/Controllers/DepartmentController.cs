@@ -12,7 +12,6 @@ namespace WorkGroupProsecutor.Server.Controllers
     public class DepartmentController : ControllerBase
     {
         private readonly IDepartmentRepository _repository;
-
         public DepartmentController(IDepartmentRepository repository)
         {
             _repository = repository;

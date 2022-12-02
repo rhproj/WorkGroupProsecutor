@@ -159,8 +159,9 @@
 
     public RedirectedAppealModelDTO appeal { get; set; } = new();
     private List<Department> departmentsList = new();
-    [Parameter]
-    public int MyProperty { get; set; }
+
+    [CascadingParameter]
+    public string districtName { get; set; }
 
     //protected override async Task OnInitializedAsync()
     //{
@@ -174,7 +175,7 @@
         {
             appeal.YearInfo = Year;
             appeal.PeriodInfo = Period;
-            appeal.District = "Az"; //swap with actual param
+            appeal.District = districtName; //"Az"; //swap with actual param
         }
         else
         {

@@ -22,8 +22,11 @@ namespace WorkGroupProsecutor.Client.Services
 
         public async Task<string> GetUserDescription(string userName)
         {
-            return await JsonSerializer.DeserializeAsync<string>
-                (await _httpClient.GetStreamAsync($"api/Account/getUserDescription/{userName}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+            var description = await _httpClient.GetStringAsync($"api/Account/getUserDescription/{userName}");
+
+            return description;
+            //return await JsonSerializer.DeserializeAsync<string>
+            //    (await _httpClient.GetStreamAsync($"api/Account/getUserDescription/{userName}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
         //public async Task<RedirectedAppealModelDTO> GetRedirectedAppealById(int id)

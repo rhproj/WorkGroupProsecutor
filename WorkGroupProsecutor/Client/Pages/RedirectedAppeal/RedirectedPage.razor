@@ -2,8 +2,11 @@
 @*@inject HttpClient httpClient
 @inject NavigationManager navManager*@
 
-<h2 class="text-center mb-5">Реестры обращений, предполагаемых к переадресации в иные органы и ведомства</h2>
-<h3 class="float-end">@userState.User.Identity.Name</h3>
+<div class="container mb-3">
+    <h2 class="text-center mb-5">Реестры обращений, предполагаемых к переадресации в иные органы и ведомства</h2>
+@*    <h3 class="float-end">@userDescription</h3>*@
+</div>
+
 <AuthorizeView Roles=@Participants.District>
     <Authorized>
         <div class="row mb-2">
@@ -102,26 +105,44 @@ else
 
     private string period;
 
-    private string userDescription;
+    //private string userDescription;
 
     private bool isDisabled = true;
     //private bool isDepartment = true;
-    [CascadingParameter] //check
-    private Task<AuthenticationState> authenticationState { get; set; }
-    // private UserAccount DistrictAccount = new();
-    private AuthenticationState userState;
+    //[CascadingParameter] //check
+    //private Task<AuthenticationState> authenticationState { get; set; }
+    //// private UserAccount DistrictAccount = new();
+    //private AuthenticationState userState;
+
+    //%//
+    [CascadingParameter]
+    public AuthenticationState userState { get; set; }
+    [CascadingParameter]
+    public string districtName { get; set; }
+    //%//
 
     private List<string> periodsList = new();
 
     protected override async Task OnInitializedAsync()
     {
-        userState = await authenticationState;
+        //userState = await authenticationState;
+        districtName = userState.User.Identity.Name; //var
 
-        var districtName = userState.User.Identity.Name;
+        //if (string.IsNullOrEmpty(districtName))
+        //{
+        //    periodsList = (await RedirectedAppealDataService.GetAllRedirectedPeriods(Year)).ToList();
+        //}
+        //else
+        //{
+        //    userDescription = await UserService.GetUserDescription(districtName);
 
-        userDescription = await UserService.GetUserDescription(districtName);
+        //    if (userState.User.IsInRole(Participants.District))  //)    //!string.IsNullOrWhiteSpace(districtName))
+        //    {
+        //        periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsByDistrict(districtName, Year)).ToList();  //"Az"
+        //    }
+        //}
 
-        if (userState.User.IsInRole(Participants.District))  //)    //!string.IsNullOrWhiteSpace(districtName))
+        if (userState.User.IsInRole(Participants.District))
         {
             periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsByDistrict(districtName, Year)).ToList();  //"Az"
         }
@@ -129,7 +150,6 @@ else
         {
             periodsList = (await RedirectedAppealDataService.GetAllRedirectedPeriods(Year)).ToList();
         }
-
         //await httpClient.GetFromJsonAsync<List<DistrictRegisterModel>>("api/redirectedappeal/{district}/{period}/{year}");
     }
 

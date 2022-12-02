@@ -6,7 +6,8 @@
 
 <AuthorizeView>
     <Authorized>
-        <h2 class="float-end">@context.User.Identity.Name!</h2>
+@*        <h2 class="float-end">@context.User.Identity.Name!</h2>*@
+@*        <h2 class="float-end">@userDescription</h2>*@
     </Authorized>
 </AuthorizeView>
 
@@ -65,15 +66,29 @@
 
 
 @code{
+    //[Inject]
+    //public IUserService? UserService { get; set; }
+    //[CascadingParameter] //check
+    //private Task<AuthenticationState> authenticationState { get; set; }
+    //private string userDescription;
+
     private int year; // instead to get to GrandChild:
-    //[CascadingParameter]
-    //public int Year { get; set; }
+                      //[CascadingParameter]
+                      //public int Year { get; set; }
 
 
     //private bool isDepartment = true;
 
-    protected override void OnInitialized()
+    protected override async Task OnInitializedAsync()
     {
         year = DateTime.Now.Year;
+
+        //var userState = await authenticationState;
+        //var districtName = userState.User.Identity.Name;
+
+        //if (!string.IsNullOrEmpty(districtName))
+        //{
+        //    userDescription = await UserService.GetUserDescription(districtName);
+        //}
     }
 }
