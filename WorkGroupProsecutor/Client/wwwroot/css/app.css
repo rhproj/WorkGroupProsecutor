@@ -72,3 +72,504 @@ a, .btn-link {
     box-shadow: 5px 6px 6px 2px #e9ecef;
     transform: scale(1.1);
 }
+
+.indexloader {
+    background-image: linear-gradient(180deg, rgb(0, 0, 103) 30%, #3a0647 130%);
+}
+
+/*#region SPINO */
+/* KEYFRAMES */
+@keyframes configure-clockwise {
+    0% {
+        transform: rotate(0);
+    }
+
+    25% {
+        transform: rotate(90deg);
+    }
+
+    50% {
+        transform: rotate(180deg);
+    }
+
+    75% {
+        transform: rotate(270deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes configure-xclockwise {
+    0% {
+        transform: rotate(45deg);
+    }
+
+    25% {
+        transform: rotate(-45deg);
+    }
+
+    50% {
+        transform: rotate(-135deg);
+    }
+
+    75% {
+        transform: rotate(-225deg);
+    }
+
+    100% {
+        transform: rotate(-315deg);
+    }
+}
+
+@keyframes pulse {
+    from {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    to {
+        opacity: .25;
+        transform: scale(.75);
+    }
+}
+
+/* GRID STYLING */
+
+* {
+    box-sizing: border-box;
+}
+
+/*body {
+    min-height: 100vh;
+    background-image: linear-gradient(180deg, rgb(0, 0, 90) 50%, #3a0647 130%);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    align-items: flex-start;
+}*/
+
+.spinner-box {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+}
+
+/* X-ROTATING BOXES */
+
+.configure-border-1 {
+    width: 215px;
+    height: 215px;
+    padding: 3px;
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: MintCream;
+    animation: configure-clockwise 3s ease-in-out 0s infinite alternate;
+}
+
+.configure-border-2 {
+    width: 215px;
+    height: 215px;
+    padding: 3px;
+    left: -115px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: purple;
+    transform: rotate(45deg);
+    animation: configure-xclockwise 3s ease-in-out 0s infinite alternate;
+}
+
+.configure-core {
+    width: 100%;
+    height: 100%;
+    background-color: rgb(0, 0, 90);
+}
+
+
+/*#endregion */
+
+
+/*#region FLIPPO */
+.cp-spinner {
+    width: 48px;
+    height: 48px;
+    display: inline-block;
+    box-sizing: border-box;
+    position: relative
+}
+
+.cp-flip {
+    transform-style: preserve-3d;
+    perspective: 10em
+}
+
+    .cp-flip:before {
+        width: 48px;
+        height: 48px;
+        display: inline-block;
+        box-sizing: border-box;
+        background: MidnightBlue;
+        content: " ";
+        position: absolute;
+        top: 0;
+        left: 0;
+        animation: cp-flip-animate-before 5s linear infinite
+    }
+
+@keyframes cp-flip-animate-before {
+    0% {
+        transform: rotateY(0) rotateX(0)
+    }
+
+    25% {
+        transform: rotateY(360deg) rotateX(0)
+    }
+
+    50% {
+        transform: rotateY(360deg) rotateX(360deg)
+    }
+
+    75% {
+        transform: rotateY(0) rotateX(360deg)
+    }
+
+    100% {
+        transform: rotateY(0) rotateX(0)
+    }
+}
+/*#endregion */
+/*#region PASSING BALL */
+.spinner {
+    position: absolute;
+    width: 80px;
+    height: 80px;
+    top: 50%;
+    left: 50%;
+}
+.blob {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    border: 2.5px solid black;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+.top{
+    top: 0;
+    animation: blob-top 3s infinite ease-in;
+}
+.bottom {
+    top: 100%;
+    animation: blob-bottom 3s infinite ease-in;
+}
+.left {
+    left: 0;
+    animation: blob-left 3s infinite ease-in;
+}
+.move-blob {
+    background: navy;
+    top: 0;
+    animation: blob-spinner-mover 3s infinite ease-in;
+}
+
+@keyframes blob-bottom {
+    25%, 50%, 75% {
+        top: 50%;
+        left: 100%;
+    }
+
+    100% {
+        top: 0;
+        left: 50%;
+    }
+}
+
+@keyframes blob-left {
+    25% {
+        top: 50%;
+        left: 0;
+    }
+
+    50%, 100% {
+        top: 100%;
+        left: 50%;
+    }
+}
+
+@keyframes blob-top {
+    50% {
+        top: 0;
+        left: 50%;
+    }
+
+    75%, 100% {
+        top: 50%;
+        left: 0;
+    }
+}
+
+@keyframes blob-spinner-mover {
+    0%, 100% {
+        top: 0;
+        left: 50%;
+    }
+
+    25% {
+        top: 50%;
+        left: 100%;
+    }
+
+    50% {
+        top: 100%;
+        left: 50%;
+    }
+
+    75% {
+        top: 50%;
+        left: 0;
+    }
+}
+/*#endregion */
+
+/*#region ROMBUS */
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    background: transparent;
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.loading-container {
+    width: 256px;
+    height: 256px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+
+.loading {
+    width: 64px;
+    height: 64px;
+    position: absolute;
+    top: 36%;
+    left: 36%;
+    transform: rotate(45deg);
+}
+
+    .loading div {
+        width: 32px;
+        height: 32px;
+        position: absolute;
+    }
+
+.l1 div, .l2 div, .l3 div, .l4 div {
+    width: 100%;
+    height: 100%;
+    background-color: #3498db;
+}
+
+.l1 {
+    transform: translate(0,0);
+}
+
+.l2 {
+    transform: translate(0,32px);
+}
+
+.l3 {
+    transform: translate(32px,0px);
+}
+
+.l4 {
+    transform: translate(32px,32px);
+}
+
+@keyframes rot1 {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    40% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(0deg);
+    }
+
+    60% {
+        transform: rotate(90deg);
+    }
+
+    100% {
+        transform: rotate(90deg);
+    }
+}
+
+@keyframes rot2 {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    40% {
+        transform: rotate(0deg);
+    }
+
+    50% {
+        transform: rotate(0deg);
+    }
+
+    60% {
+        transform: rotate(-90deg);
+    }
+
+    100% {
+        transform: rotate(-90deg);
+    }
+}
+
+@keyframes rot3 {
+    0% {
+        transform: rotate(45deg);
+    }
+
+    35% {
+        transform: rotate(45deg);
+    }
+
+    65% {
+        transform: rotate(405deg);
+    }
+
+    100% {
+        transform: rotate(405deg);
+    }
+}
+
+@keyframes l1-rise {
+    0% {
+        transform: translate(0px,0px);
+    }
+
+    30% {
+        transform: translate(-8px, -8px);
+    }
+
+    70% {
+        transform: translate(-8px, -8px);
+    }
+
+    100% {
+        transform: translate(0px, 0px);
+    }
+}
+
+@keyframes l2-rise {
+    0% {
+        transform: translate(0,32px);
+    }
+
+    30% {
+        transform: translate(-8px, 40px);
+    }
+
+    70% {
+        transform: translate(-8px, 40px);
+    }
+
+    100% {
+        transform: translate(0,32px);
+    }
+}
+
+@keyframes l3-rise {
+    0% {
+        transform: translate(32px, 0px);
+    }
+
+    30% {
+        transform: translate(40px, -8px);
+    }
+
+    70% {
+        transform: translate(40px, -8px);
+    }
+
+    100% {
+        transform: translate(32px, 0px);
+    }
+}
+
+@keyframes l4-rise {
+    0% {
+        transform: translate(32px,32px);
+    }
+
+    30% {
+        transform: translate(40px, 40px);
+    }
+
+    70% {
+        transform: translate(40px, 40px);
+    }
+
+    100% {
+        transform: translate(32px,32px);
+    }
+}
+
+@keyframes color {
+    0% {
+        background-color: #3498db;
+    }
+
+    50% {
+        background-color: #2980b9;
+    }
+
+    100% {
+        background-color: #3498db;
+    }
+}
+
+.l1 {
+    animation: l1-rise 3s ease 0s infinite;
+}
+
+.l2 {
+    animation: l2-rise 3s ease 0s infinite;
+}
+
+.l3 {
+    animation: l3-rise 3s ease 0s infinite;
+}
+
+.l4 {
+    animation: l4-rise 3s ease 0s infinite;
+}
+
+    .l1 div, .l4 div {
+        animation: rot1 3s ease 0s infinite, color 3s linear 0s infinite;
+    }
+
+.l2 div, .l3 div {
+    animation: rot2 3s ease 0s infinite, color 3s linear 0s infinite;
+}
+
+/*#endregion */

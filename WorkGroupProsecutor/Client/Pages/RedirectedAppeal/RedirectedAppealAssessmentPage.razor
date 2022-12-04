@@ -1,8 +1,8 @@
 ﻿@page "/redirectedappealassessment/{District}/{Period}/{Year:int}"
 
-<div class="container mt-5">
-<h5 class="text-center my-3">Реестр обращений, предполагаемых к переадресации в иные органы и ведомства</h5>
-<h4 class="text-center my-3">@districtDescription на @Period @Year года</h4>
+<div class="container m-1">
+<h3 class="text-center my-3">Реестр обращений, предполагаемых к переадресации в иные органы и ведомства</h3>
+<h3 class="text-center my-3">@districtDescription @Period @Year года</h3>
 
   <table class="table table-bordered">
     <thead>
@@ -57,7 +57,11 @@
   </table>
  </div>
 
-<RedirectedAppealCommentsComponent />
+<div class="container mt-1">
+    <RedirectedAppealCommentsComponent />
+</div>
+
+
 
 @code {
     [Inject]

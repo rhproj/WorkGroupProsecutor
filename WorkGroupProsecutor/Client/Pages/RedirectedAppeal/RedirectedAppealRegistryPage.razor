@@ -3,14 +3,14 @@
 @*@page "/testmaintable"*@
 @*@inject HttpClient httpClient*@
 
-<div class="container">
+<div class="container mb-5">
   <p class="float-end"> ПРИЛОЖЕНИЕ №4 <br/>к распоряжению прокурора Республики Татарстан 
   <br/>от 22.08.2021 №174/25р 
   </p><br/>
 </div>
-<div class="container mt-5">
-  <h5 class="text-center my-3">Реестр обращений, предполагаемых к переадресации в иные органы и ведомства</h5>
-    <h4 class="text-center my-3">на @Period @Year года</h4>
+<div class="container">
+  <h3 class="text-center my-3">Реестр обращений, предполагаемых к переадресации в иные органы и ведомства</h3>
+    <h3 class="text-center my-3">на @Period @Year год</h3>
 
 @*    @foreach (var appeal in appealsList)
     {

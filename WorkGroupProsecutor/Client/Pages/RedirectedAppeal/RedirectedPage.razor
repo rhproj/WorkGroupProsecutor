@@ -2,9 +2,10 @@
 @*@inject HttpClient httpClient
 @inject NavigationManager navManager*@
 
-<div class="container mb-3">
-    <h2 class="text-center mb-5">Реестры обращений, предполагаемых к переадресации в иные органы и ведомства</h2>
+<div class="container mt-1 mb-3 text-center">
+    <h2 >Реестры обращений, предполагаемых к переадресации в иные органы и ведомства</h2>
 @*    <h3 class="float-end">@userDescription</h3>*@
+    <h2>данные за @Year год</h2>
 </div>
 
 <AuthorizeView Roles=@Participants.District>
@@ -27,17 +28,46 @@
     </Authorized>
 </AuthorizeView>
 
-
-@if (periodsList.Count == 0)
+@if (periodsList == null)
 {
-@*    <p>Загружается...</p>*@
+@*    <div class="lds-grid"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+*@
+
+@*    <div class="loading-container">
+        <div class="loading">
+            <div class="l1">
+                <div></div>
+            </div>
+            <div class="l2">
+                <div></div>
+            </div>
+            <div class="l3">
+                <div></div>
+            </div>
+            <div class="l4">
+                <div></div>
+            </div>
+        </div>
+    </div>*@
+
+    <div class="cp-spinner-block">
+        <!--Spinner Flip Element-->
+        <div class="cp-spinner cp-flip"></div>
+        <!--//Spinner Flip Element-->
+        <!--Caption-->
+        <span>Загрузка...</span>
+        <!--//Caption-->
+        <!--Syntax-->
+@*        <pre>&lt;div class="cp-spinner cp-flip"&gt;&lt;/div&gt</pre>*@
+        <!--//Syntax-->
+    </div>
+}
+else if (periodsList.Count == 0)
+{
+     <h3>Отсутствую данные за заданный период</h3>    
 }
 else
 {
-    <div class="modal-header">
-        <h3>Данные за @Year год</h3>
-    </div>
-    <></>
     <table class="table table-striped align-middle text-center">
         <thead class="table-success">
             <tr>
@@ -58,13 +88,15 @@ else
                         else
                         {
                             <a href="/redirecteddistrictspage/@p/@Year" class="btn btn-outline-dark">Смотреть</a>
-                        }                                                                    
+                        }
                     </td>
                 </tr>
             }
         </tbody>
     </table>
 }
+
+
 
 @code {
     [Inject]
@@ -83,12 +115,14 @@ else
 
     private string period;
     private bool isDisabled = true;
-    private List<string> periodsList = new();
+    private List<string> periodsList;// = new();
 
+    private enum LoadingCollectionState {Loading, Loaded, Error};
+    private LoadingCollectionState state;
 
     protected override async Task OnInitializedAsync()
     {
-        if (UserState.User.IsInRole(Participants.District))
+        if (UserState!= null && UserState.User.IsInRole(Participants.District))
         {
             periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsByDistrict(DistrictName, Year)).ToList();  //"Az"
         }

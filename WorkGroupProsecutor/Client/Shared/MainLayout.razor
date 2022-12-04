@@ -12,10 +12,10 @@
             <AuthorizeView>
                 <Authorized>
                     <h4>@UserDescription</h4>
-                    <a @onclick="Logout" href="javascript:void(0)">Выйtи</a>
+                    <a @onclick="Logout" href="javascript:void(0)">Выйти</a>
                 </Authorized>
                 <NotAuthorized>
-                    <a href="/login">Войtи</a>
+                    <a href="/login">Войти</a>
                 </NotAuthorized>
             </AuthorizeView>
         </div>
@@ -34,21 +34,21 @@
 
 @code {
     [Inject]
-    public IUserService? UserService { get; set; }
+    public IUserService UserService { get; set; }
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
     
     //%// 
     public AuthenticationState UserState { get; set; }
-    public string DistrictName { get; set; }
-    public string UserDescription { get; set; } //private string userDescription;
+    public string? DistrictName { get; set; }
+    public string? UserDescription { get; set; } //private string userDescription;
     //%//
 
 
     protected override async Task OnInitializedAsync() //On Parameters set
     {
         UserState = await authenticationState;
-        DistrictName = UserState.User.Identity.Name;
+        DistrictName = UserState?.User.Identity.Name;
 
         if (!string.IsNullOrEmpty(DistrictName))
         {
