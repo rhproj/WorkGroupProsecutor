@@ -1,36 +1,37 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
-<h1 class="text-center">Рабочая группа по обращениям</h1>
+<PageTitle>Рабочая группа</PageTitle>
+@*<h1 class="text-center">Рабочая группа по обращениям</h1>*@
 
-<div class="container mt-5">
+<h1 class="display-4 text-center mt-3 mb-5">Рабочая группа по обращениям</h1>
+
+<div class="container">
     <div class="row">
         <div class="col">
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 25rem; height: 23rem;">
                 <div class="card-body">
-                    <h4 class="card-title text-center text-primary">Переадресация</h4>
-                    <p class="card-text">Реестры обращений, предполагаемых к переадресации в иные органы и ведомства</p>
+                    <h1 class="card-title text-center text-primary mt-2 mb-4">Переадресация</h1>
+                    <p class="card-text h5 mt-5">Реестры обращений, предполагаемых к переадресации в иные органы и ведомства</p>
                     <p class="card-text text-secondary fst-italic">дважды в месяц</p>
-
                     <a href="redirectedpage/@year" class="stretched-link"></a>
                 </div>
             </div>
         </div>
         <div class="col">
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 25rem; height: 23rem;">
                 <div class="card-body">
-                    <h4 class="card-title text-center text-success">Удовлетворено</h4>
-                    <p class="card-text">Реестры обращений, по которым приняты решения "Удовлетворено" и "Удовлетворено частично"</p>
+                    <h1 class="card-title text-center text-success mt-2 mb-4">Удовлетворено</h1>
+                    <p class="card-text h5 mt-5">Реестры обращений, по которым приняты решения "Удовлетворено" и "Удовлетворено частично"</p>
                     <p class="card-text text-secondary fst-italic">раз в квартал</p>
                     <a href="satisfiedpage/@year" class="stretched-link"></a>
                 </div>
             </div>
         </div>
         <div class="col">
-            <div class="card" style="width: 18rem;">
+            <div class="card" style="width: 25rem; height: 23rem;">
                 <div class="card-body">
-                    <h4 class="card-title text-center text-warning">Без разрешения</h4>
-                    <p class="card-text">Реестры обращений, по которым приняты решения "Оставлено без разрешения и (или) приобщено к НП"</p>
+                    <h1 class="card-title text-center text-warning mt-2 mb-4">Без разрешения</h1>
+                    <p class="card-text h5">Реестры обращений, по которым приняты решения "Оставлено без разрешения и (или) приобщено к НП"</p>
                     <p class="card-text text-secondary fst-italic">раз в квартал</p>
                     <a href="nosolutionpage/@year" class="stretched-link"></a>
                 </div>
