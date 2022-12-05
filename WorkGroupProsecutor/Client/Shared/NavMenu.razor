@@ -36,15 +36,9 @@
                 <span class="oi oi-list-rich" aria-hidden="true"></span>Управление отделами
             </NavLink>
         </div>*@
-@*        <div class="nav-item px-3">
-            <NavMenu class="navbar-text">
-                <p class="h3 text-white">Год:</p>
-            </NavMenu>
-        </div>*@
         <div class="container">
             <div class="nav-item px-3 d-flex flex-column">
                 <p class="h4 text-white mt-auto">Год: @yearSetter.YearInfo </p>
-@*                <input type="number" class="h4" @bind="Year" @bind:event="oninput" />*@
             </div>
         </div>
 
@@ -53,15 +47,6 @@
 
 @code {
     private bool collapseNavMenu = true;
-
-    //[Parameter]
-    //[CascadingParameter(Name = "YearSet")]
-    //public int Year { get; set; }
-
-    //protected override async Task OnParametersSetAsync()
-    //{
-    //    Year = DateTime.Now.Year;
-    //}
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 

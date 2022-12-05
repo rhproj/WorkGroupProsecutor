@@ -2,10 +2,10 @@
 @*@inject HttpClient httpClient
 @inject NavigationManager navManager*@
 
-<div class="container mt-1 mb-3 text-center">
+<div class="container mt-2 mb-4 text-center">
     <h2 >Реестры обращений, предполагаемых к переадресации в иные органы и ведомства</h2>
 @*    <h3 class="float-end">@userDescription</h3>*@
-    <h2>данные за @Year год</h2>
+    <h2>Данные за @Year год</h2>
 </div>
 
 <AuthorizeView Roles=@Participants.District>
@@ -68,32 +68,59 @@ else if (periodsList.Count == 0)
 }
 else
 {
+<div style="background-image: url('img/OL1000px.jpg'); height: 600px; background-repeat: no-repeat; background-position: center;">
+
     <table class="table table-striped align-middle text-center">
-        <thead class="table-success">
+        <thead class="table-primary">
             <tr>
-                <th class="h4">Дата</th>
+                <th class="h4"></th>
                 <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var p in periodsList)
             {
-                <tr>
-                    <td class="h4">@p Переадресация</td>
-                    <td>
-                        @if (UserState.User.IsInRole(Participants.District))
-                        {
-                            <a href="/redirectedappealregistry/@p/@Year" class="btn btn-outline-dark">Смотреть</a>
-                        }
-                        else
-                        {
-                            <a href="/redirecteddistrictspage/@p/@Year" class="btn btn-outline-dark">Смотреть</a>
-                        }
-                    </td>
+                <tr style="height:90px">
+                        <td class="h3">
+                            <div class="row">
+                                <div class="col-8 ">@p Переадресация</div>
+                                <div class="col-4 d-flex align-content-start">
+                                    @if (UserState.User.IsInRole(Participants.District))
+                                    {
+                                        <a href="/redirectedappealregistry/@p/@Year" class="btn btn-outline-primary"><p class="h3">СМ</p></a>
+                                    }
+                                    else
+                                    {
+                                        <a href="/redirecteddistrictspage/@p/@Year" class="btn btn-outline-primary"><p class="h3">СМ</p></a>
+                                    }
+                                </div>
+                            </div>
+                            
+                            
+@*                            @p Переадресация*@
+
+
+
+
+                        </td>
+
+
+@*                        <td class="text-start">
+                            @if (UserState.User.IsInRole(Participants.District))
+                            {
+                                <a href="/redirectedappealregistry/@p/@Year" class="btn btn-outline-primary"><p class="h3 align-content-center">СМ</p></a>
+                            }
+                            else
+                            {
+                                <a href="/redirecteddistrictspage/@p/@Year" class="btn btn-outline-primary"><p class="h3 align-content-center">СМ</p></a>
+                            }
+                        </td>*@
                 </tr>
             }
         </tbody>
     </table>
+    
+</div>
 }
 
 

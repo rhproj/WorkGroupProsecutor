@@ -1,7 +1,6 @@
 ﻿@page "/"
 @inject Services.YearSetter yearSetter
 <PageTitle>Рабочая группа</PageTitle>
-@*<h1 class="text-center">Рабочая группа по обращениям</h1>*@
 
 <h1 class="display-4 text-center mt-3 mb-5">Рабочая группа по обращениям</h1>
 
@@ -36,28 +35,24 @@
                     <a href="nosolutionpage/@yearSetter.YearInfo" class="stretched-link"></a>
                 </div>
             </div>
+            <div class="mt-5 h3 d-flex justify-content-end">
+                <label class="form-label me-3">Год: </label>
+                <div class="col-md-4">
+                    <input type="number" class="w-75 text-center" @bind-value=yearSetter.YearInfo />
+                </div>
+            </div>
         </div>
+
     </div>
+
+@*    <div class="row mt-5">
+        <div class="mb-3">
+            <label class="form-label">Год:</label>
+            <div class="col-md-4">
+                <input type="number" @bind-value=yearSetter.YearInfo />
+            </div>
+        </div>
+    </div>*@
 </div>
 
-<div class="row mt-5">
-    <div class="mb-3">
-        <label class="form-label">Год:</label>
-        <div class="col-md-4">
 
-            <input type="number" @bind-value=yearSetter.YearInfo />
-        </div>
-    </div>
-</div>
-@*            <input type="number" @bind-value=year   @bind-value:event="oninput"/>*@
-
-@code{
-    //public int Year { get; set; }
-    //[CascadingParameter(Name = "YearSet")]
-    //public int Year { get; set; } //был просто field
-
-    //protected override async Task OnInitializedAsync()
-    //{
-    //    Year = DateTime.Now.Year;
-    //}
-}

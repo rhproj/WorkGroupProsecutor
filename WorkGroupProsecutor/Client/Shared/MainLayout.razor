@@ -25,12 +25,7 @@
             <CascadingValue Name="UserState" Value="UserState">
                 <CascadingValue Name="DistrictName" Value="DistrictName">
                     <CascadingValue Name="UserDescription" Value="UserDescription">
-                        <CascadingValue Name="YearSet" Value="Year">
-                        @Body 
-@*                        <CascadingValue Name="YearChanger" Value="yearChanger">
-
-                        </CascadingValue>*@
-                        </CascadingValue>
+                       @Body 
                     </CascadingValue>
                 </CascadingValue>
             </CascadingValue>
@@ -48,23 +43,12 @@
     public AuthenticationState UserState { get; set; }
     public string? DistrictName { get; set; }
     public string? UserDescription { get; set; } //private string userDescription;
-                                                 //%//
+    //%//
 
-    public int Year { get; set; }
-
-    ////public bool menuFlag { get; set; } = true;
-    //EventCallback<int> yearChanger => EventCallback.Factory.Create(this, (Action<int>)NotifyYearChange);
-    //private void NotifyYearChange(int _year)
-    //{
-    //    Year = _year;
-    //    //menuFlag = !menuFlag;
-    //}
 
 
     protected override async Task OnInitializedAsync() //On Parameters set
     {
-        Year = DateTime.Now.Year;
-
         UserState = await authenticationState;
         DistrictName = UserState?.User.Identity.Name;
 
@@ -81,21 +65,3 @@
         navManager.NavigateTo("/", true);
     }
 }
-
-
-@*<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            @Body
-        </article>
-    </main>
-</div>
-*@
