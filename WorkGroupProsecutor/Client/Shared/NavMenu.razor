@@ -1,6 +1,8 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@inject Services.YearSetter yearSetter
+
+<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="">Рабочая группа</a>
+        <a class="navbar-brand" href=""> <p class="h5">Рабочая группа</p></a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
             <span class="navbar-toggler-icon"></span>
         </button>
@@ -11,34 +13,55 @@
     <nav class="flex-column">
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> На главную
+                <span class="oi oi-home h5" aria-hidden="true"></span> <p class="h5">На главную</p>
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="redirectedpage/2022">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Переадресация
+            <NavLink class="nav-link" href="@($"redirectedpage/{yearSetter.YearInfo }")">
+                <span class="oi oi-list-rich h5" aria-hidden="true"></span> <p class="h5">Переадресация</p>
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="satisfiedpage">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Удовлетворено
+                <span class="oi oi-list-rich h5" aria-hidden="true"></span> <p class="h5">Удовлетворено</p>
             </NavLink>
         </div>
         <div class="nav-item px-3">
             <NavLink class="nav-link" href="nosolutionpage">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Без разрешения
+                <span class="oi oi-list-rich h5" aria-hidden="true"></span> <p class="h5">Без разрешения</p>
             </NavLink>
         </div>
-        <div class="nav-item px-3">
+       @* <div class="nav-item px-3">
             <NavLink class="nav-link" href="adddepartment">
                 <span class="oi oi-list-rich" aria-hidden="true"></span>Управление отделами
             </NavLink>
+        </div>*@
+@*        <div class="nav-item px-3">
+            <NavMenu class="navbar-text">
+                <p class="h3 text-white">Год:</p>
+            </NavMenu>
+        </div>*@
+        <div class="container">
+            <div class="nav-item px-3 d-flex flex-column">
+                <p class="h4 text-white mt-auto">Год: @yearSetter.YearInfo </p>
+@*                <input type="number" class="h4" @bind="Year" @bind:event="oninput" />*@
+            </div>
         </div>
+
     </nav>
 </div>
 
 @code {
     private bool collapseNavMenu = true;
+
+    //[Parameter]
+    //[CascadingParameter(Name = "YearSet")]
+    //public int Year { get; set; }
+
+    //protected override async Task OnParametersSetAsync()
+    //{
+    //    Year = DateTime.Now.Year;
+    //}
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
 

@@ -3,7 +3,7 @@
 
 <div class="page">
     <div class="sidebar">
-        <NavMenu />
+        <NavMenu/>
     </div>
 
     <main>
@@ -11,10 +11,11 @@
 @*            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>*@
             <AuthorizeView>
                 <Authorized>
-                    <h4>@UserDescription</h4>
+                    <h4>Прокуратура Республики Татарстан: @UserDescription</h4>
                     <a @onclick="Logout" href="javascript:void(0)">Выйти</a>
                 </Authorized>
                 <NotAuthorized>
+                    <h4>Прокуратура Республики Татарстан</h4>
                     <a href="/login">Войти</a>
                 </NotAuthorized>
             </AuthorizeView>
@@ -24,7 +25,12 @@
             <CascadingValue Name="UserState" Value="UserState">
                 <CascadingValue Name="DistrictName" Value="DistrictName">
                     <CascadingValue Name="UserDescription" Value="UserDescription">
-                        @Body
+                        <CascadingValue Name="YearSet" Value="Year">
+                        @Body 
+@*                        <CascadingValue Name="YearChanger" Value="yearChanger">
+
+                        </CascadingValue>*@
+                        </CascadingValue>
                     </CascadingValue>
                 </CascadingValue>
             </CascadingValue>
@@ -37,16 +43,28 @@
     public IUserService UserService { get; set; }
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
-    
+
     //%// 
     public AuthenticationState UserState { get; set; }
     public string? DistrictName { get; set; }
     public string? UserDescription { get; set; } //private string userDescription;
-    //%//
+                                                 //%//
+
+    public int Year { get; set; }
+
+    ////public bool menuFlag { get; set; } = true;
+    //EventCallback<int> yearChanger => EventCallback.Factory.Create(this, (Action<int>)NotifyYearChange);
+    //private void NotifyYearChange(int _year)
+    //{
+    //    Year = _year;
+    //    //menuFlag = !menuFlag;
+    //}
 
 
     protected override async Task OnInitializedAsync() //On Parameters set
     {
+        Year = DateTime.Now.Year;
+
         UserState = await authenticationState;
         DistrictName = UserState?.User.Identity.Name;
 
@@ -55,7 +73,6 @@
             UserDescription = await UserService.GetUserDescription(DistrictName);
         }
     }
-
 
     private async Task Logout()
     {

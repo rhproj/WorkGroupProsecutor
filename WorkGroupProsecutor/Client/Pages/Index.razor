@@ -1,5 +1,5 @@
 ﻿@page "/"
-
+@inject Services.YearSetter yearSetter
 <PageTitle>Рабочая группа</PageTitle>
 @*<h1 class="text-center">Рабочая группа по обращениям</h1>*@
 
@@ -13,7 +13,7 @@
                     <h1 class="card-title text-center text-primary mt-2 mb-4">Переадресация</h1>
                     <p class="card-text h5 mt-5">Реестры обращений, предполагаемых к переадресации в иные органы и ведомства</p>
                     <p class="card-text text-secondary fst-italic">дважды в месяц</p>
-                    <a href="redirectedpage/@year" class="stretched-link"></a>
+                    <a href="redirectedpage/@yearSetter.YearInfo" class="stretched-link"></a>
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@
                     <h1 class="card-title text-center text-success mt-2 mb-4">Удовлетворено</h1>
                     <p class="card-text h5 mt-5">Реестры обращений, по которым приняты решения "Удовлетворено" и "Удовлетворено частично"</p>
                     <p class="card-text text-secondary fst-italic">раз в квартал</p>
-                    <a href="satisfiedpage/@year" class="stretched-link"></a>
+                    <a href="satisfiedpage/@yearSetter.YearInfo" class="stretched-link"></a>
                 </div>
             </div>
         </div>
@@ -33,7 +33,7 @@
                     <h1 class="card-title text-center text-warning mt-2 mb-4">Без разрешения</h1>
                     <p class="card-text h5">Реестры обращений, по которым приняты решения "Оставлено без разрешения и (или) приобщено к НП"</p>
                     <p class="card-text text-secondary fst-italic">раз в квартал</p>
-                    <a href="nosolutionpage/@year" class="stretched-link"></a>
+                    <a href="nosolutionpage/@yearSetter.YearInfo" class="stretched-link"></a>
                 </div>
             </div>
         </div>
@@ -44,17 +44,20 @@
     <div class="mb-3">
         <label class="form-label">Год:</label>
         <div class="col-md-4">
-            <input type="number" @bind-value=year />
+
+            <input type="number" @bind-value=yearSetter.YearInfo />
         </div>
     </div>
 </div>
-
+@*            <input type="number" @bind-value=year   @bind-value:event="oninput"/>*@
 
 @code{
-    private int year; 
+    //public int Year { get; set; }
+    //[CascadingParameter(Name = "YearSet")]
+    //public int Year { get; set; } //был просто field
 
-    protected override async Task OnInitializedAsync()
-    {
-        year = DateTime.Now.Year;
-    }
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    Year = DateTime.Now.Year;
+    //}
 }
