@@ -7,16 +7,16 @@
     </div>
 
     <main>
-        <div class="top-row px-4">
+        <div class="top-row d-flex justify-content-between bg-dark bg-gradient">
 @*            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>*@
             <AuthorizeView>
                 <Authorized>
-                    <h4>Прокуратура Республики Татарстан: @UserDescription</h4>
-                    <a @onclick="Logout" href="javascript:void(0)">Выйти</a>
+                    <h4 class="text-white">Прокуратура Республики Татарстан: @UserDescription</h4>
+                    <a @onclick="Logout" href="javascript:void(0)" class="btn btn-outline-light h5">Выйти</a>
                 </Authorized>
                 <NotAuthorized>
-                    <h4>Прокуратура Республики Татарстан</h4>
-                    <a href="/login">Войти</a>
+                    <h4 class="text-white">Прокуратура Республики Татарстан</h4>
+                    <a href="/login" class="btn btn-outline-light h5">Войти</a>
                 </NotAuthorized>
             </AuthorizeView>
         </div>

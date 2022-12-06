@@ -2,29 +2,26 @@
 @*@inject HttpClient httpClient
 @inject NavigationManager navManager*@
 
-<div class="container mt-2 mb-4 text-center">
-    <h2 >Реестры обращений, предполагаемых к переадресации в иные органы и ведомства</h2>
+<div class="container-fluid mt-2 text-center">
+    <h2 class="mb-4">Реестры обращений, предполагаемых к переадресации в иные органы и ведомства</h2>
 @*    <h3 class="float-end">@userDescription</h3>*@
-    <h2>Данные за @Year год</h2>
-</div>
-
 <AuthorizeView Roles=@Participants.District>
     <Authorized>
-        <div class="row mb-2">
-            <div class="col-md-6">
-                <button class="btn btn-primary" @onclick="NavigateToAddPage" disabled=@isDisabled>
-                    Создать запись
-                </button>
-            </div>
-        </div>
-        <div class="row mt-5">
-            <div class="mb-3">
-                <label class="form-label">Период:</label>
-                <div class="col-md-4">
-                    <input type="number" @bind-value=period @bind-value:event="oninput" @onkeyup="EnableNav" />
+            <div class="d-inline-flex m-3 justify-content-end w-75 h3">
+                <div class="mt-1">
+                    <label>Дата: </label>
+                </div>
+                <div class="ms-3 me-3 mt-1">
+                    <input type="date" @bind=_dateTime />
+                </div>
+                <div>
+@*disabled=@isDisabled  vv*@
+                    <button class="btn btn-primary btn-lg" @onclick="NavigateToAddPage">
+                        Создать запись
+                    </button>
                 </div>
             </div>
-        </div>
+
     </Authorized>
 </AuthorizeView>
 
@@ -77,10 +74,9 @@ else if (periodsList.Count == 0)
 }
 else
 {
-<div class="container overflow-auto"  style="background-image: url('img/OL1000px.jpg'); height: 800px; background-repeat: no-repeat; background-position: center;">
+<div class="container overflow-auto" style="background-image: url('img/OL1000px.jpg'); height: 800px; background-repeat: no-repeat; background-position: center;">
 
 <div>
-
     <table class="table table-striped align-middle text-center ">
         <thead class="table-primary">
             <tr>
@@ -94,9 +90,9 @@ else
                 <tr style="height:90px">
                         <td class="h3">
                             <div class="row">
-                                <div class="col-4"></div>
-                                <div class="col-3 d-flex align-content-start">@p Переадресация</div>
-                                <div class="col-5 d-flex align-content-start">
+                                <div class="col-3"></div>
+                                    <div class="col-5 d-flex align-content-start">@p.@Year Переадресация </div>
+                                <div class="col-4 d-flex align-content-start">
                                     @if (UserState.User.IsInRole(Participants.District))
                                     {
                                         <a href="/redirectedappealregistry/@p/@Year" class="btn btn-outline-primary"><p class="h3">СМ</p></a>
@@ -136,6 +132,7 @@ else
     
 </div>
 }
+</div>
 
 
 
@@ -153,19 +150,20 @@ else
 
     [Parameter]
     public int Year { get; set; }
-
     private string period;
     private bool isDisabled = true;
     private List<string> periodsList;// = new();
 
-    private enum LoadingCollectionState {Loading, Loaded, Error};
-    private LoadingCollectionState state;
+    //private enum LoadingCollectionState {Loading, Loaded, Error};
+    private DateTime _dateTime;
+    //private LoadingCollectionState state;
 
     protected override async Task OnInitializedAsync()
     {
         if (UserState!= null && UserState.User.IsInRole(Participants.District))
         {
             periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsByDistrict(DistrictName, Year)).ToList();  //"Az"
+            _dateTime = DateTime.Now;
         }
         else
         {
@@ -175,7 +173,8 @@ else
 
     private void NavigateToAddPage()
     {
-        navManager.NavigateTo($"/addredirectedappeal/{period}/{Year}");
+        //period = _dateTime.ToString("dd.MM");
+        navManager.NavigateTo($"/addredirectedappeal/{_dateTime.ToString("dd.MM")}/{Year}"); //period
     }
 
     private void EnableNav() //KeyboardEventArgs eventArgs

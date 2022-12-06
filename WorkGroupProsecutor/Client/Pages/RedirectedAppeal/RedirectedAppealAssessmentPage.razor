@@ -1,8 +1,8 @@
 ﻿@page "/redirectedappealassessment/{District}/{Period}/{Year:int}"
 
-<div class="container m-1">
+<div class="container-fluid m-1">
 <h3 class="text-center my-3">Реестр обращений, предполагаемых к переадресации в иные органы и ведомства</h3>
-<h3 class="text-center my-3">@districtDescription @Period @Year года</h3>
+<h3 class="text-center my-3">@districtDescription @Period @Year г.</h3>
 
   <table class="table table-bordered">
     <thead>
@@ -28,7 +28,7 @@
           микрофинансовой организации</td>
                 <td> Да с контролем </td>
       </tr>
-            @foreach (var appeal in appealsList)
+      @foreach (var appeal in appealsList)
       {
           <tr>
               <td>@appeal.Id</td> <!--swap with counter-->
@@ -46,20 +46,31 @@
                 <td>
                      <a href="/estimateredirectedappeal/@appeal.Id" class="btn btn-outline-dark">Оц</a>: @appeal.DepartmentAssessment
                 </td>
-@*                <td>
-                    <a href="/deleteredirectedappeal/@appeal.Id" class="btn btn-outline-dark">Удалить</a>
-                </td>  *@           
+                @* <td> <a href="/deleteredirectedappeal/@appeal.Id" class="btn btn-outline-dark">Удалить</a> </td> *@           
               }
-
           </tr>
       }
     </tbody>
   </table>
+  <div class="mt-5">
+        <p>
+            <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseWidthExample" aria-expanded="false" aria-controls="collapseWidthExample">
+                Toggle width collapse
+            </button>
+        </p>
+        <div style="min-height: 120px;">
+            <div class="collapse collapse-horizontal" id="collapseWidthExample">
+                <div class="card card-body" style="width: 300px;">
+                    This is some placeholder content for a horizontal collapse. It's hidden by default and shown when triggered.
+                </div>
+            </div>
+        </div>
+@*
+        <RedirectedAppealCommentsComponent />*@
+    </div>
  </div>
 
-<div class="container mt-1">
-    <RedirectedAppealCommentsComponent />
-</div>
+
 
 
 
