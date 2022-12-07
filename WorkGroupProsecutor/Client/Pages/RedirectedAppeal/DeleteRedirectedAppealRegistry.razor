@@ -1,4 +1,4 @@
-﻿@page "/deleteredirectedappeal/{Id:int}"
+﻿@page "/deleteredirectedappeal/{DistrictName}/{Id:int}"
 
 <div class="form-group">
     <h3>Вы уверены что хотите удалить обращени @appeal.RegistrationNumber?</h3>
@@ -24,6 +24,6 @@
     </table>
 </div>
 <div class="form-group">
-    <button class="btn btn-danger" @onclick="DeleteAppeal">Delete</button>
-    <button class="btn btn-light" @onclick="GotBack">Cancel</button>
+    <button class="btn btn-danger" @onclick="DeleteAppeal">Удалить</button>
+    <button class="btn btn-secondary" @onclick="GotBack">Отмена</button>
 </div>

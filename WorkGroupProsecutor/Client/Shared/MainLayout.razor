@@ -43,11 +43,22 @@
     public AuthenticationState UserState { get; set; }
     public string? DistrictName { get; set; }
     public string? UserDescription { get; set; } //private string userDescription;
-    //%//
+                                                 //%//
 
 
 
-    protected override async Task OnInitializedAsync() //On Parameters set
+    //protected override async Task OnInitializedAsync() //On Parameters set
+    //{
+    //    UserState = await authenticationState;
+    //    DistrictName = UserState?.User.Identity.Name;
+
+    //    if (!string.IsNullOrEmpty(DistrictName))
+    //    {
+    //        UserDescription = await UserService.GetUserDescription(DistrictName);
+    //    }
+    //}
+
+    protected override async Task OnParametersSetAsync()
     {
         UserState = await authenticationState;
         DistrictName = UserState?.User.Identity.Name;

@@ -12,6 +12,9 @@ namespace WorkGroupProsecutor.Client.Pages.RedirectedAppeal
         [Parameter]
         public int Id { get; set; }
 
+        [Parameter]
+        public string DistrictName { get; set; }
+
         private RedirectedAppealModelDTO appeal = new();
 
         protected override async Task OnInitializedAsync()
@@ -33,7 +36,7 @@ namespace WorkGroupProsecutor.Client.Pages.RedirectedAppeal
 
         private void GotBack()
         {
-            navManager.NavigateTo($"/redirectedappealregistry/{appeal.PeriodInfo}/{appeal.YearInfo}");
+            navManager.NavigateTo($"/redirectedappealregistry/{DistrictName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
         }
     }
 }

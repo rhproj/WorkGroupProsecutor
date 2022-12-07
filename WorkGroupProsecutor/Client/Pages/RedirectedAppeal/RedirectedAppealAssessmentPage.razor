@@ -7,48 +7,38 @@
   <table class="table table-bordered">
     <thead>
       <tr class="text-center align-middle">
-        <th style="width: 2.5%">№</th>
+        <th style="width: 1%">№</th>
         <th style="width: 10%">Регистрационный номер в системе Надзор-WEB</th>
         <th style="width: 15%">ФИО заявителя</th>
-        <th style="width: 2.5%">Характер обращения*</th>
-        <th style="width: 30%">Орган, в который предполагается переадресовать обращение</th>
-        <th style="width: 30%">Основание переадресации</th>
+        <th style="width: 1%">Характер обращ- ения*</th>
+        <th style="width: 20%">Орган, в который предполагается переадресовать обращение</th>
+        <th style="width: auto">Основание переадресации</th>
         <th style="width: 10%">Оценка возможности переадресации**</th>
 @*        <th>Примечание</th>*@
       </tr>
     </thead>
-    <tbody class="text-center align-middle">
-      <tr>
-        <td>1.</td>
-        <td>ВО-1242-22</td>
-        <td>ООО МФК ОТП Финанс</td>
-        <td>7</td>
-        <td>ГУФССП РФ по РТ </td>
-        <td>Обращение содержит доводы о бездействии судебного приставов при взыскании задолженности в пользу 
-          микрофинансовой организации</td>
-                <td> Да с контролем </td>
-      </tr>
+    <tbody class="align-middle">
       @foreach (var appeal in appealsList)
       {
-          <tr>
-              <td>@appeal.Id</td> <!--swap with counter-->
-              <td>@appeal.RegistrationNumber</td>
+          <tr class="align-content-start">
+              <td class="text-center">@num</td> <!--swap with counter-->
+              <td class="text-center">@appeal.RegistrationNumber</td>
               <td>@appeal.ApplicantFullName</td>
-              <td>@appeal.DepartmentId</td>
+              <td class="text-center">@appeal.DepartmentId</td>
               <td>@appeal.RecipientAgency</td>
               <td>@appeal.DecisionBasis</td>
               @if (!UserState.User.IsInRole(Participants.Department))
               {
-                <td>@appeal.DepartmentAssessment</td>
+              <td class="text-center">@appeal.DepartmentAssessment</td>
               }
               else
               {
-                <td>
+                <td class="text-center">
                      <a href="/estimateredirectedappeal/@appeal.Id" class="btn btn-outline-dark">Оц</a>: @appeal.DepartmentAssessment
                 </td>
                 @* <td> <a href="/deleteredirectedappeal/@appeal.Id" class="btn btn-outline-dark">Удалить</a> </td> *@           
               }
-          </tr>
+          </tr> num++;
       }
     </tbody>
   </table>
@@ -59,10 +49,7 @@
  </div>
 
 
-
-
-
-@code {
+ @code {
     [Inject]
     public IUserService UserService { get; set; }
     [Inject]
@@ -78,6 +65,7 @@
     public int Year { get; set; }
 
     private string districtDescription;
+    private int num = 1;
 
     private List<RedirectedAppealModelDTO> appealsList = new();
 

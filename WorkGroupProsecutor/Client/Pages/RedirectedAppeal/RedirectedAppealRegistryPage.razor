@@ -1,23 +1,59 @@
-﻿@page "/redirectedappealregistry/{Period}/{Year:int}"
+﻿@page "/redirectedappealregistry/{DistrictName}/{Period}/{Year:int}"
 @*@using WorkGroupProsecutor.Shared.Models.Appeal.DTO;*@
 @*@page "/testmaintable"*@
 @*@inject HttpClient httpClient*@
 
-<div class="container mb-5">
-  <p class="float-end"> ПРИЛОЖЕНИЕ №4 <br/>к распоряжению прокурора Республики Татарстан 
-  <br/>от 22.08.2021 №174/25р 
-  </p><br/>
+<div class="container-fluid m-1">
+    <h3 class="text-center my-3">Реестр обращений, предполагаемых к переадресации в иные органы и ведомства</h3>
+    <h3 class="text-center my-3">@Period.@Year г.</h3>
+
+    <table class="table table-bordered">
+        <thead>
+            <tr class="text-center align-middle">
+                <th style="width: 1%">№</th>
+                <th style="width: 10%">Регистрационный номер в системе Надзор-WEB</th>
+                <th style="width: 15%">ФИО заявителя</th>
+                <th style="width: 1%">Характер обращ- ения*</th>
+                <th style="width: 20%">Орган, в который предполагается переадресовать обращение</th>
+                <th style="width: auto">Основание переадресации</th>
+                <th style="width: 10%">Оценка возможности переадресации**</th>
+                <th>
+                    <a href="/addredirectedappeal/@DistrictName/@Period/@Year" class="btn btn-outline-success m-0" role="button">
+                        <p class="h5 pt-1 mb-1">Создать запись</p>
+@*                        Создать запись*@
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        <tbody class="align-middle">
+            @foreach (var appeal in appealsList)
+            {
+                <tr class="align-content-start">
+                    <td class="text-center">@num</td> <!--swap with counter-->
+                    <td class="text-center">@appeal.RegistrationNumber</td>
+                    <td>@appeal.ApplicantFullName</td>
+                    <td class="text-center">@appeal.DepartmentId</td>
+                    <td>@appeal.RecipientAgency</td>
+                    <td>@appeal.DecisionBasis</td>
+                    <td class="text-center">@appeal.DepartmentAssessment</td>
+                    <td class="text-center">
+                        <a href="/updateredirectedappeal/@DistrictName/@appeal.Id" class="btn btn-outline-primary w-75 ps-2">Изменить</a>
+                        <a href="/deleteredirectedappeal/@DistrictName/@appeal.Id" class="btn btn-outline-danger w-75">Удалить</a>
+                    </td>
+                </tr>
+                num++;
+            }
+        </tbody>
+    </table>
+    <div class="mt-5">
+
+        <RedirectedAppealCommentsComponent />
+    </div>
 </div>
-<div class="container">
+
+@*<div class="container">
   <h3 class="text-center my-3">Реестр обращений, предполагаемых к переадресации в иные органы и ведомства</h3>
     <h3 class="text-center my-3">на @Period @Year год</h3>
-
-@*    @foreach (var appeal in appealsList)
-    {
-        <ul>
-            <li>@appeal.RegistrationNumber @appeal.ApplicantFullName @appeal.DepartmentAssessment</li>
-        </ul>
-    }*@
 
   <table class="table table-bordered">
     <thead>
@@ -67,8 +103,7 @@
   </table>
  </div>
 
-<RedirectedAppealCommentsComponent/>
-
+<RedirectedAppealCommentsComponent/>*@
 
 @code {
     [Inject]
@@ -77,8 +112,10 @@
     public string Period { get; set; }
     [Parameter]
     public int Year { get; set; }
-    [CascadingParameter(Name = "DistrictName")]
+    //[CascadingParameter(Name = "DistrictName")]
+    [Parameter]
     public string DistrictName { get; set; }
+    private int num;
     //private string districtName;
 
     //[CascadingParameter]
@@ -89,6 +126,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        num = 1;
         //var userState = await authenticationState;
         //if (userState != null)
         //{
@@ -97,4 +135,12 @@
 
         appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals(DistrictName, Period, Year)).ToList(); //districtName
     }
+
+//<div class="container mb-5">
+//    <p class="float-end">
+//        ПРИЛОЖЕНИЕ №4 <br />к распоряжению прокурора Республики Татарстан
+//        <br />от 22.08.2021 №174/25р
+//    </p><br />
+//</div>
 }
+
