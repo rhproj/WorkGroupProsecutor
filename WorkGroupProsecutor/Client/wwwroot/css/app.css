@@ -77,288 +77,27 @@ a, .btn-link {
     background-image: linear-gradient(180deg, rgb(0, 0, 103) 30%, #3a0647 130%);
 }
 
-/*#region SPINO */
-/* KEYFRAMES */
-@keyframes configure-clockwise {
-    0% {
-        transform: rotate(0);
-    }
-
-    25% {
-        transform: rotate(90deg);
-    }
-
-    50% {
-        transform: rotate(180deg);
-    }
-
-    75% {
-        transform: rotate(270deg);
-    }
-
-    100% {
-        transform: rotate(360deg);
-    }
-}
-
-@keyframes configure-xclockwise {
-    0% {
-        transform: rotate(45deg);
-    }
-
-    25% {
-        transform: rotate(-45deg);
-    }
-
-    50% {
-        transform: rotate(-135deg);
-    }
-
-    75% {
-        transform: rotate(-225deg);
-    }
-
-    100% {
-        transform: rotate(-315deg);
-    }
-}
-
-@keyframes pulse {
-    from {
-        opacity: 1;
-        transform: scale(1);
-    }
-
-    to {
-        opacity: .25;
-        transform: scale(.75);
-    }
-}
-
-/* GRID STYLING */
-
-* {
-    box-sizing: border-box;
-}
-
-/*body {
-    min-height: 100vh;
-    background-image: linear-gradient(180deg, rgb(0, 0, 90) 50%, #3a0647 130%);
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    align-items: flex-start;
-}*/
-
-.spinner-box {
-    width: 300px;
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: transparent;
-}
-
-/* X-ROTATING BOXES */
-
-.configure-border-1 {
-    width: 215px;
-    height: 215px;
-    padding: 3px;
-    position: absolute;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: MintCream;
-    animation: configure-clockwise 3s ease-in-out 0s infinite alternate;
-}
-
-.configure-border-2 {
-    width: 215px;
-    height: 215px;
-    padding: 3px;
-    left: -115px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: purple;
-    transform: rotate(45deg);
-    animation: configure-xclockwise 3s ease-in-out 0s infinite alternate;
-}
-
-.configure-core {
-    width: 100%;
-    height: 100%;
-    background-color: rgb(0, 0, 90);
-}
-
-
-/*#endregion */
-
-
-/*#region FLIPPO */
-.cp-spinner {
-    width: 48px;
-    height: 48px;
-    display: inline-block;
-    box-sizing: border-box;
-    position: relative
-}
-
-.cp-flip {
-    transform-style: preserve-3d;
-    perspective: 10em
-}
-
-    .cp-flip:before {
-        width: 48px;
-        height: 48px;
-        display: inline-block;
-        box-sizing: border-box;
-        background: MidnightBlue;
-        content: " ";
-        position: absolute;
-        top: 0;
-        left: 0;
-        animation: cp-flip-animate-before 5s linear infinite
-    }
-
-@keyframes cp-flip-animate-before {
-    0% {
-        transform: rotateY(0) rotateX(0)
-    }
-
-    25% {
-        transform: rotateY(360deg) rotateX(0)
-    }
-
-    50% {
-        transform: rotateY(360deg) rotateX(360deg)
-    }
-
-    75% {
-        transform: rotateY(0) rotateX(360deg)
-    }
-
-    100% {
-        transform: rotateY(0) rotateX(0)
-    }
-}
-/*#endregion */
-/*#region PASSING BALL */
-.spinner {
-    position: absolute;
-    width: 80px;
-    height: 80px;
-    top: 50%;
-    left: 50%;
-}
-.blob {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    border: 2.5px solid black;
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-}
-.top{
-    top: 0;
-    animation: blob-top 3s infinite ease-in;
-}
-.bottom {
-    top: 100%;
-    animation: blob-bottom 3s infinite ease-in;
-}
-.left {
-    left: 0;
-    animation: blob-left 3s infinite ease-in;
-}
-.move-blob {
-    background: navy;
-    top: 0;
-    animation: blob-spinner-mover 3s infinite ease-in;
-}
-
-@keyframes blob-bottom {
-    25%, 50%, 75% {
-        top: 50%;
-        left: 100%;
-    }
-
-    100% {
-        top: 0;
-        left: 50%;
-    }
-}
-
-@keyframes blob-left {
-    25% {
-        top: 50%;
-        left: 0;
-    }
-
-    50%, 100% {
-        top: 100%;
-        left: 50%;
-    }
-}
-
-@keyframes blob-top {
-    50% {
-        top: 0;
-        left: 50%;
-    }
-
-    75%, 100% {
-        top: 50%;
-        left: 0;
-    }
-}
-
-@keyframes blob-spinner-mover {
-    0%, 100% {
-        top: 0;
-        left: 50%;
-    }
-
-    25% {
-        top: 50%;
-        left: 100%;
-    }
-
-    50% {
-        top: 100%;
-        left: 50%;
-    }
-
-    75% {
-        top: 50%;
-        left: 0;
-    }
-}
-/*#endregion */
 
 /*#region ROMBUS */
 
-* {
+/** {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-}
+}*/
 
-body, html {
+/*body, html {
     background: transparent;
-    position: relative;
+    position: absolute;
     width: 100%;
     height: 100%;
-}
+}*/
 
 .loading-container {
-    width: 256px;
-    height: 256px;
+/*    width: 56px;
+    height: 56px;*/
     position: absolute;
-    top: 50%;
+    top: 62%;
     left: 50%;
     transform: translate(-50%,-50%);
 }
@@ -381,7 +120,7 @@ body, html {
 .l1 div, .l2 div, .l3 div, .l4 div {
     width: 100%;
     height: 100%;
-    background-color: #3498db;
+/*    background-color: white;*/
 }
 
 .l1 {
@@ -536,15 +275,15 @@ body, html {
 
 @keyframes color {
     0% {
-        background-color: #3498db;
+        background-color: rgb(256, 256, 256);
     }
 
     50% {
-        background-color: #2980b9;
+        background-color: rgb(256, 256, 256);
     }
 
     100% {
-        background-color: #3498db;
+        background-color: rgb(256, 256, 256);
     }
 }
 
@@ -572,4 +311,249 @@ body, html {
     animation: rot2 3s ease 0s infinite, color 3s linear 0s infinite;
 }
 
+/*#endregion */
+
+
+/*#region TIMER */
+/*!
+ * Load Awesome v1.1.0 (http://github.danielcardoso.net/load-awesome/)
+ * Copyright 2015 Daniel Cardoso <@DanielCardoso>
+ * Licensed under MIT
+ */
+.la-timer,
+.la-timer > div {
+    position: relative;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.la-timer {
+    display: block;
+    font-size: 0;
+    color: #fff;
+}
+
+    .la-timer.la-dark {
+        color: #333;
+    }
+
+    .la-timer > div {
+        display: inline-block;
+        float: none;
+        background-color: currentColor;
+        border: 0 solid currentColor;
+    }
+
+.la-timer {
+    width: 32px;
+    height: 32px;
+}
+
+    .la-timer > div {
+        width: 32px;
+        height: 32px;
+        background: transparent;
+        border-width: 2px;
+        border-radius: 100%;
+    }
+
+        .la-timer > div:before,
+        .la-timer > div:after {
+            position: absolute;
+            top: 14px;
+            left: 14px;
+            display: block;
+            width: 2px;
+            margin-top: -1px;
+            margin-left: -1px;
+            content: "";
+            background: currentColor;
+            border-radius: 2px;
+            -webkit-transform-origin: 1px 1px 0;
+            -moz-transform-origin: 1px 1px 0;
+            -ms-transform-origin: 1px 1px 0;
+            -o-transform-origin: 1px 1px 0;
+            transform-origin: 1px 1px 0;
+            -webkit-animation: timer-loader 1250ms infinite linear;
+            -moz-animation: timer-loader 1250ms infinite linear;
+            -o-animation: timer-loader 1250ms infinite linear;
+            animation: timer-loader 1250ms infinite linear;
+            -webkit-animation-delay: -625ms;
+            -moz-animation-delay: -625ms;
+            -o-animation-delay: -625ms;
+            animation-delay: -625ms;
+        }
+
+        .la-timer > div:before {
+            height: 12px;
+        }
+
+        .la-timer > div:after {
+            height: 8px;
+            -webkit-animation-duration: 15s;
+            -moz-animation-duration: 15s;
+            -o-animation-duration: 15s;
+            animation-duration: 15s;
+            -webkit-animation-delay: -7.5s;
+            -moz-animation-delay: -7.5s;
+            -o-animation-delay: -7.5s;
+            animation-delay: -7.5s;
+        }
+
+    .la-timer.la-sm {
+        width: 16px;
+        height: 16px;
+    }
+
+        .la-timer.la-sm > div {
+            width: 16px;
+            height: 16px;
+            border-width: 1px;
+        }
+
+            .la-timer.la-sm > div:before,
+            .la-timer.la-sm > div:after {
+                top: 7px;
+                left: 7px;
+                width: 1px;
+                margin-top: -.5px;
+                margin-left: -.5px;
+                border-radius: 1px;
+                -webkit-transform-origin: .5px .5px 0;
+                -moz-transform-origin: .5px .5px 0;
+                -ms-transform-origin: .5px .5px 0;
+                -o-transform-origin: .5px .5px 0;
+                transform-origin: .5px .5px 0;
+            }
+
+            .la-timer.la-sm > div:before {
+                height: 6px;
+            }
+
+            .la-timer.la-sm > div:after {
+                height: 4px;
+            }
+
+    .la-timer.la-2x {
+        width: 64px;
+        height: 64px;
+    }
+
+        .la-timer.la-2x > div {
+            width: 64px;
+            height: 64px;
+            border-width: 4px;
+        }
+
+            .la-timer.la-2x > div:before,
+            .la-timer.la-2x > div:after {
+                top: 28px;
+                left: 28px;
+                width: 4px;
+                margin-top: -2px;
+                margin-left: -2px;
+                border-radius: 4px;
+                -webkit-transform-origin: 2px 2px 0;
+                -moz-transform-origin: 2px 2px 0;
+                -ms-transform-origin: 2px 2px 0;
+                -o-transform-origin: 2px 2px 0;
+                transform-origin: 2px 2px 0;
+            }
+
+            .la-timer.la-2x > div:before {
+                height: 24px;
+            }
+
+            .la-timer.la-2x > div:after {
+                height: 16px;
+            }
+
+    .la-timer.la-3x {
+        width: 96px;
+        height: 96px;
+    }
+
+        .la-timer.la-3x > div {
+            width: 96px;
+            height: 96px;
+            border-width: 6px;
+        }
+
+            .la-timer.la-3x > div:before,
+            .la-timer.la-3x > div:after {
+                top: 42px;
+                left: 42px;
+                width: 6px;
+                margin-top: -3px;
+                margin-left: -3px;
+                border-radius: 6px;
+                -webkit-transform-origin: 3px 3px 0;
+                -moz-transform-origin: 3px 3px 0;
+                -ms-transform-origin: 3px 3px 0;
+                -o-transform-origin: 3px 3px 0;
+                transform-origin: 3px 3px 0;
+            }
+
+            .la-timer.la-3x > div:before {
+                height: 36px;
+            }
+
+            .la-timer.la-3x > div:after {
+                height: 24px;
+            }
+/*
+ * Animation
+ */
+@-webkit-keyframes timer-loader {
+    0% {
+        -webkit-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@-moz-keyframes timer-loader {
+    0% {
+        -moz-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -moz-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@-o-keyframes timer-loader {
+    0% {
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes timer-loader {
+    0% {
+        -webkit-transform: rotate(0deg);
+        -moz-transform: rotate(0deg);
+        -o-transform: rotate(0deg);
+        transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+        -moz-transform: rotate(360deg);
+        -o-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
 /*#endregion */

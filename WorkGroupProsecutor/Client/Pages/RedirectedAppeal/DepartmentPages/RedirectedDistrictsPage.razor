@@ -6,20 +6,19 @@
     <h2>на @Period.@Year г.</h2>
 @if (districtsList == null)
 {
-    <div class="cp-spinner-block align-content-center">
-        <div class="spinner-box mx-auto">
-            <div class="configure-border-1">
-                <div class="configure-core"></div>
+<div class="container overflow-auto" style="background-image: url('img/OL1000px.jpg'); height: 800px; background-repeat: no-repeat; background-position: center;">
+    <div class="d-flex justify-content-center  align-items-center" style="height: 700px">
+            <div style="color: rgb(0,0,120)" class="la-timer la-2x">
+                <div></div>
             </div>
-            <div class="configure-border-2">
-                <div class="configure-core"></div>
-            </div>
-        </div>
     </div>
+</div>
 }
 else if (districtsList.Length == 0)
 {
-     <h3>Отсутствую данные за заданный период</h3>    
+<div class="container overflow-auto" style="background-image: url('img/OL1000px.jpg'); height: 800px; background-repeat: no-repeat; background-position: center;">
+    <h2 class="text-secondary">Отсутствую данные за заданный период</h2>
+</div>
 }
 else
 {
@@ -85,6 +84,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         districtsList = (await RedirectedAppealDataService.GetRedirectedAppealsByDistricts(Period, Year)).ToArray();
+        //Array.Sort(districtsList);
         districtsDescriptionList = new string[districtsList.Length];
 
         for (int i = 0; i < districtsList.Length; i++)
