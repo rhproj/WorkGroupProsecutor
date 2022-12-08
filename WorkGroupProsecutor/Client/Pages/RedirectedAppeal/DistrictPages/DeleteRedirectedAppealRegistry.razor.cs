@@ -2,7 +2,7 @@
 using WorkGroupProsecutor.Client.Services;
 using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
 
-namespace WorkGroupProsecutor.Client.Pages.RedirectedAppeal
+namespace WorkGroupProsecutor.Client.Pages.RedirectedAppeal.DistrictPages
 {
     public partial class DeleteRedirectedAppealRegistry
     {

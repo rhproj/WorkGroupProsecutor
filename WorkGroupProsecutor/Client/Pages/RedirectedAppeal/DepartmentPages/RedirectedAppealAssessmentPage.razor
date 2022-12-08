@@ -1,4 +1,5 @@
 ﻿@page "/redirectedappealassessment/{District}/{Period}/{Year:int}"
+@*DEP, GUE*@
 
 <div class="container-fluid m-1">
 <h3 class="text-center my-3">Реестр обращений, предполагаемых к переадресации в иные органы и ведомства</h3>
@@ -29,12 +30,20 @@
               <td>@appeal.DecisionBasis</td>
               @if (!UserState.User.IsInRole(Participants.Department))
               {
-              <td class="text-center">@appeal.DepartmentAssessment</td>
+                <td class="text-center fw-bold">@appeal.DepartmentAssessment</td>
               }
               else
               {
-                <td class="text-center">
-                     <a href="/estimateredirectedappeal/@appeal.Id" class="btn btn-outline-dark">Оц</a>: @appeal.DepartmentAssessment
+                <td class="text-center fw-bold">
+                    @if (string.IsNullOrEmpty(appeal.DepartmentAssessment))
+                    {
+                        <a href="/estimateredirectedappeal/@appeal.Id/@districtDescription" class="btn btn-outline-primary">Оценить</a>
+                    }
+                    else
+                    {
+                        <p>@appeal.DepartmentAssessment</p>
+                        <a href="/estimateredirectedappeal/@appeal.Id/@districtDescription" class="btn btn-outline-secondary">Изменить</a> 
+                    }                     
                 </td>
                 @* <td> <a href="/deleteredirectedappeal/@appeal.Id" class="btn btn-outline-dark">Удалить</a> </td> *@           
               }

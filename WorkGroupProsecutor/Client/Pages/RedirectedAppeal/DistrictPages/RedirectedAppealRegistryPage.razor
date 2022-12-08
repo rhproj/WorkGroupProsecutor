@@ -1,7 +1,6 @@
 ﻿@page "/redirectedappealregistry/{DistrictName}/{Period}/{Year:int}"
-@*@using WorkGroupProsecutor.Shared.Models.Appeal.DTO;*@
-@*@page "/testmaintable"*@
-@*@inject HttpClient httpClient*@
+@attribute [Authorize(Roles = @Participants.District)]
+@*DIS*@
 
 <div class="container-fluid m-1">
     <h3 class="text-center my-3">Реестр обращений, предполагаемых к переадресации в иные органы и ведомства</h3>

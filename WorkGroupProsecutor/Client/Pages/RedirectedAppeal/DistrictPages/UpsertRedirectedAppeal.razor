@@ -3,10 +3,6 @@
 @page "/updateredirectedappeal/{DistrictName}/{Id:int}"
 @attribute [Authorize(Roles = @Participants.District)]
 
-@*@using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
-@using WorkGroupProsecutor.Shared.Models.Participants;*@
-@*@inject NavigationManager navManager*@
-@*@inject HttpClient httpClient*@
 
 <div class="container">
 <h1 class="mt-3 mb-5 text-center">Создать запись: Переадресация  @appeal.PeriodInfo.@appeal.YearInfo</h1>
