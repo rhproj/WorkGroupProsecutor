@@ -17,7 +17,7 @@ namespace WorkGroupProsecutor.Server.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.0")
+                .HasAnnotation("ProductVersion", "7.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -61,10 +61,10 @@ namespace WorkGroupProsecutor.Server.Migrations
                         new
                         {
                             Id = 2,
-                            Password = "7",
+                            Password = "5",
                             Role = "Department",
-                            UserDescription = "7-й отдел",
-                            UserName = "7"
+                            UserDescription = "Надзор за исполнением федерального заканодательства",
+                            UserName = "5"
                         });
                 });
 
@@ -94,6 +94,12 @@ namespace WorkGroupProsecutor.Server.Migrations
 
                     b.Property<string>("District")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsArchived")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NadzorHyperlink")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PeriodInfo")
@@ -137,6 +143,12 @@ namespace WorkGroupProsecutor.Server.Migrations
 
                     b.Property<string>("District")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("IsArchived")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NadzorHyperlink")
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("PeriodInfo")
@@ -188,6 +200,12 @@ namespace WorkGroupProsecutor.Server.Migrations
                     b.Property<string>("InvestigationResults")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("IsArchived")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("NadzorHyperlink")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PeriodInfo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -237,7 +255,7 @@ namespace WorkGroupProsecutor.Server.Migrations
                         {
                             Id = 1,
                             DepartmentIndex = "7",
-                            DepartmentName = "7-й отд."
+                            DepartmentName = "7 Надзор за исполнением федерального заканодательства"
                         });
                 });
 

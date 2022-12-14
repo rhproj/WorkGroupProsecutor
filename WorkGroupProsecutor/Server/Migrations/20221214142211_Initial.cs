@@ -51,12 +51,14 @@ namespace WorkGroupProsecutor.Server.Migrations
                     DepartmentResolution = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DecisionBasis = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NadzorHyperlink = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ApplicantFullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DepartmentId = table.Column<int>(type: "int", nullable: true),
                     DepartmentAssessment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     YearInfo = table.Column<int>(type: "int", nullable: false),
                     PeriodInfo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    District = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    District = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsArchived = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -77,12 +79,14 @@ namespace WorkGroupProsecutor.Server.Migrations
                     RecipientAgency = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DecisionBasis = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NadzorHyperlink = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ApplicantFullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DepartmentId = table.Column<int>(type: "int", nullable: true),
                     DepartmentAssessment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     YearInfo = table.Column<int>(type: "int", nullable: false),
                     PeriodInfo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    District = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    District = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsArchived = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -105,12 +109,14 @@ namespace WorkGroupProsecutor.Server.Migrations
                     RightsRestoration = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ApplicantNotification = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     RegistrationNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    NadzorHyperlink = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ApplicantFullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DepartmentId = table.Column<int>(type: "int", nullable: true),
                     DepartmentAssessment = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     YearInfo = table.Column<int>(type: "int", nullable: false),
                     PeriodInfo = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    District = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    District = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    IsArchived = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -125,7 +131,7 @@ namespace WorkGroupProsecutor.Server.Migrations
             migrationBuilder.InsertData(
                 table: "Department",
                 columns: new[] { "Id", "DepartmentIndex", "DepartmentName" },
-                values: new object[] { 1, "7", "7-й отд." });
+                values: new object[] { 1, "7", "7 Надзор за исполнением федерального заканодательства" });
 
             migrationBuilder.InsertData(
                 table: "UserAccount",
@@ -133,7 +139,7 @@ namespace WorkGroupProsecutor.Server.Migrations
                 values: new object[,]
                 {
                     { 1, "123", "District", "Азнакаевский район", "azn" },
-                    { 2, "7", "Department", "7-й отдел", "7" }
+                    { 2, "5", "Department", "Надзор за исполнением федерального заканодательства", "5" }
                 });
 
             migrationBuilder.CreateIndex(

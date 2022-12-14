@@ -34,10 +34,10 @@ namespace WorkGroupProsecutor.Server.Data.Context
                 new UserAccount
                 {
                     Id = 2,
-                    UserName = "7",
-                    Password = "7",
+                    UserName = "5",
+                    Password = "5",
                     Role = "Department",
-                    UserDescription = "7-й отдел"
+                    UserDescription = "Надзор за исполнением федерального заканодательства"
                 });
 
             modelBuilder.Entity<Department>().HasData(
@@ -45,7 +45,7 @@ namespace WorkGroupProsecutor.Server.Data.Context
                 {
                     Id = 1,
                     DepartmentIndex = "7",
-                    DepartmentName = "7-й отд."
+                    DepartmentName = "7 Надзор за исполнением федерального заканодательства"
                 });
         }
     }

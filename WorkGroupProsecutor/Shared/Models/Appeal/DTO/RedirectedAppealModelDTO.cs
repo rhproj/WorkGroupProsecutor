@@ -11,6 +11,7 @@ namespace WorkGroupProsecutor.Shared.Models.Appeal.DTO
     {
         public int Id { get; set; }
         public string RegistrationNumber { get; set; }
+        public string? NadzorHyperlink { get; set; }
         public string ApplicantFullName { get; set; }
 
         public int? DepartmentId { get; set; }

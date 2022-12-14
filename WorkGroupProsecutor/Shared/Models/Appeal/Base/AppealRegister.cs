@@ -11,6 +11,7 @@ namespace WorkGroupProsecutor.Shared.Models.Base
     {
         public int Id { get; set; }
         public virtual string RegistrationNumber { get; set; }
+        public virtual string? NadzorHyperlink { get; set; }
         public virtual string ApplicantFullName { get; set; }
 
         public int? DepartmentId { get; set; }
@@ -20,5 +21,9 @@ namespace WorkGroupProsecutor.Shared.Models.Base
         public virtual int YearInfo { get; set; }
         public virtual string PeriodInfo { get; set; }
         public virtual string District { get; set; }
+
+        //PARTII:
+        public virtual bool? IsArchived { get; set; }
+        //public virtual DateTime? LastUpdate { get; set; }
     }
 }
