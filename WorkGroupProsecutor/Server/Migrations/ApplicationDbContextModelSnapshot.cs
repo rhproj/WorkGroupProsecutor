@@ -39,7 +39,6 @@ namespace WorkGroupProsecutor.Server.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserDescription")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
@@ -49,6 +48,24 @@ namespace WorkGroupProsecutor.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("UserAccount");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Password = "123",
+                            Role = "District",
+                            UserDescription = "Азнакаевский район",
+                            UserName = "azn"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Password = "7",
+                            Role = "Department",
+                            UserDescription = "7-й отдел",
+                            UserName = "7"
+                        });
                 });
 
             modelBuilder.Entity("WorkGroupProsecutor.Shared.Models.Appeal.NoSolutionAppealModel", b =>
@@ -214,6 +231,14 @@ namespace WorkGroupProsecutor.Server.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Department");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DepartmentIndex = "7",
+                            DepartmentName = "7-й отд."
+                        });
                 });
 
             modelBuilder.Entity("WorkGroupProsecutor.Shared.Models.Appeal.NoSolutionAppealModel", b =>
