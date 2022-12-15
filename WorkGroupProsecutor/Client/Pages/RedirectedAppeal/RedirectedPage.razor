@@ -127,6 +127,10 @@ else
             periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsByDistrict(DistrictName, Year)).ToList();  //"Az"
             _dateTime = DateTime.Now;
         }
+        else if (UserState != null && UserState.User.IsInRole(Participants.Department))
+        {
+            
+        }
         else
         {
             periodsList = (await RedirectedAppealDataService.GetAllRedirectedPeriods(Year)).ToList();

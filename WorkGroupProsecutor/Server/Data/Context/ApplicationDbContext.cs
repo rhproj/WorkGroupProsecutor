@@ -20,33 +20,6 @@ namespace WorkGroupProsecutor.Server.Data.Context
 
         //public DbSet<RecipientAgency> RecipientAgency { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<UserAccount>().HasData(
-                new UserAccount
-                {
-                    Id = 1,
-                    UserName = "azn",
-                    Password = "123",
-                    Role = "District",
-                    UserDescription = "Азнакаевский район"
-                },
-                new UserAccount
-                {
-                    Id = 2,
-                    UserName = "5",
-                    Password = "5",
-                    Role = "Department",
-                    UserDescription = "Надзор за исполнением федерального заканодательства"
-                });
-
-            modelBuilder.Entity<Department>().HasData(
-                new Department
-                {
-                    Id = 1,
-                    DepartmentIndex = "7",
-                    DepartmentName = "7 Надзор за исполнением федерального заканодательства"
-                });
-        }
+        
     }
 }
