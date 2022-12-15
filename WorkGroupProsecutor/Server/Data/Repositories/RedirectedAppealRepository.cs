@@ -28,6 +28,17 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
             return _mapper.Map<IEnumerable<RedirectedAppealModelDTO>>(appeals);
         }
 
+        public async Task<IEnumerable<RedirectedAppealModelDTO>> GetAllRedirectedAppealsByDepartment(string district, string department, string period, int year)  //m
+        {
+            var appeals = await _dbContext.RedirectedAppeal.Include(a => a.Department) //"AppealClassification"
+                .Where(a => a.Department.DepartmentIndex == department)
+                .Where(a => a.District == district)
+                .Where(a => a.PeriodInfo == period)
+                .Where(a => a.YearInfo == year).ToListAsync();
+
+            return _mapper.Map<IEnumerable<RedirectedAppealModelDTO>>(appeals);
+        }
+
         public async Task<IEnumerable<string>> GetAllRedirectedPeriods(int year)
         {
             return await _dbContext.RedirectedAppeal
@@ -41,13 +52,29 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
                 .Where(a => a.YearInfo == year).Select(p => p.PeriodInfo).Distinct().ToListAsync(); //.ToListAsync();
         }
 
+        public async Task<IEnumerable<string>> GetRedirectedPeriodsForDepartment(string department, int year) //n int departmentId
+        {
+            return await _dbContext.RedirectedAppeal
+                //.Where(a => a.DepartmentId == departmentId)
+                .Where(a => a.Department.DepartmentIndex == department)
+                .Where(a => a.YearInfo == year).Select(p => p.PeriodInfo).Distinct().ToListAsync(); //.ToListAsync();
+        }
+
         public async Task<IEnumerable<string>> GetRedirectedAppelsByDistricts(string period, int year) ///
         {
             return await _dbContext.RedirectedAppeal
                 .Where(a => a.PeriodInfo == period)
                 .Where(a => a.YearInfo == year).Select(a => a.District).Distinct().ToListAsync();
-        } 
+        }
 
+
+        public async Task<IEnumerable<string>> GetRedirectedAppelsByDistrictsForDepartment(string department,string period, int year) //n
+        {
+            return await _dbContext.RedirectedAppeal
+                .Where(a => a.Department.DepartmentIndex == department)
+                .Where(a => a.PeriodInfo == period)
+                .Where(a => a.YearInfo == year).Select(a => a.District).Distinct().ToListAsync();
+        }
 
         public async Task<RedirectedAppealModelDTO> GetRedirectedAppealById(int id)
         {

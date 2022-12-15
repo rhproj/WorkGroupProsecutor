@@ -33,8 +33,16 @@
                     <td class="text-center">
                         <a href=@appeal.NadzorHyperlink>@appeal.RegistrationNumber</a>                        
                     </td>
-                    <td>@appeal.ApplicantFullName</td>
-                    <td class="text-center">@appeal.DepartmentId</td>
+                    <td>@appeal.ApplicantFullName</td> 
+                    @*<td class="text-center">@appeal.DepartmentId</td>*@
+                    @if (appeal.Department != null)
+                    {
+                        <td class="text-center">@appeal.Department.DepartmentIndex</td>
+                    }
+                    else
+                    {
+                        <td class="text-center"></td>
+                    }           
                     <td>@appeal.RecipientAgency</td>
                     <td>@appeal.DecisionBasis</td>
                     <td class="text-center">@appeal.DepartmentAssessment</td>

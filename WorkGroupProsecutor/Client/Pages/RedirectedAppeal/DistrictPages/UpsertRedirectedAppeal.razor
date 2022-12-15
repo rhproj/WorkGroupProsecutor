@@ -42,6 +42,7 @@
                 <option value="@department.Id">@department.DepartmentIndex: @department.DepartmentName</option>
             }
         </InputSelect>
+        <ValidationMessage For="@(() => appeal.DepartmentId)" />
     </div>
 
     <div class="mb-4">
@@ -133,6 +134,10 @@
     {
         //await httpClient.PostAsJsonAsync<RedirectedAppealModelDTO>("api/RedirectedAppeal", appeal);
         //await RedirectedAppealDataService.AddRedirectedAppeal(appeal);
+        if (!string.IsNullOrWhiteSpace(appeal.NadzorHyperlink)&&!appeal.NadzorHyperlink.StartsWith("http://"))
+        {
+            appeal.NadzorHyperlink = null;
+        }
 
         if (Id == 0)
         {

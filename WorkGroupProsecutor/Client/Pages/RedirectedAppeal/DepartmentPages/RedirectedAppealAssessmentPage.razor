@@ -1,4 +1,5 @@
-﻿@page "/redirectedappealassessment/{District}/{Period}/{Year:int}"
+﻿@page "/redirectedappealassessment/{District}/{DepartmentName}/{Period}/{Year:int}"
+@page "/redirectedappealassessment/{District}/{Period}/{Year:int}"
 @*DEP, GUE*@
 
 <div class="container-fluid m-1">
@@ -27,7 +28,15 @@
                   <a href=@appeal.NadzorHyperlink>@appeal.RegistrationNumber</a>
               </td>
               <td>@appeal.ApplicantFullName</td>
-              <td class="text-center">@appeal.DepartmentId</td>
+            @*<td class="text-center">@appeal.DepartmentId</td>*@
+              @if (appeal.Department != null)
+              {
+                  <td class="text-center">@appeal.Department.DepartmentIndex</td>
+              }
+              else
+              {
+                  <td class="text-center"></td>
+              }           
               <td>@appeal.RecipientAgency</td>
               <td>@appeal.DecisionBasis</td>
               @if (!UserState.User.IsInRole(Participants.Department))
@@ -60,7 +69,7 @@
  </div>
 
 
- @code {
+@code {
     [Inject]
     public IUserService UserService { get; set; }
     [Inject]
@@ -69,7 +78,9 @@
     public AuthenticationState UserState { get; set; }
 
     [Parameter]
-    public string District { get; set; }
+    public string District { get; set; }    
+    [Parameter]
+    public string DepartmentName { get; set; }
     [Parameter]
     public string Period { get; set; }
     [Parameter]
@@ -84,6 +95,13 @@
     {
         districtDescription = await UserService.GetUserDescription(District);
 
-        appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals(District, Period, Year)).ToList(); //districtName
+        if (!UserState.User.IsInRole(Participants.Department))
+        {
+            appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals(District, Period, Year)).ToList(); //districtName
+        }
+        else
+        {
+            appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppealsByDepartment(District, DepartmentName, Period, Year)).ToList();
+        }
     }
 }

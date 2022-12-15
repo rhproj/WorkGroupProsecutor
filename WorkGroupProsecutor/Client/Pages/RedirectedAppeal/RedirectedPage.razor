@@ -66,6 +66,10 @@ else
                                     {
                                         <a href="/redirectedappealregistry/@DistrictName/@p/@Year" class="btn btn-outline-primary"><img src="img/edit32.png" width="50" height="50" class="mt-2"/></a>
                                     }
+                                    else if (UserState.User.IsInRole(Participants.Department))
+                                    {
+                                        <a href="/redirecteddistrictspage/@DistrictName/@p/@Year" class="btn btn-outline-primary"><img src="img/open32.png" width="50" height="50" class="mt-2"/></a>
+                                    }
                                     else
                                     {
                                         <a href="/redirecteddistrictspage/@p/@Year" class="btn btn-outline-primary"><img src="img/open32.png" width="50" height="50" class="mt-2"/></a>
@@ -129,7 +133,7 @@ else
         }
         else if (UserState != null && UserState.User.IsInRole(Participants.Department))
         {
-            
+            periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsForDepartment(DistrictName, Year)).ToList();
         }
         else
         {

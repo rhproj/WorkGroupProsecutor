@@ -43,6 +43,17 @@ namespace WorkGroupProsecutor.Server.Controllers
         }
 
         /// <summary>
+        /// Возвращает все отчетные периоды, для заданного отдела
+        /// </summary>
+        /// <param name="department">Отдел</param>
+        /// <param name="year">Отчетный год</param>
+        [HttpGet("getForDepartment/{department}/{year}")]
+        public async Task<IActionResult> GetForDepartment(string department, int year)     //n
+        {
+            return Ok(await _appealRepository.GetRedirectedPeriodsForDepartment(department, year));
+        }
+
+        /// <summary>
         /// Возвращает все обращения района за отч.период, предполагаемые к переадресации в иные органы
         /// </summary>
         /// <param name="district">Район</param>
@@ -52,6 +63,20 @@ namespace WorkGroupProsecutor.Server.Controllers
         public async Task<IActionResult> Get(string district, string period, int year)
         {
             return Ok(await _appealRepository.GetAllRedirectedAppeals(district, period, year));
+        }
+
+
+        /// <summary>
+        /// Возвращает все обращения района за отч.период, для определенного отдела предполагаемые к переадресации в иные органы
+        /// </summary>
+        /// <param name="district">Район</param>
+        /// <param name="district">Отдел</param>
+        /// <param name="period">Отчетный период</param>
+        /// <param name="year">Отчетный год</param>
+        [HttpGet("getAllByDepartment/{district}/{department}/{period}/{year}")]
+        public async Task<IActionResult> Get(string district, string department, string period, int year)  //m
+        {
+            return Ok(await _appealRepository.GetAllRedirectedAppealsByDepartment(district, department, period, year));
         }
 
         #region for Dep-ts and w/o auth-n
@@ -65,7 +90,20 @@ namespace WorkGroupProsecutor.Server.Controllers
         public async Task<IActionResult> GetByDistricts(string period, int year)
         {
             return Ok(await _appealRepository.GetRedirectedAppelsByDistricts(period, year));
-        } 
+        }
+
+        /// <summary>
+        /// Cписок районнов имеющих обращения в указанный период отфильтрованных для данного отдела
+        /// </summary>
+        /// <param name="department">Отдел</param>
+        /// <param name="period">Отчетный период</param>
+        /// <param name="year">Отчетный год</param>
+        /// <returns></returns>
+        [HttpGet("getByDistrictsForDepartment/{department}/{period}/{year}")]
+        public async Task<IActionResult> GetByDistrictsForDepartment(string department, string period, int year) //n
+        {
+            return Ok(await _appealRepository.GetRedirectedAppelsByDistrictsForDepartment(department, period, year));
+        }
         #endregion
 
 
