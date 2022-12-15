@@ -1,4 +1,4 @@
-﻿@page "/estimateredirectedappeal/{Id:int}/{DistrictDescription}"
+﻿@page "/estimateredirectedappeal/{Id:int}/{DepartmentName}/{DistrictDescription}"
 @attribute [Authorize(Roles = @Participants.Department)]
 @*DEP*@
 
@@ -38,6 +38,7 @@
     </div>
     <div class="form-group text-center mt-5">
         <button class="btn btn-outline-success btn-lg" style="width:150px" @onclick="Approve">Да</button>
+        <button class="btn btn-outline-primary btn-lg" style="width:185px" @onclick="WithControl">Да, c контролем</button>
         <button class="btn btn-outline-danger btn-lg" style="width:150px" @onclick="Disapprove">Нет</button>
         <button class="btn btn-secondary btn-lg" style="width:150px" @onclick="GotBack">Отмена</button>
     </div>
@@ -54,6 +55,8 @@
 
     [Parameter]
     public int Id { get; set; }
+    [Parameter]
+    public string DepartmentName { get; set; }
 
     [Parameter]
     public string DistrictDescription { get; set; }
@@ -84,6 +87,21 @@
         GotBack();
     }
 
+    private async Task WithControl() //turns out we can't have method with PageName
+    {
+        if (appeal != null)
+        {
+            appeal.DepartmentAssessment = $@"Да, c контролем";
+            if (!string.IsNullOrWhiteSpace(comments))
+            {
+                appeal.DepartmentAssessment += $": {comments}";
+            }
+            await RedirectedAppealDataService.UpdateRedirectedAppeal(appeal);
+            //await RedirectedAppealDataService.DeleteRedirectedAppeal(Id); //httpClient.DeleteAsync($"api//{Id}");
+        }
+        GotBack();
+    }
+
     private async Task Disapprove() //turns out we can't have method with PageName
     {
         if (appeal != null)
@@ -101,6 +119,6 @@
 
     private void GotBack()
     {
-        navManager.NavigateTo($"/redirectedappealassessment/{appeal.District}/{appeal.PeriodInfo}/{appeal.YearInfo}");
+        navManager.NavigateTo($"/redirectedappealassessment/{appeal.District}/{DepartmentName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
     }
 }
