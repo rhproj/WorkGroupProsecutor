@@ -17,6 +17,14 @@
         <ValidationMessage For="@(() => appeal.RegistrationNumber)" />
     </div>
 
+    <div class="mb-4">
+        <label for="RegistrationNumber" class="form-label">Cсылка в системе Надзор-WEB:</label>
+        <div class="col-md-4 w-100">
+            <InputText class="form-control form-control-lg" @bind-Value="appeal.NadzorHyperlink" />
+        </div>
+        <ValidationMessage For="@(() => appeal.NadzorHyperlink)" />
+    </div>
+
     <div class="mb-5">
         <label for="ApplicantFullName" class="form-label">ФИО заявителя / Наименование организации:</label>
         <div class="col-md-4 w-100">
@@ -39,7 +47,8 @@
     <div class="mb-4">
         <label class="form-label">Орган, в который предполагается переадресовать обращение:</label>
         <div class="col-md-4 w-100">
-            <InputText class="form-control form-control-lg" @bind-Value="appeal.RecipientAgency" />
+            <InputTextArea class="form-control form-control-lg" rows="4" @bind-Value="appeal.RecipientAgency" />
+            @*<InputText class="form-control form-control-lg" @bind-Value="appeal.RecipientAgency" />*@
         </div>
         <ValidationMessage For="@(() => appeal.RecipientAgency)" />
     </div>
@@ -59,7 +68,7 @@
         <div>
             <InputText class="form-control form-control-lg" disabled=@isEditable placeholder="'число'.'месяц'" aria-label="PeriodInfo" aria-describedby="basic-addon1" @bind-Value="appeal.PeriodInfo" />
         </div>
-        <ValidationMessage For="@(() => appeal.RegistrationNumber)" />
+        <ValidationMessage For="@(() => appeal.PeriodInfo)" />
     </div>
     <div class="form-group mt-4 mb-4">
         <button type="submit" class="btn btn-primary btn-lg">Сохранить</button>
@@ -107,7 +116,7 @@
         {
             appeal.YearInfo = Year;
             appeal.PeriodInfo = Period;
-            appeal.District = DistrictName; //"Az"; //swap with actual param
+            appeal.District = DistrictName;
         }
         else
         {

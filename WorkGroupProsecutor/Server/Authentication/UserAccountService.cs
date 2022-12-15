@@ -4,9 +4,9 @@ using WorkGroupProsecutor.Shared.Authentication;
 
 namespace WorkGroupProsecutor.Server.Authentication
 {
-    public class UserAccountService
+    public class UserAccountService //Repo auth
     {
-        private readonly ApplicationDbContext _dbContext; //b4Repo
+        private readonly ApplicationDbContext _dbContext; 
         public UserAccountService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;

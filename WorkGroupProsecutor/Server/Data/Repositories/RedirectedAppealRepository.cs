@@ -76,20 +76,20 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
             //var appeal = _mapper.Map<RedirectedAppealModel>(appealDto);
 
             var appealToEdit = await _dbContext.RedirectedAppeal.FirstOrDefaultAsync(d => d.Id == appealDto.Id);
-
-            appealToEdit.RegistrationNumber = appealDto.RegistrationNumber;
-            appealToEdit.DecisionBasis = appealDto.DecisionBasis;
-
+            
             appealToEdit.District = appealDto.District;
-            appealToEdit.ApplicantFullName = appealDto.ApplicantFullName;
-
-            appealToEdit.DepartmentId = appealDto.DepartmentId;
-            appealToEdit.DepartmentAssessment = appealDto.DepartmentAssessment;
-
             appealToEdit.PeriodInfo = appealDto.PeriodInfo;
             appealToEdit.YearInfo = appealDto.YearInfo;
 
+            appealToEdit.RegistrationNumber = appealDto.RegistrationNumber;
+            appealToEdit.NadzorHyperlink = appealDto.NadzorHyperlink;
+
+            appealToEdit.ApplicantFullName = appealDto.ApplicantFullName;
             appealToEdit.RecipientAgency = appealDto.RecipientAgency;
+            appealToEdit.DecisionBasis = appealDto.DecisionBasis;
+
+            appealToEdit.DepartmentId = appealDto.DepartmentId;
+            appealToEdit.DepartmentAssessment = appealDto.DepartmentAssessment;
 
             _dbContext.RedirectedAppeal.Update(appealToEdit);
             await _dbContext.SaveChangesAsync();
