@@ -52,7 +52,7 @@ namespace WorkGroupProsecutor.Client.Authentication
 
             if (userSession != null)
             {
-                userSession.ExpiryTimeStamp = DateTime.Now.AddMinutes(15); //AddMinutes(SESSION_VALIDITY_MINS);
+                userSession.ExpiryTimeStamp = DateTime.Now.AddMonths(6); //AddMinutes(SESSION_VALIDITY_MINS);
                 await _localStorage.SetItemAsync("UserSession", userSession);
                 claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new List<Claim>
                 {
