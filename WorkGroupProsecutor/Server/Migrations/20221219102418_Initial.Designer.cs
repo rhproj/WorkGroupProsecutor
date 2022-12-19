@@ -12,7 +12,7 @@ using WorkGroupProsecutor.Server.Data.Context;
 namespace WorkGroupProsecutor.Server.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20221215125216_Initial")]
+    [Migration("20221219102418_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -146,7 +146,7 @@ namespace WorkGroupProsecutor.Server.Migrations
                             Id = 1,
                             Password = "123",
                             Role = "District",
-                            UserDescription = "г. Казань",
+                            UserDescription = "Казань",
                             UserName = "kazan"
                         },
                         new
@@ -442,7 +442,7 @@ namespace WorkGroupProsecutor.Server.Migrations
                             Id = 38,
                             Password = "123",
                             Role = "District",
-                            UserDescription = "г. Набережные Челны",
+                            UserDescription = "Набережные Челны",
                             UserName = "nab"
                         },
                         new
@@ -587,6 +587,9 @@ namespace WorkGroupProsecutor.Server.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("HasNoAppeals")
+                        .HasColumnType("bit");
+
                     b.Property<bool?>("IsArchived")
                         .HasColumnType("bit");
 
@@ -635,6 +638,9 @@ namespace WorkGroupProsecutor.Server.Migrations
                     b.Property<string>("District")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("HasNoAppeals")
+                        .HasColumnType("bit");
 
                     b.Property<bool?>("IsArchived")
                         .HasColumnType("bit");
@@ -687,6 +693,9 @@ namespace WorkGroupProsecutor.Server.Migrations
                     b.Property<string>("District")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("HasNoAppeals")
+                        .HasColumnType("bit");
 
                     b.Property<string>("InvestigationResults")
                         .HasColumnType("nvarchar(max)");
@@ -746,67 +755,67 @@ namespace WorkGroupProsecutor.Server.Migrations
                         {
                             Id = 1,
                             DepartmentIndex = "7",
-                            DepartmentName = "7 Управление по надзору за исполнением федерального законодательства"
+                            DepartmentName = "Управление по надзору за исполнением федерального законодательства"
                         },
                         new
                         {
                             Id = 2,
                             DepartmentIndex = "8",
-                            DepartmentName = "8 Обеспечение участия прокуроров в гражданском и арбитражном процессе"
+                            DepartmentName = "Обеспечение участия прокуроров в гражданском и арбитражном процессе"
                         },
                         new
                         {
                             Id = 3,
                             DepartmentIndex = "9",
-                            DepartmentName = "9 Отдел общего и особого делопроизводства"
+                            DepartmentName = "Отдел общего и особого делопроизводства"
                         },
                         new
                         {
                             Id = 4,
                             DepartmentIndex = "12",
-                            DepartmentName = "12 Уголовно-судебное управление"
+                            DepartmentName = "Уголовно-судебное управление"
                         },
                         new
                         {
                             Id = 5,
                             DepartmentIndex = "15",
-                            DepartmentName = "15 Надзор за следствием, дознанием и ОРД"
+                            DepartmentName = "Надзор за следствием, дознанием и ОРД"
                         },
                         new
                         {
                             Id = 6,
                             DepartmentIndex = "17",
-                            DepartmentName = "17 Надзор за законностью исполнения уголовных наказаний"
+                            DepartmentName = "Надзор за законностью исполнения уголовных наказаний"
                         },
                         new
                         {
                             Id = 7,
                             DepartmentIndex = "21",
-                            DepartmentName = "21 Надзор за исполнением законов о несовершеннолетних и молодежи"
+                            DepartmentName = "Надзор за исполнением законов о несовершеннолетних и молодежи"
                         },
                         new
                         {
                             Id = 8,
                             DepartmentIndex = "25",
-                            DepartmentName = "25 Старший помощник прокурора по рассмотрению обращений и приему граждан"
+                            DepartmentName = "Старший помощник прокурора по рассмотрению обращений и приему граждан"
                         },
                         new
                         {
                             Id = 9,
                             DepartmentIndex = "27",
-                            DepartmentName = "27 Надзор за исполнением законов в федеральной безопасности"
+                            DepartmentName = "Надзор за исполнением законов в федеральной безопасности"
                         },
                         new
                         {
                             Id = 10,
                             DepartmentIndex = "86",
-                            DepartmentName = "86 Отдел по надзору за исполнением законодательства о противодействии корупции"
+                            DepartmentName = "Отдел по надзору за исполнением законодательства о противодействии корупции"
                         },
                         new
                         {
                             Id = 11,
                             DepartmentIndex = "88",
-                            DepartmentName = "88 Надзор за исполнением законов в сфере ОПК"
+                            DepartmentName = "Надзор за исполнением законов в сфере ОПК"
                         });
                 });
 

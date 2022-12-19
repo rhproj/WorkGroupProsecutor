@@ -20,5 +20,6 @@ namespace WorkGroupProsecutor.Server.Data.Context
         public DbSet<UserAccount> UserAccount { get; set; } //auth
 
         //public DbSet<RecipientAgency> RecipientAgency { get; set; }
+
     }
 }

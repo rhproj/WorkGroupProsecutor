@@ -58,6 +58,7 @@ namespace WorkGroupProsecutor.Server.Migrations
                     YearInfo = table.Column<int>(type: "int", nullable: false),
                     PeriodInfo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     District = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HasNoAppeals = table.Column<bool>(type: "bit", nullable: true),
                     IsArchived = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
@@ -86,6 +87,7 @@ namespace WorkGroupProsecutor.Server.Migrations
                     YearInfo = table.Column<int>(type: "int", nullable: false),
                     PeriodInfo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     District = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HasNoAppeals = table.Column<bool>(type: "bit", nullable: true),
                     IsArchived = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
@@ -116,6 +118,7 @@ namespace WorkGroupProsecutor.Server.Migrations
                     YearInfo = table.Column<int>(type: "int", nullable: false),
                     PeriodInfo = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     District = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HasNoAppeals = table.Column<bool>(type: "bit", nullable: true),
                     IsArchived = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
@@ -133,17 +136,17 @@ namespace WorkGroupProsecutor.Server.Migrations
                 columns: new[] { "Id", "DepartmentIndex", "DepartmentName" },
                 values: new object[,]
                 {
-                    { 1, "7", "7 Управление по надзору за исполнением федерального законодательства" },
-                    { 2, "8", "8 Обеспечение участия прокуроров в гражданском и арбитражном процессе" },
-                    { 3, "9", "9 Отдел общего и особого делопроизводства" },
-                    { 4, "12", "12 Уголовно-судебное управление" },
-                    { 5, "15", "15 Надзор за следствием, дознанием и ОРД" },
-                    { 6, "17", "17 Надзор за законностью исполнения уголовных наказаний" },
-                    { 7, "21", "21 Надзор за исполнением законов о несовершеннолетних и молодежи" },
-                    { 8, "25", "25 Старший помощник прокурора по рассмотрению обращений и приему граждан" },
-                    { 9, "27", "27 Надзор за исполнением законов в федеральной безопасности" },
-                    { 10, "86", "86 Отдел по надзору за исполнением законодательства о противодействии корупции" },
-                    { 11, "88", "88 Надзор за исполнением законов в сфере ОПК" }
+                    { 1, "7", "Управление по надзору за исполнением федерального законодательства" },
+                    { 2, "8", "Обеспечение участия прокуроров в гражданском и арбитражном процессе" },
+                    { 3, "9", "Отдел общего и особого делопроизводства" },
+                    { 4, "12", "Уголовно-судебное управление" },
+                    { 5, "15", "Надзор за следствием, дознанием и ОРД" },
+                    { 6, "17", "Надзор за законностью исполнения уголовных наказаний" },
+                    { 7, "21", "Надзор за исполнением законов о несовершеннолетних и молодежи" },
+                    { 8, "25", "Старший помощник прокурора по рассмотрению обращений и приему граждан" },
+                    { 9, "27", "Надзор за исполнением законов в федеральной безопасности" },
+                    { 10, "86", "Отдел по надзору за исполнением законодательства о противодействии корупции" },
+                    { 11, "88", "Надзор за исполнением законов в сфере ОПК" }
                 });
 
             migrationBuilder.InsertData(
@@ -151,7 +154,7 @@ namespace WorkGroupProsecutor.Server.Migrations
                 columns: new[] { "Id", "Password", "Role", "UserDescription", "UserName" },
                 values: new object[,]
                 {
-                    { 1, "123", "District", "г. Казань", "kazan" },
+                    { 1, "123", "District", "Казань", "kazan" },
                     { 2, "123", "District", "Авиастроительный район", "av" },
                     { 3, "123", "District", "Кировский район", "kir" },
                     { 4, "123", "District", "Московский район", "msk" },
@@ -188,7 +191,7 @@ namespace WorkGroupProsecutor.Server.Migrations
                     { 35, "123", "District", "Менделеевский район", "mend" },
                     { 36, "123", "District", "Мензелинский район", "menz" },
                     { 37, "123", "District", "Муслюмовский район", "musl" },
-                    { 38, "123", "District", "г. Набережные Челны", "nab" },
+                    { 38, "123", "District", "Набережные Челны", "nab" },
                     { 39, "123", "District", "Нижнекамский район", "nk" },
                     { 40, "123", "District", "Новошешминский район", "nsh" },
                     { 41, "123", "District", "Нурлатский район", "nurlat" },

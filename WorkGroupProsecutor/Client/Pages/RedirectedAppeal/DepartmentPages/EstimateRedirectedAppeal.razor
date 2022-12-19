@@ -76,7 +76,7 @@
     {
         if (appeal != null)
         {
-            appeal.DepartmentAssessment = $@"Да";
+            appeal.DepartmentAssessment = "Да";
             if (!string.IsNullOrWhiteSpace(comments))
             {
                 appeal.DepartmentAssessment += $": {comments}";
@@ -91,7 +91,7 @@
     {
         if (appeal != null)
         {
-            appeal.DepartmentAssessment = $@"Да, c контролем";
+            appeal.DepartmentAssessment = "Да, c контролем";
             if (!string.IsNullOrWhiteSpace(comments))
             {
                 appeal.DepartmentAssessment += $": {comments}";
