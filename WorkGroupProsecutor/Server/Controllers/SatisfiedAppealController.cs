@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WorkGroupProsecutor.Server.Data.Repositories;
-using WorkGroupProsecutor.Shared.Models.Appeal;
 using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
-using WorkGroupProsecutor.Shared.Models.Participants;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -10,46 +8,14 @@ namespace WorkGroupProsecutor.Server.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class RedirectedAppealController : ControllerBase
+    public class SatisfiedAppealController : ControllerBase
     {
-        private readonly IRedirectedAppealRepository _appealRepository;
-
-        public RedirectedAppealController(IRedirectedAppealRepository appealRepository)
+        private readonly ISatisfiedAppealRepository _appealRepository;
+        public SatisfiedAppealController(ISatisfiedAppealRepository appealRepository)
         {
             _appealRepository = appealRepository;
         }
 
-        /// <summary>
-        /// Возвращает все отчетные периоды
-        /// </summary>
-        /// <param name="year">Отчетный год</param>
-        [HttpGet("getPeriods/{year}")]
-        public async Task<IActionResult> GetPeriods(int year)
-        {
-            return Ok(await _appealRepository.GetAllRedirectedPeriods(year));
-        }
-
-        /// <summary>
-        /// Возвращает все отчетные периоды, заполненные заданным районом
-        /// </summary>
-        /// <param name="district">Район (УЗ пользователя)</param>
-        /// <param name="year">Отчетный год</param>
-        [HttpGet("{district}/{year}")]
-        public async Task<IActionResult> Get(string district, int year)
-        {
-            return Ok(await _appealRepository.GetRedirectedPeriodsByDistrict(district, year));
-        }
-
-        /// <summary>
-        /// Возвращает все отчетные периоды, для заданного отдела
-        /// </summary>
-        /// <param name="department">Отдел</param>
-        /// <param name="year">Отчетный год</param>
-        [HttpGet("getForDepartment/{department}/{year}")]
-        public async Task<IActionResult> GetForDepartment(string department, int year)     //n
-        {
-            return Ok(await _appealRepository.GetRedirectedPeriodsForDepartment(department, year));
-        }
 
         /// <summary>
         /// Возвращает все обращения района за отч.период, предполагаемые к переадресации в иные органы
@@ -60,9 +26,8 @@ namespace WorkGroupProsecutor.Server.Controllers
         [HttpGet("{district}/{period}/{year}")]
         public async Task<IActionResult> Get(string district, string period, int year)
         {
-            return Ok(await _appealRepository.GetAllRedirectedAppeals(district, period, year));
+            return Ok(await _appealRepository.GetAllSatisfiedAppeals(district, period, year));
         }
-
 
         /// <summary>
         /// Возвращает все обращения района за отч.период, для определенного отдела предполагаемые к переадресации в иные органы
@@ -71,10 +36,10 @@ namespace WorkGroupProsecutor.Server.Controllers
         /// <param name="district">Отдел</param>
         /// <param name="period">Отчетный период</param>
         /// <param name="year">Отчетный год</param>
-        [HttpGet("getAllByDepartment/{district}/{department}/{period}/{year}")]
-        public async Task<IActionResult> Get(string district, string department, string period, int year)  //m
+        [HttpGet("getAllForDepartment/{district}/{department}/{period}/{year}")]
+        public async Task<IActionResult> GetAllForDepartment(string district, string department, string period, int year)  //m
         {
-            return Ok(await _appealRepository.GetAllRedirectedAppealsByDepartment(district, department, period, year));
+            return Ok(await _appealRepository.GetAllSatisfiedAppealsForDepartment(district, department, period, year));
         }
 
         #region for Dep-ts and w/o auth-n
@@ -87,7 +52,7 @@ namespace WorkGroupProsecutor.Server.Controllers
         [HttpGet("getByDistricts/{period}/{year}")]
         public async Task<IActionResult> GetByDistricts(string period, int year)
         {
-            return Ok(await _appealRepository.GetRedirectedAppealsByDistricts(period, year));
+            return Ok(await _appealRepository.GetSatisfiedAppealsByDistricts(period, year));
         }
 
         /// <summary>
@@ -100,7 +65,7 @@ namespace WorkGroupProsecutor.Server.Controllers
         [HttpGet("getByDistrictsForDepartment/{department}/{period}/{year}")]
         public async Task<IActionResult> GetByDistrictsForDepartment(string department, string period, int year) //n
         {
-            return Ok(await _appealRepository.GetRedirectedAppelsByDistrictsForDepartment(department, period, year));
+            return Ok(await _appealRepository.GetSatisfiedAppealsByDistrictsForDepartment(department, period, year));
         }
         #endregion
 
@@ -110,7 +75,7 @@ namespace WorkGroupProsecutor.Server.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
-            return Ok(await _appealRepository.GetRedirectedAppealById(id));
+            return Ok(await _appealRepository.GetSatisfiedAppealById(id));
         }
 
         /// <summary>
@@ -118,9 +83,9 @@ namespace WorkGroupProsecutor.Server.Controllers
         /// </summary>
         /// <param name="appealDto">Модель обращения</param>
         [HttpPost]
-        public async Task<IActionResult> Post(RedirectedAppealModelDTO appealDto)
+        public async Task<IActionResult> Post(SatisfiedAppealModelDTO appealDto)
         {
-            await _appealRepository.AddRedirectedAppeal(appealDto);
+            await _appealRepository.AddSatisfiedAppeal(appealDto);
             return Ok("Обращение добавлено");
         }
 
@@ -129,9 +94,9 @@ namespace WorkGroupProsecutor.Server.Controllers
         /// </summary>
         /// <param name="appealDto">Модель обращения</param>
         [HttpPut]   //("{id}")]
-        public async Task<IActionResult> Put(RedirectedAppealModelDTO appealDto)
+        public async Task<IActionResult> Put(SatisfiedAppealModelDTO appealDto)
         {
-            await _appealRepository.UpdateRedirectedAppeal(appealDto);
+            await _appealRepository.UpdateSatisfiedAppeal(appealDto);
             return Ok("Обращение обнавлено");
         }
 
@@ -141,7 +106,7 @@ namespace WorkGroupProsecutor.Server.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await _appealRepository.DeleteRedirectedAppeal(id);
+            await _appealRepository.DeleteSatisfiedAppeal(id);
             return Ok("Обращение удалено");
         }
     }

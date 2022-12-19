@@ -25,6 +25,5 @@ namespace WorkGroupProsecutor.Shared.Models.Base
         //PARTII:
         public virtual bool? HasNoAppeals { get; set; }
         public virtual bool? IsArchived { get; set; }
-        //public virtual DateTime? LastUpdate { get; set; }
     }
 }
