@@ -42,14 +42,14 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
         public async Task<IEnumerable<string>> GetAllRedirectedPeriods(int year)
         {
             return await _dbContext.RedirectedAppeal
-                .Where(a => a.YearInfo == year).Select(p => p.PeriodInfo).Distinct().ToListAsync(); //.ToListAsync();
+                .Where(p => p.YearInfo == year).Select(p => p.PeriodInfo).Distinct().ToListAsync();
         }
 
         public async Task<IEnumerable<string>> GetRedirectedPeriodsByDistrict(string district, int year)
         {
             return await _dbContext.RedirectedAppeal
                 .Where(a => a.District == district)
-                .Where(a => a.YearInfo == year).Select(p => p.PeriodInfo).Distinct().ToListAsync(); //.ToListAsync();
+                .Where(a => a.YearInfo == year).Select(p => p.PeriodInfo).Distinct().ToListAsync();
         }
 
         public async Task<IEnumerable<string>> GetRedirectedPeriodsForDepartment(string department, int year) //n int departmentId
@@ -57,10 +57,10 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
             return await _dbContext.RedirectedAppeal
                 //.Where(a => a.DepartmentId == departmentId)
                 .Where(a => a.Department.DepartmentIndex == department)
-                .Where(a => a.YearInfo == year).Select(p => p.PeriodInfo).Distinct().ToListAsync(); //.ToListAsync();
+                .Where(a => a.YearInfo == year).Select(p => p.PeriodInfo).Distinct().ToListAsync();
         }
 
-        public async Task<IEnumerable<string>> GetRedirectedAppelsByDistricts(string period, int year) ///
+        public async Task<IEnumerable<string>> GetRedirectedAppealsByDistricts(string period, int year) ///
         {
             return await _dbContext.RedirectedAppeal
                 .Where(a => a.PeriodInfo == period)

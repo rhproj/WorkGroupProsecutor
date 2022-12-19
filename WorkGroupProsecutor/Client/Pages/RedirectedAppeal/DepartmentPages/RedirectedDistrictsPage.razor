@@ -109,6 +109,8 @@ else
         {
             districtsDescriptionList[i] = await UserService.GetUserDescription(districtsList[i]);
         }
+        Array.Sort(districtsDescriptionList);
+
         //await httpClient.GetFromJsonAsync<List<DistrictRegisterModel>>("api/redirectedappeal/{district}/{period}/{year}");
     }
 

@@ -89,7 +89,7 @@ namespace WorkGroupProsecutor.Server.Controllers
         [HttpGet("getByDistricts/{period}/{year}")]
         public async Task<IActionResult> GetByDistricts(string period, int year)
         {
-            return Ok(await _appealRepository.GetRedirectedAppelsByDistricts(period, year));
+            return Ok(await _appealRepository.GetRedirectedAppealsByDistricts(period, year));
         }
 
         /// <summary>

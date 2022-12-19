@@ -41,7 +41,6 @@ builder.Services.AddAuthentication(o =>
 
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
-builder.Services.AddScoped<IAppealRegisterRepository, AppealRegisterRepository>(); //to delete
 builder.Services.AddScoped<IRedirectedAppealRepository, RedirectedAppealRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 //builder.Services.AddScoped<IUserAccountRepository, UserAccountRepository>();

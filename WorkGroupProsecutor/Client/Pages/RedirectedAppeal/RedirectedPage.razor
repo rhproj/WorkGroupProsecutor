@@ -12,7 +12,7 @@
                     <label>Дата: </label>
                 </div>
                 <div class="ms-3 me-3 mt-1">
-                    <input type="date" @bind=_dateTime />
+                    <input type="date" @bind=dateTime />
                 </div>
                 <div>
 @*disabled=@isDisabled  vv*@
@@ -35,7 +35,7 @@
         </div>
     </div>
 }
-else if (periodsList.Count == 0)
+else if (periodsList.Length == 0)   //Count == 0)
 {
         <div class="container overflow-auto" style="background-image: url('img/BG.jpg'); height: 800px; background-repeat: no-repeat; background-position: center;">
          <h2 class="text-secondary">Отсутствую данные за заданный период</h2>
@@ -118,33 +118,34 @@ else
     public int Year { get; set; }
     private string period;
     private bool isDisabled = true;
-    private List<string> periodsList;// = new();
+    //private List<string> periodsList;// = new();
+    private string[] periodsList;
 
     //private enum LoadingCollectionState {Loading, Loaded, Error};
-    private DateTime _dateTime;
+    private DateTime dateTime;
     //private LoadingCollectionState state;
 
     protected override async Task OnInitializedAsync()
     {
         if (UserState!= null && UserState.User.IsInRole(Participants.District))
         {
-            periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsByDistrict(DistrictName, Year)).ToList();  //"Az"
-            _dateTime = DateTime.Now;
+            periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsByDistrict(DistrictName, Year)).OrderByDescending(p => DateOnly.Parse(p)).ToArray();   //ToList();  //"Az"
+            dateTime = DateTime.Now;
         }
         else if (UserState != null && UserState.User.IsInRole(Participants.Department))
         {
-            periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsForDepartment(DistrictName, Year)).ToList();
+            periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsForDepartment(DistrictName, Year)).OrderByDescending(p => DateOnly.Parse(p)).ToArray(); //.ToList();
         }
         else
         {
-            periodsList = (await RedirectedAppealDataService.GetAllRedirectedPeriods(Year)).ToList();
+            periodsList = (await RedirectedAppealDataService.GetAllRedirectedPeriods(Year)).OrderByDescending(p => DateOnly.Parse(p)).ToArray(); //.ToList();
         }
     }
 
     private void NavigateToAddPage()
     {
         //period = _dateTime.ToString("dd.MM");
-        navManager.NavigateTo($"/addredirectedappeal/{DistrictName}/{_dateTime.ToString("dd.MM")}/{Year}"); //period
+        navManager.NavigateTo($"/addredirectedappeal/{DistrictName}/{dateTime.ToString("dd.MM")}/{Year}"); //period
     }
 
     private void EnableNav() //KeyboardEventArgs eventArgs
