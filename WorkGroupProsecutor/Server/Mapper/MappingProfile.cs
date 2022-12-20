@@ -9,6 +9,8 @@ namespace WorkGroupProsecutor.Server.Mapper
         public MappingProfile() 
         { 
             CreateMap<RedirectedAppealModel, RedirectedAppealModelDTO>().ReverseMap();
+
+            CreateMap<SatisfiedAppealModel, SatisfiedAppealModelDTO>().ReverseMap();
         }
     }
 }

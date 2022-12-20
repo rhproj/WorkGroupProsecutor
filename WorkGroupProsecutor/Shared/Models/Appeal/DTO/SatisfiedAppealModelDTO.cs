@@ -20,12 +20,12 @@ namespace WorkGroupProsecutor.Shared.Models.Appeal.DTO
         public int? DepartmentId { get; set; }
         public Department? Department { get; set; } //= new();
 
-
+        //Unique
         public string? ProsecutorAction { get; set; }
         public string? InvestigationResults { get; set; }
         public string? RightsRestoration { get; set; }
         public string? ApplicantNotification { get; set; }
-
+        //
 
         public string? DepartmentAssessment { get; set; } //Оценка полноты и своевременности принятых мер
 

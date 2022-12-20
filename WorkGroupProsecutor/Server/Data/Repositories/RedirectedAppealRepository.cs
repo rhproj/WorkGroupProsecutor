@@ -39,6 +39,7 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
             return _mapper.Map<IEnumerable<RedirectedAppealModelDTO>>(appeals);
         }
 
+        #region PERIODS
         public async Task<IEnumerable<string>> GetAllRedirectedPeriods(int year)
         {
             return await _dbContext.RedirectedAppeal
@@ -58,7 +59,8 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
                 //.Where(a => a.DepartmentId == departmentId)
                 .Where(a => a.Department.DepartmentIndex == department)
                 .Where(a => a.YearInfo == year).Select(p => p.PeriodInfo).Distinct().ToListAsync();
-        }
+        } 
+        #endregion
 
         public async Task<IEnumerable<string>> GetRedirectedAppealsByDistricts(string period, int year) ///
         {

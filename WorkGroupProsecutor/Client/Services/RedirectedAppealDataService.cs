@@ -12,6 +12,7 @@ namespace WorkGroupProsecutor.Client.Services
             _httpClient= httpClient;
         }
 
+        #region PERIODS
         public async Task<IEnumerable<string>> GetAllRedirectedPeriods(int year)
         {
             return await JsonSerializer.DeserializeAsync<IEnumerable<string>>
@@ -28,7 +29,8 @@ namespace WorkGroupProsecutor.Client.Services
         {
             return await JsonSerializer.DeserializeAsync<IEnumerable<string>>
                 (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/getForDepartment/{department}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-        }
+        } 
+        #endregion
 
         public async Task<IEnumerable<RedirectedAppealModelDTO>> GetAllRedirectedAppeals(string district, string period, int year)
         {
@@ -54,16 +56,16 @@ namespace WorkGroupProsecutor.Client.Services
                 (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/getByDistrictsForDepartment/{department}/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
-        public async Task AddRedirectedAppeal(RedirectedAppealModelDTO appeal)
-        {
-            var appealJson = new StringContent(JsonSerializer.Serialize(appeal), Encoding.UTF8, "application/json");
-            await _httpClient.PostAsync("api/RedirectedAppeal", appealJson); //var response = 
-        }
-
         public async Task<RedirectedAppealModelDTO> GetRedirectedAppealById(int id)
         {
             return await JsonSerializer.DeserializeAsync<RedirectedAppealModelDTO>
                 (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/{id}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+        }
+
+        public async Task AddRedirectedAppeal(RedirectedAppealModelDTO appeal)
+        {
+            var appealJson = new StringContent(JsonSerializer.Serialize(appeal), Encoding.UTF8, "application/json");
+            await _httpClient.PostAsync("api/RedirectedAppeal", appealJson); //var response = 
         }
 
         public async Task UpdateRedirectedAppeal(RedirectedAppealModelDTO appeal)
