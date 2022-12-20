@@ -1,5 +1,4 @@
 ﻿@page "/"
-@inject Services.YearSetter yearSetter
 <PageTitle>Рабочая группа</PageTitle>
 
 <h1 class="display-4 text-center mt-3 mb-5">Рабочая группа по обращениям</h1>
@@ -21,9 +20,8 @@
                 <div class="card-body">
                     <h1 class="card-title text-center text-success mt-3 mb-4">Удовлетворено</h1>
                     <p class="card-text h5">Реестры обращений, по которым приняты решения "Удовлетворено" и "Удовлетворено частично"</p>
-                    <p class="card-text text-secondary fst-italic">раз в квартал</p>
-                    <a href="satisfiedpage" class="stretched-link"></a>                    
-@*                    <a href="satisfiedpage/@yearSetter.YearInfo" class="stretched-link"></a>*@
+                    <p class="card-text text-secondary fst-italic">раз в квартал</p>          
+                    <a href="satisfiedpage/@yearSetter.YearInfo" class="stretched-link"></a>
                 </div>
             </div>
         </div>

@@ -1,7 +1,11 @@
-﻿@page "/satisfiedpage"
+﻿@page "/satisfiedpage/{Year:int}"
 
-<h2>В разработке...</h2>
+<div class="container-fluid mt-2 text-center">
+    <h2 class="mb-5">Реестры обращений, по которым приняты решения "Удовлетворено" и "Удовлетворено частично"</h2>
+
+</div>
 
 @code {
-
+    [Parameter]
+    public int Year { get; set; }
 }

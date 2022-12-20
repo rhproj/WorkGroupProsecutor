@@ -17,14 +17,27 @@
         <ValidationMessage For="@(() => appeal.RegistrationNumber)" />
     </div>
 
-    <div class="mb-4">
+@*    <div class="mb-4">
         <label for="RegistrationNumber" class="form-label">Cсылка в системе Надзор-WEB:</label>
         <div class="col-md-4 w-100">
             <InputText class="form-control form-control-lg" @bind-Value="appeal.NadzorHyperlink" />
         </div>
         <ValidationMessage For="@(() => appeal.NadzorHyperlink)" />
          <p class="text-black-50 fs-4 fst-italic">Чтобы вставить ссылку документа Надзора откройте его в новой вклатке (прав.кп мыши "Открыть в новой вкладке") и скопируйте всю адресную строку (http://...)</p>
+    </div>*@
+
+    <div class="input-group mb-4 input-group-lg">
+        <div class="input-group-prepend">
+            <button class="btn btn-outline-primary btn-lg" type="button" @onclick=PasteFromClipboard>Вставить ссылку на документ:</button>
+
+@*            <InputText class="form-control form-control-lg" placeholder="ссылка на документ" @bind-Value="appeal.NadzorHyperlink" />*@
+@*            <label for="RegistrationNumber" class="form-label col-form-label-lg">@appeal.NadzorHyperlink</label>*@
+                <a href="@appeal.NadzorHyperlink" class="text-primary ms-3 fst-italic">@hyperlabel</a>
+        </div>
+            <ValidationMessage For="@(() => appeal.NadzorHyperlink)" />
+            <p class="text-black-50 fs-4 mt-2 fst-italic">Чтобы вставить ссылку документа Надзора откройте его в новой вклатке (прав.кп мыши "Открыть в новой вкладке") и скопируйте всю адресную строку (http://...)</p>
     </div>
+
 
     <div class="mb-5">
         <label for="ApplicantFullName" class="form-label">ФИО заявителя / Наименование организации:</label>
@@ -96,6 +109,7 @@
     public int Year { get; set; }
     [Parameter]
     public string Period { get; set; }
+    private string hyperlabel = "";
     private bool isEditable;
 
     public RedirectedAppealModelDTO appeal { get; set; } = new();
@@ -126,6 +140,33 @@
         }
     }
 
+    private async Task PasteFromClipboard()
+    {
+        try
+        {
+            appeal.NadzorHyperlink = await ClipboardExtension.ReadTextAsync();
+            if (appeal.NadzorHyperlink.Length > 22 )
+            {
+                hyperlabel = $"{appeal.NadzorHyperlink?.Substring(0, 22)}...";
+            }
+            else
+            {
+                hyperlabel = "ссылка на документ";
+            }
+        }
+        catch
+        {
+            //Console.WriteLine("Cannot read from clipboard");
+            await js.InvokeVoidAsync("alert", "Ничего ещё не скопировано");
+            return;
+        }
+        //else if (loginResponse.StatusCode == HttpStatusCode.Unauthorized)
+        //{
+        //    await js.InvokeVoidAsync("alert", "Неверный логин или пароль");
+        //    return;
+        //}
+    }
+
     private void ChangePeriod()
     {
         isEditable = !isEditable;
@@ -133,13 +174,6 @@
 
     private async Task SaveAppeal() //year and District will be added
     {
-        //await httpClient.PostAsJsonAsync<RedirectedAppealModelDTO>("api/RedirectedAppeal", appeal);
-        //await RedirectedAppealDataService.AddRedirectedAppeal(appeal);
-        if (!string.IsNullOrWhiteSpace(appeal.NadzorHyperlink)&&!appeal.NadzorHyperlink.StartsWith("http://"))
-        {
-            appeal.NadzorHyperlink = null;
-        }
-
         if (Id == 0)
         {
             await RedirectedAppealDataService.AddRedirectedAppeal(appeal);

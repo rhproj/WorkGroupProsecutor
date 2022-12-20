@@ -1,4 +1,4 @@
-﻿namespace WorkGroupProsecutor.Client.Services
+﻿namespace WorkGroupProsecutor.Client.Extensions
 {
     public class YearSetter
     {

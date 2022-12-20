@@ -6,9 +6,9 @@
             <FocusOnNavigate RouteData="@routeData" Selector="h1" />
         </Found>
         <NotFound>
-            <PageTitle>Not found</PageTitle>
+            <PageTitle>Ресурс не найден</PageTitle>
             <LayoutView Layout="@typeof(MainLayout)">
-                <p role="alert">По данному адресу ничего не обнаружено :(, проверьте правильность переданной ссылки</p>
+                <p role="alert" class="fs-4">По данному адресу ничего не обнаружено :( проверьте правильность переданной ссылки</p>
             </LayoutView>
         </NotFound>
     </Router>
