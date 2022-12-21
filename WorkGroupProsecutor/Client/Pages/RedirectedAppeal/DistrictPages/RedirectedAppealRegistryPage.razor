@@ -23,6 +23,32 @@
                 </th>
             </tr>
         </thead>
+        @if (appealsList == null)
+        {
+            <tbody>
+                <tr>
+                    <td align="center" colspan="10" style="border:none">
+                        <div class="py-5">
+                            <div style="color: rgb(0,0,120)" class="la-timer la-2x">
+                                <div></div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        }
+        else if (appealsList.Length == 0)
+        {
+            <tbody>
+                <tr>
+                    <td colspan="10" style="border:none">
+                        <h2 class="text-secondary text-center py-5">Отсутствуют данные за заданный период</h2>
+                    </td>
+                </tr>
+            </tbody>
+        }
+        else
+        {
         <tbody class="align-middle">
             @foreach (var appeal in appealsList)
             {
@@ -51,9 +77,9 @@
                 num++;
             }
         </tbody>
+        }
     </table>
     <div class="mt-5">
-
         <RedirectedAppealCommentsComponent />
     </div>
 </div>
@@ -70,12 +96,12 @@
     public string DistrictName { get; set; }
     private int num;
 
-    private List<RedirectedAppealModelDTO> appealsList = new();
+    private RedirectedAppealModelDTO[] appealsList;
 
     protected override async Task OnInitializedAsync()
     {
         num = 1;
-        appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals(DistrictName, Period, Year)).ToList();
+        appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals(DistrictName, Period, Year)).ToArray();
     }
 
 //<div class="container mb-5">
