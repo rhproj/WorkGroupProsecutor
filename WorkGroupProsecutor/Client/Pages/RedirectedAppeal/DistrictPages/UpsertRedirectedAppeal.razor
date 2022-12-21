@@ -1,11 +1,17 @@
 ﻿@page "/addredirectedappeal/{DistrictName}/{Period}/{Year:int}"
-@page "/updateredirectedappeal/{DistrictName}/{Id:int}"
+@page "/updateredirectedappeal/{DistrictName}/{Period}/{Year:int}/{Id:int}"
 @attribute [Authorize(Roles = @Participants.District)]
 
-
 <div class="container">
-<h1 class="mt-3 mb-5 text-center">Создать запись: Переадресация  @appeal.PeriodInfo.@appeal.YearInfo</h1>
-<EditForm Model="@appeal" OnValidSubmit="SaveAppeal" class="h3">
+@if (Id == 0)
+{
+    <h1 class="mt-3 mb-5 text-center">Создать запись: Переадресация  @Period.@Year г.</h1>
+}
+else
+{
+    <h1 class="mt-3 mb-5 text-center">Редактировать запись: Переадресация  @Period.@Year г.</h1>
+}
+    <EditForm Model="@appeal" OnValidSubmit="SaveAppeal" class="h3">
     <DataAnnotationsValidator />
 
     <div class="mb-4">
@@ -108,15 +114,16 @@
     public int Year { get; set; }
     [Parameter]
     public string Period { get; set; }
+    //[CascadingParameter(Name = "DistrictName")]
+    [Parameter]
+    public string DistrictName { get; set; }
+    
     private string hyperlabel = "";
     private bool isEditable;
 
     public RedirectedAppealModelDTO appeal { get; set; } = new();
     private List<Department> departmentsList = new();
 
-    //[CascadingParameter(Name = "DistrictName")]
-    [Parameter]
-    public string DistrictName { get; set; }
 
     //protected override async Task OnInitializedAsync()
     //{
@@ -144,9 +151,9 @@
         try
         {
             appeal.NadzorHyperlink = await ClipboardExtension.ReadTextAsync();
-            if (appeal.NadzorHyperlink.Length > 22 )
+            if (appeal.NadzorHyperlink.Length > AppealConstants.hyperLinkLength)
             {
-                hyperlabel = $"{appeal.NadzorHyperlink?.Substring(0, 22)}...";
+                hyperlabel = $"{appeal.NadzorHyperlink?.Substring(0, AppealConstants.hyperLinkLength)}...";
             }
             else
             {
