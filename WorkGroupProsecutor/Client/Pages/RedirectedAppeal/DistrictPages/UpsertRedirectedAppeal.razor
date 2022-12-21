@@ -122,7 +122,7 @@ else
     private bool isEditable;
 
     public RedirectedAppealModelDTO appeal { get; set; } = new();
-    private List<Department> departmentsList = new();
+    private Department[] departmentsList = new Department[]{};
 
 
     //protected override async Task OnInitializedAsync()
@@ -133,7 +133,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         isEditable = true;
-        departmentsList = (await DepartmentService.GetAllDepartments()).ToList();      //httpClient.GetFromJsonAsync<List<Department>>("api/Department");
+        departmentsList = (await DepartmentService.GetAllDepartments()).ToArray();      //httpClient.GetFromJsonAsync<List<Department>>("api/Department");
         if (Id == 0)
         {
             appeal.YearInfo = Year;
