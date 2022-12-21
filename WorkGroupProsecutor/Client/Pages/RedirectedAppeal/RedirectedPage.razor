@@ -37,7 +37,7 @@
 }
 else if (periodsList.Length == 0)   //Count == 0)
 {
-        <div class="container overflow-auto" style="background-image: url('img/BG5.jpg'); height: 800px; background-repeat: no-repeat; background-position: center;">
+      <div class="container overflow-auto" style="background-image: url('img/BG5.jpg'); height: 800px; background-repeat: no-repeat; background-position: center;">
          <h2 class="text-secondary">Отсутствуют данные за заданный период</h2>
      </div>
 }
@@ -77,18 +77,6 @@ else
                                 </div>
                             </div>                         
                         </td>
-
-
-@*                        <td class="text-start">
-                            @if (UserState.User.IsInRole(Participants.District))
-                            {
-                                <a href="/redirectedappealregistry/@p/@Year" class="btn btn-outline-primary"><p class="h3 align-content-center">СМ</p></a>
-                            }
-                            else
-                            {
-                                <a href="/redirecteddistrictspage/@p/@Year" class="btn btn-outline-primary"><p class="h3 align-content-center">СМ</p></a>
-                            }
-                        </td>*@
                 </tr>
             }
         </tbody>
@@ -148,15 +136,11 @@ else
         navManager.NavigateTo($"/addredirectedappeal/{DistrictName}/{dateTime.ToString("dd.MM")}/{Year}"); //period
     }
 
-    private void EnableNav() //KeyboardEventArgs eventArgs
-    {
-        if (!String.IsNullOrWhiteSpace(period))
-        {
-            isDisabled = false;
-        }
-        //if (eventArgs.Key == "Enter")
-        //{
-        //    isDisabled = false;
-        //}
-    }
+    //private void EnableNav() //KeyboardEventArgs eventArgs
+    //{
+    //    if (!String.IsNullOrWhiteSpace(period))
+    //    {
+    //        isDisabled = false;
+    //    }
+    //}
 }

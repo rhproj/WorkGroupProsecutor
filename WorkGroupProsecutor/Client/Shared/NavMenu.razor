@@ -1,5 +1,4 @@
-﻿@inject YearSetter yearSetter
-<div class="container-fluid vh-100 p-0" style="background-image: url('img/ORELNav.png');background-repeat: no-repeat; background-position: center;">
+﻿<div class="container-fluid vh-100 p-0" style="background-image: url('img/ORELNav.png');background-repeat: no-repeat; background-position: center;">
 <div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
             <a class="navbar-brand" href=""> <p class="h5">Рабочая группа<img src="img/wg1.png" style="height:30px" class="ps-3"/></p></a>
@@ -22,7 +21,7 @@
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="satisfiedpage">
+            <NavLink class="nav-link" href="@($"satisfiedpage/{yearSetter.YearInfo }")">                    
                 <span class="oi oi-list-rich h5" aria-hidden="true"></span> <p class="h5">Удовлетворено</p>
             </NavLink>
         </div>

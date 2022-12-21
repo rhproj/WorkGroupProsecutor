@@ -16,10 +16,9 @@
                 <th style="width: 20%">Орган, в который предполагается переадресовать обращение</th>
                 <th style="width: auto">Основание переадресации</th>
                 <th style="width: 10%">Оценка возможности переадресации**</th>
-                <th style="width: 10%">
+                <th style="width: 8%">
                     <a href="/addredirectedappeal/@DistrictName/@Period/@Year" class="btn btn-outline-success m-0" role="button">
                         <p class="h5 pt-1 mb-1">Создать запись</p>
-@*                        Создать запись*@
                     </a>
                 </th>
             </tr>
@@ -28,13 +27,11 @@
             @foreach (var appeal in appealsList)
             {
                 <tr class="align-content-start">
-                    <td class="text-center">@num</td> <!--swap with counter-->
-@*                    <td class="text-center">@appeal.RegistrationNumber</td>     *@               
+                    <td class="text-center">@num</td>
                     <td class="text-center">
                         <a href=@appeal.NadzorHyperlink>@appeal.RegistrationNumber</a>                        
                     </td>
                     <td>@appeal.ApplicantFullName</td> 
-                    @*<td class="text-center">@appeal.DepartmentId</td>*@
                     @if (appeal.Department != null)
                     {
                         <td class="text-center">@appeal.Department.DepartmentIndex</td>
@@ -47,8 +44,8 @@
                     <td>@appeal.DecisionBasis</td>
                     <td class="text-center fw-bold">@appeal.DepartmentAssessment</td>
                     <td class="text-center">
-                        <a href="/updateredirectedappeal/@DistrictName/@appeal.Id" class="btn btn-outline-primary w-75 ps-2">Изменить</a>
-                        <a href="/deleteredirectedappeal/@DistrictName/@appeal.Id" class="btn btn-outline-danger w-75">Удалить</a>
+                        <a href="/updateredirectedappeal/@DistrictName/@appeal.Id" class="btn btn-outline-primary">Изменить</a>
+                        <a href="/deleteredirectedappeal/@DistrictName/@appeal.Id" class="btn btn-outline-danger px-3">Удалить</a>
                     </td>
                 </tr>
                 num++;
@@ -61,59 +58,6 @@
     </div>
 </div>
 
-@*<div class="container">
-  <h3 class="text-center my-3">Реестр обращений, предполагаемых к переадресации в иные органы и ведомства</h3>
-    <h3 class="text-center my-3">на @Period @Year год</h3>
-
-  <table class="table table-bordered">
-    <thead>
-      <tr class="text-center align-middle">
-        <th style="width: 2.5%">№</th>
-        <th style="width: 10%">Регистрационный номер в системе Надзор-WEB</th>
-        <th style="width: 15%">ФИО заявителя</th>
-        <th style="width: 2.5%">Характер обращения*</th>
-        <th style="width: 30%">Орган, в который предполагается переадресовать обращение</th>
-        <th style="width: 30%">Основание переадресации</th>
-        <th style="width: 10%">Оценка возможности переадресации**</th>
-        <th>
-            <a href="/addredirectedappeal/@Period/@Year" class="btn btn-outline-primary" role="button">
-                <p class="h4 pt-2">Создать запись</p>
-            </a>
-        </th>
-      </tr>
-    </thead>
-    <tbody class="text-center align-middle">
-      <tr>
-        <td>1.</td>
-        <td>ВО-1242-22</td>
-        <td>ООО МФК ОТП Финанс</td>
-        <td>7</td>
-        <td>ГУФССП РФ по РТ </td>
-        <td>Обращение содержит доводы о бездействии судебного приставов при взыскании задолженности в пользу 
-          микрофинансовой организации</td>
-          <td> Да с контролем </td>
-      </tr>
-            @foreach (var appeal in appealsList)
-      {
-          <tr>
-              <td>@appeal.Id</td> <!--swap with counter-->
-              <td>@appeal.RegistrationNumber</td>
-              <td>@appeal.ApplicantFullName</td>
-              <td>@appeal.DepartmentId</td>
-              <td>@appeal.RecipientAgency</td>
-              <td>@appeal.DecisionBasis</td>
-              <td>@appeal.DepartmentAssessment</td>
-              <td>
-                    <a href="/updateredirectedappeal/@appeal.Id" class="btn btn-outline-dark">Изменить</a>
-                    <a href="/deleteredirectedappeal/@appeal.Id" class="btn btn-outline-danger">Удалить</a>
-              </td>
-          </tr>
-      }
-    </tbody>
-  </table>
- </div>
-
-<RedirectedAppealCommentsComponent/>*@
 
 @code {
     [Inject]
@@ -122,28 +66,16 @@
     public string Period { get; set; }
     [Parameter]
     public int Year { get; set; }
-    //[CascadingParameter(Name = "DistrictName")]
     [Parameter]
     public string DistrictName { get; set; }
     private int num;
-    //private string districtName;
-
-    //[CascadingParameter]
-    //private Task<AuthenticationState> authenticationState { get; set; }
 
     private List<RedirectedAppealModelDTO> appealsList = new();
-
 
     protected override async Task OnInitializedAsync()
     {
         num = 1;
-        //var userState = await authenticationState;
-        //if (userState != null)
-        //{
-        //    districtName = userState.User.Identity.Name;
-        //}
-
-        appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals(DistrictName, Period, Year)).ToList(); //districtName
+        appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals(DistrictName, Period, Year)).ToList();
     }
 
 //<div class="container mb-5">

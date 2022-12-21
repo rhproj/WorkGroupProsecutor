@@ -22,7 +22,6 @@
   <ItemGroup>
     <Folder Include="Pages\AppealRegistry\" />
     <Folder Include="Pages\SatisfiedAppeal\DepartmentPages\" />
-    <Folder Include="Pages\SatisfiedAppeal\DistrictPages\" />
   </ItemGroup>
 
 </Project>

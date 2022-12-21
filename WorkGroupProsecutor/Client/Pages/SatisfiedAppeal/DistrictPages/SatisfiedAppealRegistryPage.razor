@@ -1,0 +1,99 @@
+﻿@page "/satisfiedappealregistry/{DistrictName}/{Quarter}/{Year:int}"
+@attribute [Authorize(Roles = @Participants.District)]
+@*DIS*@
+
+<div class="container-fluid m-1">
+    <h3 class="text-center my-3">Реестры обращений, по которым приняты решения "Удовлетворено" и "Удовлетворено частично"</h3>
+    <h3 class="text-center my-3">@ReferencePeriod.Quarters[Quarter] @Year г.</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr class="text-center align-middle">
+                <th style="width: 1%">№</th>
+                <th style="width: 10%">Регистрационный номер в системе Надзор-WEB</th>
+                <th style="width: 15%">ФИО заявителя</th>
+                <th style="width: 1%">Характер обращ- ения*</th>
+                <th style="width: 15%">Принятые меры прокурорского реагирования (с датой фактического направления акта реагирования)</th>
+                <th style="width: auto">Результаты рассмотрения актов прокурорского реагирования</th>
+                <th style="width: auto">Фактическое устранение нарушений закона и восстановление нарушенных прав</th>
+                
+                <th style="width: auto">Дата уведомления заявителя о результатах рассмотрения актов прокурорского реагирования </th>
+                <th style="width: 4%">Оценка полноты и своевремен-ности принятых мер**</th>               
+                
+                <th style="width: 5%">
+                    <a href="/addsatisfiedappeal/@DistrictName/@Quarter/@Year" class="btn btn-outline-success m-0" role="button">
+                        <p class="h5 pt-1 mb-1">Создать запись</p>
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        @if (appealsList.Count == 0)
+        {
+            <tbody>
+                <tr>
+                    <td colspan="10">
+                        <h2 class="text-secondary text-center py-5">Отсутствуют данные за заданный период</h2>
+                    </td>
+                </tr>
+            </tbody>
+        }
+        else
+        {
+            <tbody class="align-middle">
+            @foreach (var appeal in appealsList)
+            {
+                <tr class="align-content-start">
+                    <td class="text-center">@num</td>
+                    <td class="text-center">
+                        <a href=@appeal.NadzorHyperlink>@appeal.RegistrationNumber</a>
+                    </td>
+                    <td>@appeal.ApplicantFullName</td>
+                    @if (appeal.Department != null)
+                    {
+                        <td class="text-center">@appeal.Department.DepartmentIndex</td>
+                    }
+                    else
+                    {
+                        <td class="text-center"></td>
+                    }
+                    <td>@appeal.ProsecutorAction</td>
+                    <td>@appeal.InvestigationResults</td>
+                    <td class="text-center">@appeal.RightsRestoration</td>
+                    <td class="text-center">@appeal.ApplicantNotification</td>
+
+                    <td class="text-center fw-bold">@appeal.DepartmentAssessment</td>
+                    <td class="text-center">
+                        <a href="/updateredirectedappeal/@DistrictName/@appeal.Id" class="btn btn-outline-primary">Изменить</a>
+                        <a href="/deleteredirectedappeal/@DistrictName/@appeal.Id" class="btn btn-outline-danger px-3">Удалить</a>
+                    </td>
+                </tr>
+                num++;
+            }
+            </tbody>
+        }
+
+    </table>
+
+</div>
+
+
+@code {
+    [Inject]
+    public ISatisfiedAppealDataService? SatisfiedAppealDataService { get; set; }
+
+    [Parameter]
+    public int Year { get; set; }
+    [Parameter]
+    public string Quarter { get; set; }
+    [Parameter]
+    public string DistrictName { get; set; }
+    private int num;
+
+    private List<SatisfiedAppealModelDTO> appealsList = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        num = 1;
+        appealsList = (await SatisfiedAppealDataService.GetAllSatisfiedAppeals(DistrictName, Quarter, Year)).ToList();
+    }
+
+}
