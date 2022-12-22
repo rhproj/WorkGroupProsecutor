@@ -23,7 +23,18 @@ else
             <ValidationMessage For="@(() => appeal.RegistrationNumber)" />
         </div>
 
-        <div class="input-group mb-4 input-group-lg">
+        <div class="d-flex">
+            <div class="row me-2">
+                <button class="btn btn-outline-success btn-lg" type="button" disabled="true" @onclick=PasteFromClipboard>Cсылка на документ:</button>
+            </div>
+            <div>
+                <p class="text-black-50 fs-5 mt-2 fst-italic">Чтобы вставить ссылку документа из Надзора - откройте его в новой вклатке (прав.кп мыши "Открыть в новой вкладке") скопируйте всю адресную строку и вставьте в нижнее поле:</p>
+                <InputText class="form-control form-control-lg" placeholder="https://..." @bind-Value="appeal.NadzorHyperlink" />
+                <ValidationMessage For="@(() => appeal.NadzorHyperlink)" />
+            </div>
+        </div>
+
+@*        <div class="input-group mb-4 input-group-lg">
             <div class="input-group-prepend">
                 <button class="btn btn-outline-primary btn-lg" type="button" @onclick=PasteFromClipboard>Вставить ссылку на документ:</button>
 
@@ -31,7 +42,7 @@ else
             </div>
             <ValidationMessage For="@(() => appeal.NadzorHyperlink)" />
             <p class="text-black-50 fs-4 mt-2 fst-italic">Чтобы вставить ссылку документа Надзора откройте его в новой вклатке (прав.кп мыши "Открыть в новой вкладке") и скопируйте всю адресную строку (http://...)</p>
-        </div>
+        </div>*@
 
         <div class="mb-5">
             <label for="ApplicantFullName" class="form-label">ФИО заявителя / Наименование организации:</label>
