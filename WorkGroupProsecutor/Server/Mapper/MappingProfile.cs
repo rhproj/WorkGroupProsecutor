@@ -10,7 +10,9 @@ namespace WorkGroupProsecutor.Server.Mapper
         { 
             CreateMap<RedirectedAppealModel, RedirectedAppealModelDTO>().ReverseMap();
 
-            CreateMap<SatisfiedAppealModel, SatisfiedAppealModelDTO>().ReverseMap();
+            CreateMap<SatisfiedAppealModel, SatisfiedAppealModelDTO>().ReverseMap();            
+            
+            CreateMap<NoSolutionAppealModel, NoSolutionAppealModelDTO>().ReverseMap();
         }
     }
 }
