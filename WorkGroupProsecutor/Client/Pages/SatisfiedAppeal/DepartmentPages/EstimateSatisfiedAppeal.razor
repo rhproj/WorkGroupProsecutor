@@ -1,0 +1,111 @@
+﻿@page "/estimatesatisfiedappeal/{Id:int}/{DepartmentName}/{DistrictDescription}"
+@attribute [Authorize(Roles = @Participants.Department)]
+@*DEP*@
+
+<h1 class="mt-3 mb-5 text-center">Оценка полноты и своевременности принятых мер<br class="mt-1" /><a href="@appeal.NadzorHyperlink" class="h2 fw-bold"> №@appeal.RegistrationNumber</a></h1>
+
+<div class="container">
+    @*    <div class="form-group h4">
+
+    </div>*@
+    <table class="table table-striped align-middle h3">
+        <tbody>
+            <tr>
+                <td class="py-3" style="width:50%">Прокуратура:</td>
+                <td>@DistrictDescription</td>
+            </tr>
+            <tr>
+                <td class="py-3">ФИО заявителя / Наименование организации:</td>
+                <td>@appeal.ApplicantFullName</td>
+            </tr>
+            <tr>
+                <td class="py-3">Принятые меры прокурорского реагирования (с датой фактического направления акта реагирования):</td>
+                <td>@appeal.ProsecutorAction</td>
+            </tr>
+            <tr>
+                <td class="py-3">Результаты рассмотрения актов прокурорского реагирования:</td>
+                <td>@appeal.InvestigationResults</td>
+            </tr>
+            <tr>
+                <td class="py-3">Фактическое устранение нарушений закона и восстановление нарушенных прав:</td>
+                <td>@appeal.RightsRestoration</td>
+            </tr>
+            <tr>
+                <td class="py-3">Дата уведомления заявителя о результатах рассмотрения актов прокурорского реагирования:</td>
+                <td>@appeal.ApplicantNotification</td>
+            </tr>
+            <tr>
+                <td class="py-3">Оценка полноты и своевременности принятых мер, а также фактического устранения нарушений закона, восстановления нарушенных прав, своевременности предоставления ответов:</td>
+                <td>@appeal.DepartmentAssessment</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="input-group align-middle input-group-lg mt-5">
+        <span class="input-group-text">Добавить комментарий:</span>
+        <textarea class="form-control" @bind=comments aria-label="комментарий"></textarea>
+    </div>
+    <div class="form-group text-center my-5">
+        <button class="btn btn-outline-success btn-lg" style="width:150px" @onclick="Approve">Да</button>
+        <button class="btn btn-outline-danger btn-lg" style="width:150px" @onclick="Disapprove">Нет</button>
+        <button class="btn btn-secondary btn-lg" style="width:150px" @onclick="GotBack">Отмена</button>
+    </div>
+
+
+</div>
+
+
+@code {
+    [Inject]
+    public ISatisfiedAppealDataService SatisfiedAppealDataService { get; set; }
+
+    [Parameter]
+    public int Id { get; set; }
+    [Parameter]
+    public string DepartmentName { get; set; }
+    [Parameter]
+    public string DistrictDescription { get; set; }
+
+    private SatisfiedAppealModelDTO appeal = new();
+    private string? comments;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != 0)
+        {
+            appeal = await SatisfiedAppealDataService.GetSatisfiedAppealById(Id);
+        }
+    }
+
+    private async Task Approve()
+    {
+        if (appeal != null)
+        {
+            appeal.DepartmentAssessment = "Да";
+            if (!string.IsNullOrWhiteSpace(comments))
+            {
+                appeal.DepartmentAssessment += $": {comments}";
+            }
+            await SatisfiedAppealDataService.UpdateSatisfiedAppeal(appeal);
+        }
+        GotBack();
+    }
+
+    private async Task Disapprove()
+    {
+        if (appeal != null)
+        {
+            appeal.DepartmentAssessment = "Нет";
+            if (!string.IsNullOrWhiteSpace(comments))
+            {
+                appeal.DepartmentAssessment += $": {comments}";
+            }
+            await SatisfiedAppealDataService.UpdateSatisfiedAppeal(appeal);
+        }
+        GotBack();
+    }
+
+    private void GotBack()
+    {
+        navManager.NavigateTo($"/satisfiedappealassessment/{appeal.District}/{DepartmentName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
+    }
+}

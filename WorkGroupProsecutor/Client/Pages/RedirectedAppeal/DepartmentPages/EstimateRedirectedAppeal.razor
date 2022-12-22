@@ -11,23 +11,23 @@
     <table class="table table-striped align-middle h3">
         <tbody>
             <tr>
-                <td>Прокуратура:</td>
+                <td class="py-3" style="width:50%">Прокуратура:</td>
                 <td>@DistrictDescription</td>
             </tr>
-            <tr class="pt-5">
-                <td>ФИО заявителя / Наименование организации:</td>
+            <tr>
+                <td class="py-3">ФИО заявителя / Наименование организации:</td>
                 <td>@appeal.ApplicantFullName</td>
             </tr>
             <tr>
-                <td>Орган, в который предполагается переадресовать обращение:</td>
+                <td class="py-3">Орган, в который предполагается переадресовать обращение:</td>
                 <td>@appeal.RecipientAgency</td>
             </tr>
             <tr>
-                <td>Основание переадресации:</td>
+                <td class="py-3">Основание переадресации:</td>
                 <td>@appeal.DecisionBasis</td>
             </tr>
             <tr>
-                <td>Оценка возможности переадресации:</td>
+                <td class="py-3">Оценка возможности переадресации:</td>
                 <td>@appeal.DepartmentAssessment</td>
             </tr>
         </tbody>
@@ -57,7 +57,6 @@
     public int Id { get; set; }
     [Parameter]
     public string DepartmentName { get; set; }
-
     [Parameter]
     public string DistrictDescription { get; set; }
 
