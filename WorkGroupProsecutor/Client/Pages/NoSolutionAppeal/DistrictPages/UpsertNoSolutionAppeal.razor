@@ -1,16 +1,16 @@
-﻿@page "/addsatisfiedappeal/{DistrictName}/{Period}/{Year:int}"
-@page "/updatesatisfiedappeal/{DistrictName}/{Period}/{Year:int}/{Id:int}"
+﻿@page "/addnosolutionappeal/{DistrictName}/{Period}/{Year:int}"
+@page "/updatenosolutionappeal/{DistrictName}/{Period}/{Year:int}/{Id:int}"
 @attribute [Authorize(Roles = @Participants.District)]
 
 <div class="container">
-@if (Id == 0)
-{
-    <h1 class="mt-3 mb-5 text-center">Создать запись: Удовлетворено  @ReferencePeriod.Quarters[Period] @Year г.</h1>
-}
-else
-{
-    <h1 class="mt-3 mb-5 text-center">Редактировать запись: Удовлетворено  @ReferencePeriod.Quarters[Period] @Year г.</h1>
-}
+    @if (Id == 0)
+    {
+        <h1 class="mt-3 mb-5 text-center">Создать запись: Без разрешения  @ReferencePeriod.Quarters[Period] @Year г.</h1>
+    }
+    else
+    {
+        <h1 class="mt-3 mb-5 text-center">Редактировать запись: Без разрешения  @ReferencePeriod.Quarters[Period] @Year г.</h1>
+    }
     <EditForm Model="@appeal" OnValidSubmit="SaveAppeal" class="h3">
         <DataAnnotationsValidator />
 
@@ -33,16 +33,6 @@ else
             </div>
         </div>
 
-@*        <div class="input-group mb-4 input-group-lg">
-            <div class="input-group-prepend">
-                <button class="btn btn-outline-primary btn-lg" type="button" @onclick=PasteFromClipboard>Вставить ссылку на документ:</button>
-
-                <a href="@appeal.NadzorHyperlink" class="text-primary ms-3 fst-italic">@hyperlabel</a>
-            </div>
-            <ValidationMessage For="@(() => appeal.NadzorHyperlink)" />
-            <p class="text-black-50 fs-4 mt-2 fst-italic">Чтобы вставить ссылку документа Надзора откройте его в новой вклатке (прав.кп мыши "Открыть в новой вкладке") и скопируйте всю адресную строку (http://...)</p>
-        </div>*@
-
         <div class="my-5">
             <label for="ApplicantFullName" class="form-label">ФИО заявителя / Наименование организации:</label>
             <div class="col-md-4 w-100">
@@ -64,35 +54,19 @@ else
         </div>
 
         <div class="mb-4">
-            <label class="form-label">Принятые меры прокурорского реагирования (с датой фактического направления акта реагирования):</label>
+            <label class="form-label">Принятое решение**:</label>
             <div class="col-md-4 w-100">
-                <InputTextArea class="form-control form-control-lg" rows="4" @bind-Value="appeal.ProsecutorAction" />
+                <InputTextArea class="form-control form-control-lg" rows="4" @bind-Value="appeal.DepartmentResolution" />
             </div>
-            <ValidationMessage For="@(() => appeal.ProsecutorAction)" />
+            <ValidationMessage For="@(() => appeal.DepartmentResolution)" />
         </div>
 
         <div class="mb-4">
-            <label class="form-label">Результаты рассмотрения актов прокурорского реагирования:</label>
+            <label class="form-label">Основание принятого решения:</label>
             <div class="col-md-4 w-100">
-                <InputTextArea class="form-control form-control-lg" rows="4" @bind-Value="appeal.InvestigationResults" />
+                <InputTextArea class="form-control form-control-lg" rows="4" @bind-Value="appeal.DecisionBasis" />
             </div>
-            <ValidationMessage For="@(() => appeal.InvestigationResults)" />
-        </div>
-
-        <div class="mb-4">
-            <label class="form-label">Фактическое устранение нарушений закона и восстановление нарушенных прав:</label>
-            <div class="col-md-4 w-100">
-                <InputTextArea class="form-control form-control-lg" rows="4" @bind-Value="appeal.RightsRestoration" />
-            </div>
-            <ValidationMessage For="@(() => appeal.RightsRestoration)" />
-        </div>
-
-        <div class="mb-5">
-            <label for="ApplicantFullName" class="form-label">Дата уведомления заявителя о результатах рассмотрения актов прокурорского реагирования:</label>
-            <div class="col-md-4 w-100">
-                <InputText class="form-control form-control-lg" @bind-Value="appeal.ApplicantNotification" />
-            </div>
-            <ValidationMessage For="@(() => appeal.ApplicantNotification)" />
+            <ValidationMessage For="@(() => appeal.DecisionBasis)" />
         </div>
 
         <div class="form-group mt-4 mb-4">
@@ -108,7 +82,7 @@ else
 
 @code {
     [Inject]
-    public ISatisfiedAppealDataService SatisfiedAppealDataService { get; set; }
+    public INoSolutionAppealDataService NoSolutionAppealDataService { get; set; }
     [Inject]
     public IDepartmentService DepartmentService { get; set; }
 
@@ -123,7 +97,7 @@ else
 
     private string hyperlabel = "";
 
-    public SatisfiedAppealModelDTO appeal { get; set; } = new();
+    public NoSolutionAppealModelDTO appeal { get; set; } = new();
     private Department[] departmentsList = new Department[] { };
 
     protected override async Task OnInitializedAsync()
@@ -136,28 +110,26 @@ else
         }
         else
         {
-            appeal = await SatisfiedAppealDataService.GetSatisfiedAppealById(Id);
+            appeal = await NoSolutionAppealDataService.GetNoSolutionAppealById(Id);
         }
-        departmentsList = (await DepartmentService.GetAllDepartments()).ToArray();      
+        departmentsList = (await DepartmentService.GetAllDepartments()).ToArray();
     }
-
-    //private async Task PasteFromClipboard() { }
 
     private async Task SaveAppeal()
     {
         if (Id == 0)
         {
-            await SatisfiedAppealDataService.AddSatisfiedAppeal(appeal);
+            await NoSolutionAppealDataService.AddNoSolutionAppeal(appeal);
         }
         else
         {
-            await SatisfiedAppealDataService.UpdateSatisfiedAppeal(appeal);
+            await NoSolutionAppealDataService.UpdateNoSolutionAppeal(appeal);
         }
         GoToRedirectedPage();
     }
 
     private void GoToRedirectedPage()
     {
-        navManager.NavigateTo($"/satisfiedappealregistry/{DistrictName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
+        navManager.NavigateTo($"/nosolutionappealregistry/{DistrictName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
     }
 }

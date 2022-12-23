@@ -3,8 +3,8 @@
 @*DIS*@
 
 <div class="container-fluid m-1">
-    <h3 class="text-center my-3">Реестры обращений, по которым приняты решения "Удовлетворено" и "Удовлетворено частично"</h3>
-    <h3 class="text-center my-3">@ReferencePeriod.Quarters[Period] @Year г.</h3>
+    <h3 class="text-center my-2">Реестры обращений, по которым приняты решения "Удовлетворено" и "Удовлетворено частично"</h3>
+    <h3 class="text-center mb-3">@ReferencePeriod.Quarters[Period] @Year г.</h3>
     <table class="table table-bordered">
         <thead>
             <tr class="text-center align-middle">
@@ -76,7 +76,6 @@
 
                     <td class="text-center fw-bold">@appeal.DepartmentAssessment</td>
                     <td class="text-center">
-@*                        <a href="/updatesatisfiedappeal/@DistrictName/@appeal.Id" class="btn btn-outline-primary">Изменить</a>*@
                         <a href="/updatesatisfiedappeal/@DistrictName/@Period/@Year/@appeal.Id" class="btn btn-outline-primary">Изменить</a>
                             <a href="/deletesatisfiedappeal/@DistrictName/@appeal.Id" class="btn btn-outline-danger px-3">Удалить</a>
                     </td>
@@ -112,5 +111,4 @@
         num = 1;
         appealsList = (await SatisfiedAppealDataService.GetAllSatisfiedAppeals(DistrictName, Period, Year)).ToArray();
     }
-
 }

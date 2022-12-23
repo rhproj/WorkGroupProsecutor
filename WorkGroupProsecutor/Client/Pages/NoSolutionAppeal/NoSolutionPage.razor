@@ -1,7 +1,52 @@
-﻿@page "/nosolutionpage"
+﻿@page "/nosolutionpage/{Year:int}"
 
-<h2>В разработке...</h2>
+<div class="container-fluid mt-2 text-center">
+    <h2 class="mb-5">Реестр обращений, по которым приняты решения: "Оставлено без разрешения и (или) приобщено к НП, в том числе списано без уведомления" и "Оставлено без разрешения – возвращено заявителю" @Year г.</h2>
+    <div class="container overflow-auto" style="background-image: url('img/BG.jpg'); height: 750px; background-repeat: no-repeat; background-position: center;">
+        <div>
+            <table class="table table-striped align-middle text-center ">
+                <thead class="table-primary">
+                    <tr>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var q in ReferencePeriod.Quarters)
+                    {
+                        <tr style="height:100px">
+                            <td class="fs-2">
+                                <div class="d-flex justify-content-center">
+                                    <div class="my-3">@q.Value @Year Удовлетворено </div>
+                                    <div class="mx-4">
+                                        @if (UserState.User.IsInRole(Participants.District))
+                                        {
+                                            <a href="/nosolutionappealregistry/@DistrictName/@q.Key/@Year" class="btn btn-outline-primary"><img src="img/edit32.png" width="50" height="50" class="mt-2" /></a>
+                                        }
+                                        else if (UserState.User.IsInRole(Participants.Department))
+                                        {
+                                            <a href="/nosolutiondistrictspage/@DistrictName/@q.Key/@Year" class="btn btn-outline-primary"><img src="img/open32.png" width="50" height="50" class="mt-2" /></a>
+                                        }
+                                        else
+                                        {
+                                            <a href="/nosolutiondistrictspage/@q.Key/@Year" class="btn btn-outline-primary"><img src="img/open32.png" width="50" height="50" class="mt-2" /></a>
+                                        }
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
 
 @code {
+    [CascadingParameter(Name = "UserState")]
+    public AuthenticationState UserState { get; set; }
+    [CascadingParameter(Name = "DistrictName")]
+    public string DistrictName { get; set; }
 
+    [Parameter]
+    public int Year { get; set; }
 }
