@@ -42,24 +42,11 @@
 </div>
 
 @code {
-    //[Inject]
-    //public IUserService? UserService { get; set; }
-    //[Inject]
-    //public IRedirectedAppealDataService? RedirectedAppealDataService { get; set; }
-    //%//
     [CascadingParameter(Name = "UserState")]
     public AuthenticationState UserState { get; set; }
     [CascadingParameter(Name = "DistrictName")]
     public string DistrictName { get; set; }
-    //%//
 
     [Parameter]
     public int Year { get; set; }
-    private string quarter;
-
-
-    private void NavigateToAddPage()
-    {
-        navManager.NavigateTo($"/addredirectedappeal/{DistrictName}/{quarter}/{Year}");
-    }
 }
