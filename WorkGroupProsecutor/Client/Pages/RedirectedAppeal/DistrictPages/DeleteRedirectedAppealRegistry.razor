@@ -8,10 +8,6 @@
                 <td>ФИО заявителя / Наименование организации:</td>
                 <td>@appeal.ApplicantFullName</td>
             </tr>
-@*            <tr>
-                <td>Характер обращения:</td>
-                <td>@appeal.Department?.DepartmentIndex</td>
-            </tr>*@
             <tr>
                 <td>Орган, в который предполагается переадресовать обращение:</td>
                 <td>@appeal.RecipientAgency</td>
@@ -26,28 +22,43 @@
             </tr>
         </tbody>
     </table>
-@*    <table class="table">
-        <tbody>
-            <tr>
-                <td>ФИО заявителя</td>
-                <td>@appeal.ApplicantFullName</td>
-            </tr>
-            <tr>
-                <td>Орган, в который предполагается переадресовать обращение</td>
-                <td>@appeal.RecipientAgency</td>
-            </tr>
-            <tr>
-                <td>Основание переадресации</td>
-                <td>@appeal.DecisionBasis</td>
-            </tr>
-            <tr>
-                <td>>Оценка возможности переадресации</td>
-                <td>@appeal.DepartmentAssessment</td>
-            </tr>
-        </tbody>
-    </table>*@
+
     <div class="form-group text-center mt-5">
         <button class="btn btn-danger btn-lg" style="width:150px" @onclick="DeleteAppeal">Удалить</button>
         <button class="btn btn-secondary btn-lg" style="width:150px" @onclick="GotBack">Отмена</button>
     </div>
 </div>
+@code{
+    [Inject]
+    public IRedirectedAppealDataService RedirectedAppealDataService { get; set; }
+
+    [Parameter]
+    public int Id { get; set; }
+
+    [Parameter]
+    public string DistrictName { get; set; }
+
+    private RedirectedAppealModelDTO appeal = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != 0)
+        {
+            appeal = await RedirectedAppealDataService.GetRedirectedAppealById(Id);
+        }
+    }
+
+    private async Task DeleteAppeal()
+    {
+        if (appeal != null)
+        {
+            await RedirectedAppealDataService.DeleteRedirectedAppeal(Id);
+            GotBack();
+        }
+    }
+
+    private void GotBack()
+    {
+        navManager.NavigateTo($"/redirectedappealregistry/{DistrictName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
+    }
+}

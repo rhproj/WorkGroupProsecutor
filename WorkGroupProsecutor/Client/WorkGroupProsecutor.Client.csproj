@@ -19,8 +19,4 @@
     <ProjectReference Include="..\Shared\WorkGroupProsecutor.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Pages\AppealRegistry\" />
-  </ItemGroup>
-
 </Project>

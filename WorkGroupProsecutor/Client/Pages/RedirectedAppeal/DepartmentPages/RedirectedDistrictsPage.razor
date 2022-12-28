@@ -4,7 +4,6 @@
 
 <div class="container-fluid mt-2 text-center">
     <h2 class="mb-5">Реестры обращений, предполагаемых к переадресации в иные органы и ведомства <span class="fw-bold">@Period.@Year г.</span> </h2>
-@*    <h2>на @Period.@Year г.</h2>*@
 @if (districtsList == null)
 {
 <div class="container overflow-auto" style="background-image: url('img/BG5.jpg'); height: 800px; background-repeat: no-repeat; background-position: center;">
@@ -38,10 +37,8 @@ else
             <tr style="height:100px">
                 <td class="fs-3">
                     <div class="d-flex justify-content-center">
-@*                        <div class="col-3"></div>*@
                         <div class="my-3">@districtsDescriptionList[i]</div>
-                        <div class="mx-4">
-@*                            <a href="/redirectedappealassessment/@districtsList[i]/@Period/@Year" class="btn btn-outline-primary"><img src="img/edit32.png" width="50" height="50" class="mt-2"/></a>*@                            
+                        <div class="mx-4">                    
                         @if (!string.IsNullOrEmpty(DepartmentName))
                         {
                             <a href="/redirectedappealassessment/@districtsList[i]/@DepartmentName/@Period/@Year" class="btn btn-outline-primary"><img src="img/edit32.png" width="50" height="50" class="mt-2" /></a>
@@ -72,7 +69,7 @@ else
     [Parameter]
     public int Year { get; set; }
     [Parameter]
-    public string DepartmentName { get; set; } // DistrictName
+    public string DepartmentName { get; set; }
 
     // For Departments and guests only, the size of the collection won't get changed till the end of the session
     private string[] districtsList;
@@ -88,7 +85,6 @@ else
         {
             districtsList = (await RedirectedAppealDataService.GetRedirectedAppealsByDistricts(Period, Year)).ToArray();
         }
-        //Array.Sort(districtsList);
         districtsDescriptionList = new string[districtsList.Length];
 
         for (int i = 0; i < districtsList.Length; i++)
@@ -96,7 +92,5 @@ else
             districtsDescriptionList[i] = await UserService.GetUserDescription(districtsList[i]);
         }
         Array.Sort(districtsDescriptionList);
-
-        //await httpClient.GetFromJsonAsync<List<DistrictRegisterModel>>("api/redirectedappeal/{district}/{period}/{year}");
     }
 }

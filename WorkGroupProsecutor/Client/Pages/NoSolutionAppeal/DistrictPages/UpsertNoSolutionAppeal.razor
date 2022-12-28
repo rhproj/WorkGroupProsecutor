@@ -97,7 +97,7 @@
 
     private string hyperlabel = "";
 
-    public NoSolutionAppealModelDTO appeal { get; set; } = new();
+    private NoSolutionAppealModelDTO appeal = new();
     private Department[] departmentsList = new Department[] { };
 
     protected override async Task OnInitializedAsync()

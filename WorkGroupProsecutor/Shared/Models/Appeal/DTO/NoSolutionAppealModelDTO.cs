@@ -18,16 +18,14 @@ namespace WorkGroupProsecutor.Shared.Models.Appeal.DTO
         public string ApplicantFullName { get; set; }
         [Required(ErrorMessage = "Выберите характер обращения")]
         public int? DepartmentId { get; set; }
-        public Department? Department { get; set; } //= new();
+        public Department? Department { get; set; }
 
         public string? DepartmentResolution { get; set; }
         public string? DecisionBasis { get; set; }
 
-        public string? DepartmentAssessment { get; set; } //Оценка законности, своевременности и обоснованности принятого решения
+        public string? DepartmentAssessment { get; set; }
         public int YearInfo { get; set; }
         public string PeriodInfo { get; set; }
         public string District { get; set; }
-
-
     }
 }

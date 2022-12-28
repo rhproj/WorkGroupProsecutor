@@ -1,9 +1,5 @@
 ﻿@page "/login"
-
-@*@inject HttpClient httpClient*@
-@*@inject IJSRuntime js*@
 @inject AuthenticationStateProvider authStateProvider
-@*@inject NavigationManager navManager*@
 
 <div class="d-flex justify-content-center">
     <div class="px-5 py-5 border">
@@ -27,18 +23,18 @@
 @code {
     [Inject]
     public IUserService? UserService { get; set; }
-    private LoginRequest loginRequest = new LoginRequest(); //used to fetch data form inputs
+    private LoginRequest loginRequest = new LoginRequest();
 
     private async Task Authenticate()
     {
-        var loginResponse = await UserService.AuthenticateUser(loginRequest);    //await httpClient.PostAsJsonAsync<LoginRequest>("/api/Account/Login", loginRequest);
+        var loginResponse = await UserService.AuthenticateUser(loginRequest);
 
         if (loginResponse.IsSuccessStatusCode)
         {
             var userSession = await loginResponse.Content.ReadFromJsonAsync<UserSession>();
             var customAuthStateProvider = (CustomAuthenticationStateProvider)authStateProvider;
             await customAuthStateProvider.UpdateAuthenticationState(userSession);
-            navManager.NavigateTo("/", true); //"/index" go Home
+            navManager.NavigateTo("/", true);
         }
         else if (loginResponse.StatusCode == HttpStatusCode.Unauthorized)
         {

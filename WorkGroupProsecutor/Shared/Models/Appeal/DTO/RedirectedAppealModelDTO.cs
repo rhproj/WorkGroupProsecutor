@@ -19,7 +19,7 @@ namespace WorkGroupProsecutor.Shared.Models.Appeal.DTO
         public string ApplicantFullName { get; set; }
         [Required(ErrorMessage = "Выберите характер обращения")]
         public int? DepartmentId { get; set; }
-        public Department? Department { get; set; } //= new();
+        public Department? Department { get; set; }
         public string? DepartmentAssessment { get; set; }
         public int YearInfo { get; set; }
         public string PeriodInfo { get; set; }

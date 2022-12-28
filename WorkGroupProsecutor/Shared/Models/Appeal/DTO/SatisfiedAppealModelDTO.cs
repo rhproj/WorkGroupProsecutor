@@ -18,7 +18,7 @@ namespace WorkGroupProsecutor.Shared.Models.Appeal.DTO
         public string ApplicantFullName { get; set; }
         [Required(ErrorMessage = "Выберите характер обращения")]
         public int? DepartmentId { get; set; }
-        public Department? Department { get; set; } //= new();
+        public Department? Department { get; set; }
 
         //Unique
         public string? ProsecutorAction { get; set; }
@@ -27,7 +27,7 @@ namespace WorkGroupProsecutor.Shared.Models.Appeal.DTO
         public string? ApplicantNotification { get; set; }
         //
 
-        public string? DepartmentAssessment { get; set; } //Оценка полноты и своевременности принятых мер
+        public string? DepartmentAssessment { get; set; }
 
         public int YearInfo { get; set; }
         public string PeriodInfo { get; set; }

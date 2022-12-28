@@ -88,7 +88,6 @@ else
         <label class="form-label">Орган, в который предполагается переадресовать обращение:</label>
         <div class="col-md-4 w-100">
             <InputTextArea class="form-control form-control-lg" rows="4" @bind-Value="appeal.RecipientAgency" />
-            @*<InputText class="form-control form-control-lg" @bind-Value="appeal.RecipientAgency" />*@
         </div>
         <ValidationMessage For="@(() => appeal.RecipientAgency)" />
     </div>
@@ -139,7 +138,7 @@ else
     private string hyperlabel = "";
     private bool isEditable;
 
-    public RedirectedAppealModelDTO appeal { get; set; } = new();
+    private RedirectedAppealModelDTO appeal = new();
     private Department[] departmentsList = new Department[]{};
 
 
@@ -178,11 +177,6 @@ else
             await js.InvokeVoidAsync("alert", "Ничего ещё не скопировано");
             return;
         }
-        //else if (loginResponse.StatusCode == HttpStatusCode.Unauthorized)
-        //{
-        //    await js.InvokeVoidAsync("alert", "Неверный логин или пароль");
-        //    return;
-        //}
     }
 
     private void ChangePeriod()
@@ -190,7 +184,7 @@ else
         isEditable = !isEditable;
     }
 
-    private async Task SaveAppeal() //year and District will be added
+    private async Task SaveAppeal()
     {
         if (Id == 0)
         {
@@ -199,8 +193,6 @@ else
         else
         {
             await RedirectedAppealDataService.UpdateRedirectedAppeal(appeal);
-            //await httpClient.PutAsJsonAsync<RedirectedAppealModelDTO>("api/RedirectedAppeal", appeal);
-            //HttpClient.PutAsJsonAsync<Developer>("api/developer", developer);  //<Developer>
         }
 
         GoToRedirectedPage();
@@ -209,6 +201,5 @@ else
     private void GoToRedirectedPage()
     {
         navManager.NavigateTo($"/redirectedappealregistry/{DistrictName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
-        //navManager.NavigateTo($"/redirectedappealregistry/{appeal.PeriodInfo}/{appeal.YearInfo}");
     }
 }

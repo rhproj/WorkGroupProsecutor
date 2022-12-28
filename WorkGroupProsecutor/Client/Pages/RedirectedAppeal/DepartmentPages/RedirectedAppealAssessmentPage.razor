@@ -16,7 +16,6 @@
         <th style="width: 20%">Орган, в который предполагается переадресовать обращение</th>
         <th style="width: auto">Основание переадресации</th>
         <th style="width: 10%">Оценка возможности переадресации**</th>
-@*        <th>Примечание</th>*@
       </tr>
     </thead>
     @if (appealsList.Length == 0)
@@ -39,12 +38,11 @@
       @foreach (var appeal in appealsList)
       {
           <tr class="align-content-start">
-              <td class="text-center">@num</td> <!--swap with counter-->
+              <td class="text-center">@num</td>
               <td class="text-center">
                   <a href=@appeal.NadzorHyperlink>@appeal.RegistrationNumber</a>
               </td>
               <td>@appeal.ApplicantFullName</td>
-            @*<td class="text-center">@appeal.DepartmentId</td>*@
               @if (appeal.Department != null)
               {
                   <td class="text-center">@appeal.Department.DepartmentIndex</td>
@@ -71,8 +69,7 @@
                         <p>@appeal.DepartmentAssessment</p>
                         <a href="/estimateredirectedappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-secondary">Изменить</a> 
                     }                     
-                </td>
-                @* <td> <a href="/deleteredirectedappeal/@appeal.Id" class="btn btn-outline-dark">Удалить</a> </td> *@           
+                </td>   
               }
           </tr> num++;
       }
@@ -115,7 +112,7 @@
 
         if (!UserState.User.IsInRole(Participants.Department))
         {
-            appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals(District, Period, Year)).ToArray(); //districtName
+            appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals(District, Period, Year)).ToArray();
         }
         else
         {

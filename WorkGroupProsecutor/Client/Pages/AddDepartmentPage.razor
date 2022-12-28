@@ -1,10 +1,5 @@
 ﻿@page "/adddepartment"
 @attribute [Authorize(Roles = "Administrator")]
-@using WorkGroupProsecutor.Shared.Models.Participants;
-
-@*@using BlazorWADevPortal.Shared.Models*@
-@inject HttpClient httpClient
-@inject NavigationManager NavManager
 
 <PageTitle>Добавить Отдел</PageTitle>
 <h3>Добавить Отдел</h3>
@@ -69,13 +64,13 @@
     private Department department = new();
     //private RedirectedAppealModel appeal = new();
 
-    //protected override async Task OnParametersSetAsync() //лучше когда дочерняя стр-ца, т.к парам-р передаем типа Id ч/з кнопку в родителе  (попробуй OnInitializedAsync
+    //protected override async Task OnParametersSetAsync()
     //{
     //    if (Id != Guid.Empty)
     //    {
     //        title = "edit";
     //        developer = await HttpClient.GetFromJsonAsync<Developer>($"api/developer/{Id}"); //<Developer>
-    //                                                                                         //у каждого Json реквеста - свое имя
+    //                                                                                         
     //    }//else throw error Id hasnt been passed
     //}
     protected override async Task OnInitializedAsync()
@@ -92,6 +87,6 @@
 
     private void GotToHomePage()
     {
-        NavManager.NavigateTo("/counter");
+        navManager.NavigateTo("/counter");
     }
 }

@@ -10,18 +10,7 @@ namespace WorkGroupProsecutor.Shared.Models.Appeal
 {
     public class RedirectedAppealModel : AppealRegister
     {
-        //-------public RecipientAgency RecipientAgency { get; set; }
         public string? RecipientAgency { get; set; }
         public string? DecisionBasis { get; set; }
-
-        //*************************************************
-        //public int Id { get; set; }
-        //public string RegistrationNumber { get; set; }
-        //public string ApplicantFullName { get; set; }
-        ////public Department AppealClassification { get; set; } = new();
-        ////public string DepartmentAssessment { get; set; }
-        //public int YearInfo { get; set; }
-        //public string PeriodInfo { get; set; }
-        //public string District { get; set; }
     }
 }

@@ -56,7 +56,6 @@ else
                 <tr style="height:100px">
                         <td class="fs-2">
                             <div class="d-flex justify-content-center">
-@*                                <div class="col-3"></div>*@
                                 <div class="my-3">@p.@Year Переадресация </div>
                                 <div class="mx-4">
                                     @if (UserState.User.IsInRole(Participants.District))
@@ -86,8 +85,6 @@ else
 
 
 @code {
-    //[Inject]
-    //public IUserService? UserService { get; set; }
     [Inject]
     public IRedirectedAppealDataService? RedirectedAppealDataService { get; set; }
     //%//
@@ -101,7 +98,6 @@ else
     public int Year { get; set; }
     private string period;
     private bool isDisabled = true;
-    //private List<string> periodsList;// = new();
     private string[] periodsList;
 
     //private enum LoadingCollectionState {Loading, Loaded, Error};

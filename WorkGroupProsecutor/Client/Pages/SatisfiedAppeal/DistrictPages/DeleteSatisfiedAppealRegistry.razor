@@ -49,11 +49,11 @@
         }
     }
 
-    private async Task DeleteAppeal() //turns out we can't have method with PageName
+    private async Task DeleteAppeal()
     {
         if (appeal != null)
         {
-            await SatisfiedAppealDataService.DeleteSatisfiedAppeal(Id); //httpClient.DeleteAsync($"api//{Id}");
+            await SatisfiedAppealDataService.DeleteSatisfiedAppeal(Id);
             GotBack();
         }
     }
