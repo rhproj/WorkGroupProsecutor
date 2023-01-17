@@ -1,0 +1,55 @@
+﻿@page "/nosolutionunanswered/{DepartmentName}/{Period}/{Year:int}"
+@*DEP*@
+
+<div class="container-fluid m-1">
+    <h4 class="text-center my-2">Реестр обращений, по которым приняты решения: "Оставлено без разрешения и (или) приобщено к НП, в том числе списано без уведомления" и "Оставлено без разрешения – возвращено заявителю"</h4>
+    <h3 class="text-center mb-3">@ReferencePeriod.Quarters[Period] @Year г.</h3>
+
+
+@*    <a href="/nosolutiondistrictspage/@DepartmentName/@Period/@Year" class="btn btn-outline-success"><span class="h5 fw-bold">&#60; </span>Районы</a>
+*@    <div>
+        <NoSolutionAppealCommentsComponent />
+    </div>
+</div>
+
+
+@code {
+    //[Inject]
+    //public IUserService UserService { get; set; }
+    [Inject]
+    public INoSolutionAppealDataService NoSolutionAppealDataService { get; set; }
+    [CascadingParameter(Name = "UserState")]
+    public AuthenticationState UserState { get; set; }
+
+    //[Parameter]
+    //public string District { get; set; }
+    [Parameter]
+    public string DepartmentName { get; set; }
+    [Parameter]
+    public string Period { get; set; }
+    [Parameter]
+    public int Year { get; set; }
+
+    private string districtDescription;
+    private int num;
+
+    private NoSolutionAppealModelDTO[] appealsList = new NoSolutionAppealModelDTO[] { };
+
+    protected override async Task OnInitializedAsync()
+    {
+        num = 1;
+
+        appealsList = (await NoSolutionAppealDataService.GetAllNoSolutionAppealsForDepartment(District, DepartmentName, Period, Year)).ToArray();
+
+        //districtDescription = await UserService.GetUserDescription(District);
+
+        //if (!UserState.User.IsInRole(Participants.Department))
+        //{
+        //    appealsList = (await NoSolutionAppealDataService.GetAllNoSolutionAppeals(District, Period, Year)).ToArray();
+        //}
+        //else
+        //{
+        //    appealsList = (await NoSolutionAppealDataService.GetAllNoSolutionAppealsForDepartment(District, DepartmentName, Period, Year)).ToArray();
+        //}
+    }
+}
