@@ -6,7 +6,7 @@ namespace WorkGroupProsecutor.Client.Services
     {
         Task<IEnumerable<NoSolutionAppealModelDTO>> GetAllNoSolutionAppeals(string district, string period, int year);
         Task<IEnumerable<NoSolutionAppealModelDTO>> GetAllNoSolutionAppealsForDepartment(string district, string department, string period, int year);
-        //Task<IEnumerable<NoSolutionAppealModelDTO>> GetAllNoSolutionAppealsForDepartment(string district, string department, string period, int year);
+        Task<IEnumerable<NoSolutionAppealModelDTO>> GetAllNoSolutionUnansweredForDepartment(string department, string period, int year);
         Task<IEnumerable<string>> GetNoSolutionAppealsByDistricts(string period, int year);
         Task<IEnumerable<string>> GetNoSolutionAppealsByDistrictsForDepartment(string department, string period, int year);
         Task<NoSolutionAppealModelDTO> GetNoSolutionAppealById(int id);

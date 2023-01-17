@@ -1,4 +1,6 @@
-﻿@page "/estimatenosolutionappeal/{Id:int}/{DepartmentName}/{DistrictDescription}"
+﻿@page "/estimatenosolutionappeal/{Id:int}/{DepartmentName}/{District}"
+@page "/estimatenosolutionappeal/{Id:int}/{DepartmentName}/{District}/{Selected:bool}"
+@*@page "/estimatenosolutionappeal/{Id:int}/{DepartmentName}/{DistrictDescription}"*@
 @attribute [Authorize(Roles = @Participants.Department)]
 @*DEP*@
 
@@ -12,7 +14,8 @@
         <tbody>
             <tr>
                 <td class="py-3" style="width:50%">Прокуратура:</td>
-                <td>@DistrictDescription</td>
+@*                <td>@DistrictDescription</td>*@
+                <td class="fw-bold">@districtDescription</td>
             </tr>
             <tr>
                 <td class="py-3">ФИО заявителя / Наименование организации:</td>
@@ -46,6 +49,8 @@
 
 @code {
     [Inject]
+    public IUserService UserService { get; set; } //23
+    [Inject]
     public INoSolutionAppealDataService NoSolutionAppealDataService { get; set; }
 
     [Parameter]
@@ -53,7 +58,12 @@
     [Parameter]
     public string DepartmentName { get; set; }
     [Parameter]
-    public string DistrictDescription { get; set; }
+    public string District { get; set; }
+    //[Parameter]
+    //public string DistrictDescription { get; set; }
+    private string districtDescription; //23
+    [Parameter]
+    public bool Selected { get; set; } //23
 
     private NoSolutionAppealModelDTO appeal = new();
     private string? comments;
@@ -63,6 +73,8 @@
         if (Id != 0)
         {
             appeal = await NoSolutionAppealDataService.GetNoSolutionAppealById(Id);
+
+            districtDescription = await UserService.GetUserDescription(District);
         }
     }
 
@@ -96,6 +108,13 @@
 
     private void GotBack()
     {
-        navManager.NavigateTo($"/nosolutionappealassessment/{appeal.District}/{DepartmentName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
+        if (Selected)
+        {
+            navManager.NavigateTo($"/nosolutionappealassessment/{appeal.District}/{DepartmentName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
+        }
+        else
+        {
+            navManager.NavigateTo($"/nosolutionunanswered/{DepartmentName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
+        }
     }
 }

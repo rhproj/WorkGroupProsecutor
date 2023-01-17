@@ -17,7 +17,7 @@ namespace WorkGroupProsecutor.Server.Controllers
         }
 
         /// <summary>
-        /// Возвращает все обращения района за отч.период, предполагаемые к переадресации в иные органы
+        /// Возвращает все обращения района за отч.период
         /// </summary>
         /// <param name="district">Район</param>
         /// <param name="period">Отчетный период</param>
@@ -28,20 +28,33 @@ namespace WorkGroupProsecutor.Server.Controllers
             return Ok(await _appealRepository.GetAllNoSolutionAppeals(district, period, year));
         }
 
+        #region for Dep-ts and w/o auth-n
         /// <summary>
-        /// Возвращает все обращения района за отч.период, для определенного отдела предполагаемые к переадресации в иные органы
+        /// Возвращает все обращения района за отч.период, для определенного отдела
         /// </summary>
         /// <param name="district">Район</param>
-        /// <param name="district">Отдел</param>
+        /// <param name="department">Отдел</param>
         /// <param name="period">Отчетный период</param>
         /// <param name="year">Отчетный год</param>
         [HttpGet("getAllForDepartment/{district}/{department}/{period}/{year}")]
-        public async Task<IActionResult> GetAllForDepartment(string district, string department, string period, int year)  //m
+        public async Task<IActionResult> GetAllForDepartment(string district, string department, string period, int year)
         {
             return Ok(await _appealRepository.GetAllNoSolutionAppealsForDepartment(district, department, period, year));
         }
 
-        #region for Dep-ts and w/o auth-n
+        /// <summary>
+        /// Возвращает все обращения района за отч.период, для определенного отдела
+        /// </summary>
+        /// <param name="department">Отдел</param>
+        /// <param name="period">Отчетный период</param>
+        /// <param name="year">Отчетный год</param>
+        [HttpGet("getAllUnansweredForDepartment/{department}/{period}/{year}")]
+        public async Task<IActionResult> GetAllUnansweredForDepartment(string department, string period, int year)
+        {
+            return Ok(await _appealRepository.GetAllNoSolutionUnansweredForDepartment(department, period, year));
+        }
+
+
         /// <summary>
         /// Cписок районнов имеющих обращения в указанный период
         /// </summary>
