@@ -11,7 +11,35 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach (var q in ReferencePeriod.Quarters)
+                @for (int q = 0; q < ReferencePeriod.Quarters.Count; q++)
+                {
+                    <tr style="height:100px">
+                        <td class="fs-2">
+                            <div class="d-flex justify-content-center">
+                                <div class="my-3">@ReferencePeriod.Quarters.ElementAt(q).Value @Year Без разрешения </div>
+                                <div class="mx-4">
+                                    @if (UserState.User.IsInRole(Participants.District))
+                                    {
+                                        <a href="/nosolutionappealregistry/@DistrictName/@ReferencePeriod.Quarters.ElementAt(q).Key/@Year" class="btn btn-outline-primary"><img src="img/edit32.png" width="50" height="50" class="mt-2" /></a>
+                                    }
+                                    else if (UserState.User.IsInRole(Participants.Department))
+                                    {
+                                        <a href="/nosolutiondistrictspage/@DistrictName/@ReferencePeriod.Quarters.ElementAt(q).Key/@Year" class="btn btn-outline-primary"><img src="img/open32.png" width="50" height="50" class="mt-2" /></a>
+                                        if (unansweredsByPeriod[q] != 0)
+                                        {
+                                            <a href="/nosolutionunanswered/@DistrictName/@ReferencePeriod.Quarters.ElementAt(q).Key/@Year" class="btn btn-outline-primary">Не рассмотрено @unansweredsByPeriod[q]</a>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <a href="/nosolutiondistrictspage/@ReferencePeriod.Quarters.ElementAt(q).Key/@Year" class="btn btn-outline-primary"><img src="img/open32.png" width="50" height="50" class="mt-2" /></a>
+                                    }
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                }
+@*                    @foreach (var q in ReferencePeriod.Quarters)
                     {
                         <tr style="height:100px">
                             <td class="fs-2">
@@ -35,7 +63,7 @@
                                 </div>
                             </td>
                         </tr>
-                    }
+                    }*@
                 </tbody>
             </table>
         </div>
@@ -44,6 +72,9 @@
 </div>
 
 @code {
+    [Inject]
+    public INoSolutionAppealDataService? NoSolutionAppealDataService { get; set; } //23
+
     [CascadingParameter(Name = "UserState")]
     public AuthenticationState UserState { get; set; }
     [CascadingParameter(Name = "DistrictName")]
@@ -51,4 +82,20 @@
 
     [Parameter]
     public int Year { get; set; }
+
+    private int[]? unansweredsByPeriod;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (UserState.User.IsInRole(Participants.Department))
+        {
+            unansweredsByPeriod = new int[ReferencePeriod.Quarters.Count];
+            int i = 0;
+            foreach (var q in ReferencePeriod.Quarters)
+            {
+                unansweredsByPeriod[i++] = await NoSolutionAppealDataService.GetUnansweredNumberForDepartment(DistrictName, q.Key, Year);
+            }
+        }
+    }
+
 }
