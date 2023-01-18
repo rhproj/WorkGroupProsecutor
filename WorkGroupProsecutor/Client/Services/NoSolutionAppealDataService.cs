@@ -31,6 +31,11 @@ namespace WorkGroupProsecutor.Client.Services
                 (await _httpClient.GetStreamAsync($"api/NoSolutionAppeal/getAllUnansweredForDepartment/{department}/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
+        public async Task<int> GetUnansweredNumberForDepartment(string department, string period, int year)
+        {
+            return await JsonSerializer.DeserializeAsync<int>(await _httpClient.GetStreamAsync($"api/NoSolutionAppeal/getUnansweredNumberForDepartment/{department}/{period}/{year}"));
+        }
+
         public async Task<IEnumerable<string>> GetNoSolutionAppealsByDistricts(string period, int year)
         {
             return await JsonSerializer.DeserializeAsync<IEnumerable<string>>

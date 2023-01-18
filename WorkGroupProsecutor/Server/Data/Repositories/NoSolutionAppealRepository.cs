@@ -49,8 +49,15 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
             return _mapper.Map<IEnumerable<NoSolutionAppealModelDTO>>(appeals);
         }
 
-        //public async Task<int> GetUnansweredNumberForDepartment(string department, string period, int year)
-
+        public async Task<int> GetUnansweredNumberForDepartment(string department, string period, int year)
+        {
+            return await _dbContext.NoSolutionAppeal.Include(a => a.Department)
+                .Where(a => a.Department.DepartmentIndex == department)
+                .Where(a => a.PeriodInfo == period)
+                .Where(a => a.YearInfo == year)
+                .Where(a => a.DepartmentAssessment == null)
+                .CountAsync();
+        }
 
         public async Task<IEnumerable<string>> GetNoSolutiondAppealsByDistricts(string period, int year)
         {

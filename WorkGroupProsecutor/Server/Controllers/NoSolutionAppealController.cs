@@ -54,6 +54,11 @@ namespace WorkGroupProsecutor.Server.Controllers
             return Ok(await _appealRepository.GetAllNoSolutionUnansweredForDepartment(department, period, year));
         }
 
+        [HttpGet("getUnansweredNumberForDepartment/{department}/{period}/{year}")]
+        public async Task<IActionResult> GetUnansweredNumber(string department, string period, int year)
+        {
+            return Ok(await _appealRepository.GetUnansweredNumberForDepartment(department, period, year));
+        }
 
         /// <summary>
         /// Cписок районнов имеющих обращения в указанный период
