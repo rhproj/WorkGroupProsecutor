@@ -1,4 +1,7 @@
-﻿@page "/estimateredirectedappeal/{Id:int}/{DepartmentName}/{DistrictDescription}"
+﻿@page "/estimateredirectedappeal/{Id:int}/{DepartmentName}/{District}"
+@page "/estimateredirectedappeal/{Id:int}/{DepartmentName}/{District}/{Selected:bool}"
+@*@page "/estimateredirectedappeal/{Id:int}/{DepartmentName}/{DistrictDescription}"*@
+
 @attribute [Authorize(Roles = @Participants.Department)]
 @*DEP*@
 
@@ -12,7 +15,7 @@
         <tbody>
             <tr>
                 <td class="py-3" style="width:50%">Прокуратура:</td>
-                <td>@DistrictDescription</td>
+                <td class="fw-bold">@districtDescription</td>
             </tr>
             <tr>
                 <td class="py-3">ФИО заявителя / Наименование организации:</td>
@@ -40,7 +43,7 @@
         <button class="btn btn-outline-success btn-lg" style="width:150px" @onclick="Approve">Да</button>
         <button class="btn btn-outline-primary btn-lg" style="width:185px" @onclick="WithControl">Да, c контролем</button>
         <button class="btn btn-outline-danger btn-lg" style="width:150px" @onclick="Disapprove">Нет</button>
-        <button class="btn btn-secondary btn-lg" style="width:150px" @onclick="GotBack">Отмена</button>
+        <button class="btn btn-secondary btn-lg" style="width:150px" @onclick="GoBack">Отмена</button>
     </div>
 
 
@@ -51,6 +54,8 @@
 
 @code {
     [Inject]
+    public IUserService UserService { get; set; } //v
+    [Inject]
     public IRedirectedAppealDataService RedirectedAppealDataService { get; set; }
 
     [Parameter]
@@ -58,7 +63,13 @@
     [Parameter]
     public string DepartmentName { get; set; }
     [Parameter]
-    public string DistrictDescription { get; set; }
+    public string District { get; set; }
+    //[Parameter]
+    //public string DistrictDescription { get; set; }
+
+    private string districtDescription; //v
+    [Parameter]
+    public bool Selected { get; set; } //v
 
     private RedirectedAppealModelDTO appeal = new();
     private string? comments;
@@ -68,6 +79,8 @@
         if (Id != 0)
         {
             appeal = await RedirectedAppealDataService.GetRedirectedAppealById(Id);
+
+            districtDescription = await UserService.GetUserDescription(District); //v
         }
     }
 
@@ -83,10 +96,10 @@
             await RedirectedAppealDataService.UpdateRedirectedAppeal(appeal);
             //await RedirectedAppealDataService.DeleteRedirectedAppeal(Id); //httpClient.DeleteAsync($"api//{Id}");
         }
-        GotBack();
+        GoBack();
     }
 
-    private async Task WithControl() //turns out we can't have method with PageName
+    private async Task WithControl()
     {
         if (appeal != null)
         {
@@ -98,10 +111,10 @@
             await RedirectedAppealDataService.UpdateRedirectedAppeal(appeal);
             //await RedirectedAppealDataService.DeleteRedirectedAppeal(Id); //httpClient.DeleteAsync($"api//{Id}");
         }
-        GotBack();
+        GoBack();
     }
 
-    private async Task Disapprove() //turns out we can't have method with PageName
+    private async Task Disapprove()
     {
         if (appeal != null)
         {
@@ -113,11 +126,20 @@
             }
             await RedirectedAppealDataService.UpdateRedirectedAppeal(appeal);
         }
-        GotBack();
+        GoBack();
     }
 
-    private void GotBack()
+    private void GoBack()
     {
-        navManager.NavigateTo($"/redirectedappealassessment/{appeal.District}/{DepartmentName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
+        if (Selected) //v
+        {
+            navManager.NavigateTo($"/redirectedappealassessment/{appeal.District}/{DepartmentName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
+        }
+        else
+        {
+            navManager.NavigateTo($"/redirectedunanswered/{DepartmentName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
+        }
+
+        //navManager.NavigateTo($"/redirectedappealassessment/{appeal.District}/{DepartmentName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
     }
 }

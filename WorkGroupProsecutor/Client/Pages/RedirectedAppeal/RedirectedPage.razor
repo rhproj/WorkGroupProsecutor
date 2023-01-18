@@ -51,7 +51,36 @@ else
             </tr>
         </thead>
         <tbody>
-            @foreach (var p in periodsList)
+            @for (int i = 0; i < periodsList.Length; i++)
+            {
+                <tr style="height:100px">
+                    <td class="fs-2">
+                        <div class="d-flex justify-content-center">
+                            <div class="my-3">@periodsList[i].@Year Переадресация </div>
+                            <div class="mx-4">
+                                @if (UserState.User.IsInRole(Participants.District))
+                                {
+                                    <a href="/redirectedappealregistry/@DistrictName/@periodsList[i]/@Year" class="btn btn-outline-primary"><img src="img/edit32.png" width="50" height="50" class="mt-2" /></a>
+                                }
+                                else if (UserState.User.IsInRole(Participants.Department))
+                                {
+                                    <a href="/redirecteddistrictspage/@DistrictName/@periodsList[i]/@Year" class="btn btn-outline-primary"><img src="img/open32.png" width="50" height="50" class="mt-2" /></a>
+                                    if (unansweredsByPeriod[i] != 0)
+                                    {
+                                        <a href="/redirectedunanswered/@DistrictName/@periodsList[i]/@Year" class="btn btn-outline-primary">Не рассмотрено @unansweredsByPeriod[i]</a>
+                                    }
+                                }
+                                else
+                                {
+                                    <a href="/redirecteddistrictspage/@periodsList[i]/@Year" class="btn btn-outline-primary"><img src="img/open32.png" width="50" height="50" class="mt-2" /></a>
+                                }
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+
+@*            @foreach (var p in periodsList)
             {
                 <tr style="height:100px">
                         <td class="fs-2">
@@ -74,7 +103,7 @@ else
                             </div>                         
                         </td>
                 </tr>
-            }
+            }*@
         </tbody>
     </table>    
 </div>
@@ -102,6 +131,7 @@ else
 
     //private enum LoadingCollectionState {Loading, Loaded, Error};
     private DateTime dateTime;
+    private int[]? unansweredsByPeriod;
     //private LoadingCollectionState state;
 
     protected override async Task OnInitializedAsync()
@@ -114,6 +144,13 @@ else
         else if (UserState != null && UserState.User.IsInRole(Participants.Department))
         {
             periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsForDepartment(DistrictName, Year)).OrderByDescending(p => DateOnly.Parse(p)).ToArray(); //.ToList();
+
+            unansweredsByPeriod = new int[periodsList.Length];
+
+            for (int i = 0; i < unansweredsByPeriod.Length; i++)
+            {
+                unansweredsByPeriod[i] = await RedirectedAppealDataService.GetUnansweredNumberForDepartment(DistrictName, periodsList[i], Year);
+            }
         }
         else
         {

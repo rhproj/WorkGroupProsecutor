@@ -1,9 +1,9 @@
-﻿@page "/nosolutionunanswered/{DepartmentName}/{Period}/{Year:int}"
+﻿@page "/redirectedunanswered/{DepartmentName}/{Period}/{Year:int}"
 @*DEP*@
 
 <div class="container-fluid m-1">
-    <h4 class="text-center my-2">Реестр обращений, по которым приняты решения: "Оставлено без разрешения и (или) приобщено к НП, в том числе списано без уведомления" и "Оставлено без разрешения – возвращено заявителю"</h4>
-    <h3 class="text-center mb-3">@ReferencePeriod.Quarters[Period] @Year г.</h3>
+    <h3 class="text-center my-3">Реестр обращений, предполагаемых к переадресации в иные органы и ведомства</h3>
+    <h3 class="text-center my-3">@Period.@Year г.</h3>
 
     <table class="table table-bordered">
         <thead>
@@ -12,36 +12,11 @@
                 <th style="width: 10%">Регистрационный номер в системе Надзор-WEB</th>
                 <th style="width: 15%">ФИО заявителя</th>
                 <th style="width: 1%">Характер обращ- ения*</th>
-                <th style="width: 33%">Принятое решение**</th>
-                <th style="width: 27%">Основание принятого решения</th>
-                <th style="width: 13%">Оценка законности, своевременности и обоснованности принятого решения***</th>
+                <th style="width: 20%">Орган, в который предполагается переадресовать обращение</th>
+                <th style="width: auto">Основание переадресации</th>
+                <th style="width: 10%">Оценка возможности переадресации**</th>
             </tr>
         </thead>
-
-@*        @if (appealsList == null)
-        {
-            <tbody>
-                <tr>
-                    <td align="center" colspan="10" style="border:none">
-                        <div class="py-5">
-                            <div style="color: rgb(0,0,120)" class="la-timer la-2x">
-                                <div></div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        }
-        else if (appealsList.Length == 0)
-        {
-            <tbody>
-                <tr>
-                    <td colspan="10" style="border:none">
-                        <h2 class="text-secondary text-center py-5">Нет не рассмотренных обращений за этот период</h2>
-                    </td>
-                </tr>
-            </tbody>
-        }*@
         @if (appealsList.Length == 0)
         {
             <tbody>
@@ -67,15 +42,20 @@
                             <a href=@appeal.NadzorHyperlink>@appeal.RegistrationNumber</a>
                         </td>
                         <td>@appeal.ApplicantFullName</td>
-                        <td class="text-center">@appeal.Department.DepartmentIndex</td>
-
-                        <td>@appeal.DepartmentResolution</td>
+                        @if (appeal.Department != null)
+                        {
+                            <td class="text-center">@appeal.Department.DepartmentIndex</td>
+                        }
+                        else
+                        {
+                            <td class="text-center"></td>
+                        }
+                        <td>@appeal.RecipientAgency</td>
                         <td>@appeal.DecisionBasis</td>
 
                         <td class="text-center fw-bold">
-                            <a href="/estimatenosolutionappeal/@appeal.Id/@DepartmentName/@appeal.District" class="btn btn-outline-primary">Оценить</a>
+                            <a href="/estimateredirectedappeal/@appeal.Id/@DepartmentName/@appeal.District" class="btn btn-outline-primary">Оценить</a>
                         </td>
-
 
 @*                        @if (!UserState.User.IsInRole(Participants.Department))
                         {
@@ -86,12 +66,12 @@
                             <td class="text-center fw-bold">
                                 @if (string.IsNullOrEmpty(appeal.DepartmentAssessment))
                                 {
-                                    <a href="/estimatenosolutionappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-primary">Оценить</a>
+                                    <a href="/estimateredirectedappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-primary">Оценить</a>
                                 }
                                 else
                                 {
                                     <p>@appeal.DepartmentAssessment</p>
-                                    <a href="/estimatenosolutionappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-secondary">Изменить</a>
+                                    <a href="/estimateredirectedappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-secondary">Изменить</a>
                                 }
                             </td>
                         }*@
@@ -101,10 +81,9 @@
             </tbody>
         }
     </table>
-
-    <a href="/nosolutiondistrictspage/@DepartmentName/@Period/@Year" class="btn btn-outline-success"><span class="h5 fw-bold">&#60; </span>Районы</a>
+    <a href="/redirecteddistrictspage/@DepartmentName/@Period/@Year" class="btn btn-outline-success"><span class="h5 fw-bold">&#60; </span>Районы</a>
     <div>
-        <NoSolutionAppealCommentsComponent />
+        <RedirectedAppealCommentsComponent />
     </div>
 </div>
 
@@ -113,7 +92,7 @@
     //[Inject]
     //public IUserService UserService { get; set; }
     [Inject]
-    public INoSolutionAppealDataService NoSolutionAppealDataService { get; set; }
+    public IRedirectedAppealDataService RedirectedAppealDataService { get; set; }
     //[CascadingParameter(Name = "UserState")]
     //public AuthenticationState UserState { get; set; }
 
@@ -129,28 +108,28 @@
     //private string districtDescription;
     private int num;
 
-    private NoSolutionAppealModelDTO[] appealsList = new NoSolutionAppealModelDTO[] { };
+    private RedirectedAppealModelDTO[] appealsList = new RedirectedAppealModelDTO[] { };
 
     protected override async Task OnInitializedAsync()
     {
         num = 1;
 
-        appealsList = (await NoSolutionAppealDataService.GetAllNoSolutionUnansweredForDepartment(DepartmentName, Period, Year)).ToArray();
+        appealsList = (await RedirectedAppealDataService.GetAllRedirectedUnansweredForDepartment(DepartmentName, Period, Year)).ToArray();
 
-        if(appealsList.Length == 0)
+        if (appealsList.Length == 0)
         {
-            navManager.NavigateTo($"/nosolutionpage/{Year}");
+            navManager.NavigateTo($"/redirectedpage/{Year}");
         }
 
         //districtDescription = await UserService.GetUserDescription(District);
 
         //if (!UserState.User.IsInRole(Participants.Department))
         //{
-        //    appealsList = (await NoSolutionAppealDataService.GetAllNoSolutionAppeals(District, Period, Year)).ToArray();
+        //    appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals(District, Period, Year)).ToArray();
         //}
         //else
         //{
-        //    appealsList = (await NoSolutionAppealDataService.GetAllNoSolutionAppealsForDepartment(District, DepartmentName, Period, Year)).ToArray();
+        //    appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppealsByDepartment(District, DepartmentName, Period, Year)).ToArray();
         //}
     }
 }

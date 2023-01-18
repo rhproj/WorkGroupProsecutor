@@ -4,7 +4,7 @@
 
 <div class="container-fluid m-1">
 <h3 class="text-center my-3">Реестр обращений, предполагаемых к переадресации в иные органы и ведомства</h3>
-<h3 class="text-center my-3">@districtDescription @Period @Year г.</h3>
+<h3 class="text-center my-3">@districtDescription @Period.@Year г.</h3>
 
   <table class="table table-bordered">
     <thead>
@@ -62,13 +62,15 @@
                 <td class="text-center fw-bold">
                     @if (string.IsNullOrEmpty(appeal.DepartmentAssessment))
                     {
-                        <a href="/estimateredirectedappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-primary">Оценить</a>
+                        <a href="/estimateredirectedappeal/@appeal.Id/@DepartmentName/@District/@true" class="btn btn-outline-primary">Оценить</a>
+@*                        <a href="/estimateredirectedappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-primary">Оценить</a>*@
                     }
                     else
                     {
                         <p>@appeal.DepartmentAssessment</p>
-                        <a href="/estimateredirectedappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-secondary">Изменить</a> 
-                    }                     
+                        <a href="/estimateredirectedappeal/@appeal.Id/@DepartmentName/@District/@true" class="btn btn-outline-secondary">Изменить</a>
+@*                        <a href="/estimateredirectedappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-secondary">Изменить</a> 
+*@                    }                     
                 </td>   
               }
           </tr> num++;
