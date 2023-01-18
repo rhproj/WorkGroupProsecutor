@@ -44,6 +44,17 @@ namespace WorkGroupProsecutor.Client.Services
                 (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/getAllByDepartment/{district}/{department}/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
+        public async Task<IEnumerable<RedirectedAppealModelDTO>> GetAllRedirectedUnansweredForDepartment(string department, string period, int year)
+        {
+            return await JsonSerializer.DeserializeAsync<IEnumerable<RedirectedAppealModelDTO>>
+                (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/getAllUnansweredForDepartment/{department}/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+        }
+        public async Task<int> GetUnansweredNumberForDepartment(string department, string period, int year)
+        {
+            return await JsonSerializer.DeserializeAsync<int>(await _httpClient.GetStreamAsync($"api/RedirectedAppeal/getUnansweredNumberForDepartment/{department}/{period}/{year}"));
+        }
+
+
         public async Task<IEnumerable<string>> GetRedirectedAppealsByDistricts(string period, int year)
         {
             return await JsonSerializer.DeserializeAsync<IEnumerable<string>>

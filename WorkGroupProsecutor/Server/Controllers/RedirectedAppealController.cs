@@ -64,6 +64,7 @@ namespace WorkGroupProsecutor.Server.Controllers
         }
 
 
+        #region for Dep-ts and w/o auth-n
         /// <summary>
         /// Возвращает все обращения района за отч.период, для определенного отдела предполагаемые к переадресации в иные органы
         /// </summary>
@@ -77,7 +78,25 @@ namespace WorkGroupProsecutor.Server.Controllers
             return Ok(await _appealRepository.GetAllRedirectedAppealsByDepartment(district, department, period, year));
         }
 
-        #region for Dep-ts and w/o auth-n
+        /// <summary>
+        /// Возвращает все обращения района за отч.период, для определенного отдела
+        /// </summary>
+        /// <param name="department">Отдел</param>
+        /// <param name="period">Отчетный период</param>
+        /// <param name="year">Отчетный год</param>
+        [HttpGet("getAllUnansweredForDepartment/{department}/{period}/{year}")]
+        public async Task<IActionResult> GetAllUnansweredForDepartment(string department, string period, int year)
+        {
+            return Ok(await _appealRepository.GetAllRedirectedUnansweredForDepartment(department, period, year));
+        }
+
+        [HttpGet("getUnansweredNumberForDepartment/{department}/{period}/{year}")]
+        public async Task<IActionResult> GetUnansweredNumber(string department, string period, int year)
+        {
+            return Ok(await _appealRepository.GetUnansweredNumberForDepartment(department, period, year));
+        }
+
+
         /// <summary>
         /// Cписок районнов имеющих обращения в указанный период
         /// </summary>

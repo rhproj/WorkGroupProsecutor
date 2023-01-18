@@ -39,6 +39,31 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
             return _mapper.Map<IEnumerable<RedirectedAppealModelDTO>>(appeals);
         }
 
+        #region UNANSWERED
+        public async Task<IEnumerable<RedirectedAppealModelDTO>> GetAllRedirectedUnansweredForDepartment(string department, string period, int year)
+        {
+            var appeals = await _dbContext.RedirectedAppeal.Include(a => a.Department)
+                .Where(a => a.Department.DepartmentIndex == department)
+                .Where(a => a.PeriodInfo == period)
+                .Where(a => a.YearInfo == year)
+                .Where(a => a.DepartmentAssessment == null)
+                .ToListAsync();
+
+                return _mapper.Map<IEnumerable<RedirectedAppealModelDTO>>(appeals);
+        }
+
+        public async Task<int> GetUnansweredNumberForDepartment(string department, string period, int year)
+        {
+            return await _dbContext.RedirectedAppeal.Include(a => a.Department)
+                .Where(a => a.Department.DepartmentIndex == department)
+                .Where(a => a.PeriodInfo == period)
+                .Where(a => a.YearInfo == year)
+                .Where(a => a.DepartmentAssessment == null)
+                .CountAsync();
+        }
+        #endregion
+
+
         #region PERIODS
         public async Task<IEnumerable<string>> GetAllRedirectedPeriods(int year)
         {
@@ -84,13 +109,6 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
             return _mapper.Map<RedirectedAppealModelDTO>(appeal);
         }
 
-        //public async Task AddRedirectedAppeal(RedirectedAppealModel appeal)
-        //{
-        //    await _dbContext.RedirectedAppeal.AddAsync(appeal);
-        //    await _dbContext.SaveChangesAsync();
-
-        //    //await _dbContext.Database.ExecuteSqlRawAsync("SET IDENTITY_INSERT dbo.Department OFF;");
-        //}
         public async Task AddRedirectedAppeal(RedirectedAppealModelDTO appealDto)
         {
             var appeal = _mapper.Map<RedirectedAppealModel>(appealDto);

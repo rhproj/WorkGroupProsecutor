@@ -6,6 +6,7 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
     {
         Task<IEnumerable<NoSolutionAppealModelDTO>> GetAllNoSolutionAppeals(string district, string period, int year);
         Task<IEnumerable<NoSolutionAppealModelDTO>> GetAllNoSolutionAppealsForDepartment(string district, string department, string period, int year);
+
         Task<IEnumerable<NoSolutionAppealModelDTO>> GetAllNoSolutionUnansweredForDepartment(string department, string period, int year);
         Task<int> GetUnansweredNumberForDepartment(string department, string period, int year);
 
