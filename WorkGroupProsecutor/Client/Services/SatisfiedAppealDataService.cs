@@ -25,6 +25,18 @@ namespace WorkGroupProsecutor.Client.Services
                 (await _httpClient.GetStreamAsync($"api/SatisfiedAppeal/getAllForDepartment/{district}/{department}/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
+
+        public async Task<IEnumerable<SatisfiedAppealModelDTO>> GetAllSatisfiedUnansweredForDepartment(string department, string period, int year)
+        {
+            return await JsonSerializer.DeserializeAsync<IEnumerable<SatisfiedAppealModelDTO>>
+                (await _httpClient.GetStreamAsync($"api/SatisfiedAppeal/getAllUnansweredForDepartment/{department}/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
+        }
+
+        public async Task<int> GetUnansweredNumberForDepartment(string department, string period, int year)
+        {
+            return await JsonSerializer.DeserializeAsync<int>(await _httpClient.GetStreamAsync($"api/SatisfiedAppeal/getUnansweredNumberForDepartment/{department}/{period}/{year}"));
+        }
+
         public async Task<IEnumerable<string>> GetSatisfiedAppealsByDistricts(string period, int year)
         {
             return await JsonSerializer.DeserializeAsync<IEnumerable<string>>

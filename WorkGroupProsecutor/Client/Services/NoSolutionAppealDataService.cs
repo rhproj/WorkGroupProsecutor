@@ -25,6 +25,7 @@ namespace WorkGroupProsecutor.Client.Services
                 (await _httpClient.GetStreamAsync($"api/NoSolutionAppeal/getAllForDepartment/{district}/{department}/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
+
         public async Task<IEnumerable<NoSolutionAppealModelDTO>> GetAllNoSolutionUnansweredForDepartment(string department, string period, int year)
         {
             return await JsonSerializer.DeserializeAsync<IEnumerable<NoSolutionAppealModelDTO>>

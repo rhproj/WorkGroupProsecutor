@@ -43,7 +43,7 @@ namespace WorkGroupProsecutor.Server.Controllers
         }
 
         /// <summary>
-        /// Возвращает все обращения района за отч.период, для определенного отдела
+        /// Возвращает все нерассмотренные обращения района за отч.период, для определенного отдела
         /// </summary>
         /// <param name="department">Отдел</param>
         /// <param name="period">Отчетный период</param>
