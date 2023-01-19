@@ -27,7 +27,11 @@
                                         <a href="/nosolutiondistrictspage/@DistrictName/@ReferencePeriod.Quarters.ElementAt(q).Key/@Year" class="btn btn-outline-primary"><img src="img/open32.png" width="50" height="50" class="mt-2" /></a>
                                         if (unansweredsByPeriod[q] != 0)
                                         {
-                                            <a href="/nosolutionunanswered/@DistrictName/@ReferencePeriod.Quarters.ElementAt(q).Key/@Year" class="btn btn-outline-primary">Не рассмотрено @unansweredsByPeriod[q]</a>
+                                            <a href="/nosolutionunanswered/@DistrictName/@ReferencePeriod.Quarters.ElementAt(q).Key/@Year" class="text-underline-hover">
+                                                <span class="ms-3 fs-3 fst-italic">
+                                                    Не рассмотрено @unansweredsByPeriod[q]
+                                                </span>    
+                                            </a>
                                         }
                                     }
                                     else

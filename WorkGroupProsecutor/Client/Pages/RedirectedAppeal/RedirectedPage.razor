@@ -67,7 +67,9 @@ else
                                     <a href="/redirecteddistrictspage/@DistrictName/@periodsList[i]/@Year" class="btn btn-outline-primary"><img src="img/open32.png" width="50" height="50" class="mt-2" /></a>
                                     if (unansweredsByPeriod[i] != 0)
                                     {
-                                        <a href="/redirectedunanswered/@DistrictName/@periodsList[i]/@Year" class="btn btn-outline-primary">Не рассмотрено @unansweredsByPeriod[i]</a>
+                                        <a href="/redirectedunanswered/@DistrictName/@periodsList[i]/@Year" class="text-underline-hover">
+                                            <span class="ms-3 fs-3 fst-italic">Не рассмотрено: @unansweredsByPeriod[i]</span>
+                                        </a>
                                     }
                                 }
                                 else

@@ -77,6 +77,16 @@ a, .btn-link {
     background-image: linear-gradient(180deg, rgb(0, 0, 103) 30%, #3a0647 130%);
 }
 
+.text-underline-hover {
+    text-decoration: none;
+    color: green;
+}
+
+.text-underline-hover:hover {
+    text-decoration: underline;
+    color: blue;
+}
+
 /*#region TIMER */
 .la-timer,
 .la-timer > div {
