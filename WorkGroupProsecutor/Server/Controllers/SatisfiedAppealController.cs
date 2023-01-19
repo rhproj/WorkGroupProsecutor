@@ -49,17 +49,17 @@ namespace WorkGroupProsecutor.Server.Controllers
         /// <param name="department">Отдел</param>
         /// <param name="period">Отчетный период</param>
         /// <param name="year">Отчетный год</param>
-        //[HttpGet("getAllUnansweredForDepartment/{department}/{period}/{year}")]
-        //public async Task<IActionResult> GetAllUnansweredForDepartment(string department, string period, int year)
-        //{
-        //    return Ok(await _appealRepository.GetAllNoSolutionUnansweredForDepartment(department, period, year));
-        //}
+        [HttpGet("getAllUnansweredForDepartment/{department}/{period}/{year}")]
+        public async Task<IActionResult> GetAllUnansweredForDepartment(string department, string period, int year)
+        {
+            return Ok(await _appealRepository.GetAllSatisfiedUnansweredForDepartment(department, period, year));
+        }
 
-        //[HttpGet("getUnansweredNumberForDepartment/{department}/{period}/{year}")]
-        //public async Task<IActionResult> GetUnansweredNumber(string department, string period, int year)
-        //{
-        //    return Ok(await _appealRepository.GetUnansweredNumberForDepartment(department, period, year));
-        //}
+        [HttpGet("getUnansweredNumberForDepartment/{department}/{period}/{year}")]
+        public async Task<IActionResult> GetUnansweredNumber(string department, string period, int year)
+        {
+            return Ok(await _appealRepository.GetUnansweredNumberForDepartment(department, period, year));
+        }
 
 
         /// <summary>

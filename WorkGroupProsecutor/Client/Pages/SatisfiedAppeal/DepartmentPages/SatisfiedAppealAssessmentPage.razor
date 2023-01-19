@@ -67,13 +67,15 @@
                         <td class="text-center fw-bold">
                             @if (string.IsNullOrEmpty(appeal.DepartmentAssessment))
                             {
-                                <a href="/estimatesatisfiedappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-primary">Оценить</a>
-                            }
+                                <a href="/estimatesatisfiedappeal/@appeal.Id/@DepartmentName/@District/@true" class="btn btn-outline-primary">Оценить</a>
+@*                              <a href="/estimatesatisfiedappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-primary">Оценить</a>
+*@                          }
                             else
                             {
                                 <p>@appeal.DepartmentAssessment</p>
-                                <a href="/estimatesatisfiedappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-secondary">Изменить</a>
-                            }
+                                <a href="/estimatesatisfiedappeal/@appeal.Id/@DepartmentName/@District/@true" class="btn btn-outline-secondary">Изменить</a>
+@*                              <a href="/estimatesatisfiedappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-secondary">Изменить</a>
+*@                          }
                         </td>
                     }
                 </tr>

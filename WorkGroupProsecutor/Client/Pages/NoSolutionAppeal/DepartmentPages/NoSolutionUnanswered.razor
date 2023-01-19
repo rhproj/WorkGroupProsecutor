@@ -1,4 +1,5 @@
 ﻿@page "/nosolutionunanswered/{DepartmentName}/{Period}/{Year:int}"
+@attribute [Authorize(Roles = @Participants.Department)]
 @*DEP*@
 
 <div class="container-fluid m-1">
@@ -75,7 +76,6 @@
                         <td class="text-center fw-bold">
                             <a href="/estimatenosolutionappeal/@appeal.Id/@DepartmentName/@appeal.District" class="btn btn-outline-primary">Оценить</a>
                         </td>
-
 
 @*                        @if (!UserState.User.IsInRole(Participants.Department))
                         {

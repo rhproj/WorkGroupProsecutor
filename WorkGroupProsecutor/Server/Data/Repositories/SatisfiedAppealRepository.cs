@@ -40,7 +40,7 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
 
         public async Task<IEnumerable<SatisfiedAppealModelDTO>> GetAllSatisfiedUnansweredForDepartment(string department, string period, int year)
         {
-            var appeals = await _dbContext.NoSolutionAppeal.Include(a => a.Department)
+            var appeals = await _dbContext.SatisfiedAppeal.Include(a => a.Department)
                 .Where(a => a.Department.DepartmentIndex == department)
                 .Where(a => a.PeriodInfo == period)
                 .Where(a => a.YearInfo == year)
@@ -52,7 +52,7 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
 
         public async Task<int> GetUnansweredNumberForDepartment(string department, string period, int year)
         {
-            return await _dbContext.NoSolutionAppeal.Include(a => a.Department)
+            return await _dbContext.SatisfiedAppeal.Include(a => a.Department)
                 .Where(a => a.Department.DepartmentIndex == department)
                 .Where(a => a.PeriodInfo == period)
                 .Where(a => a.YearInfo == year)

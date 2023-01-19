@@ -1,10 +1,9 @@
-﻿@page "/redirectedunanswered/{DepartmentName}/{Period}/{Year:int}"
-@attribute [Authorize(Roles = @Participants.Department)]
+﻿@page "/satisfiedunanswered/{DepartmentName}/{Period}/{Year:int}"
 @*DEP*@
 
 <div class="container-fluid m-1">
-    <h3 class="text-center my-3">Реестр обращений, предполагаемых к переадресации в иные органы и ведомства</h3>
-    <h3 class="text-center my-3">@Period.@Year г.</h3>
+    <h3 class="text-center my-3">Реестры обращений, по которым приняты решения "Удовлетворено" и "Удовлетворено частично"</h3>
+    <h3 class="text-center my-3">@ReferencePeriod.Quarters[Period] @Year г.</h3>
 
     <table class="table table-bordered">
         <thead>
@@ -13,9 +12,11 @@
                 <th style="width: 10%">Регистрационный номер в системе Надзор-WEB</th>
                 <th style="width: 15%">ФИО заявителя</th>
                 <th style="width: 1%">Характер обращ- ения*</th>
-                <th style="width: 20%">Орган, в который предполагается переадресовать обращение</th>
-                <th style="width: auto">Основание переадресации</th>
-                <th style="width: 10%">Оценка возможности переадресации**</th>
+                <th style="width: auto">Принятые меры прокурорского реагирования (с датой фактического направления акта реагирования)</th>
+                <th style="width: 15%">Результаты рассмотрения актов прокурорского реагирования</th>
+                <th style="width: 12%">Фактическое устранение нарушений закона и восстановление нарушенных прав</th>
+                <th style="width: 12%">Дата уведомления заявителя о результатах рассмотрения актов прокурорского реагирования </th>
+                <th style="width: 4%">Оценка полноты и своевремен-ности принятых мер**</th>
             </tr>
         </thead>
         @if (appealsList.Length == 0)
@@ -51,11 +52,13 @@
                         {
                             <td class="text-center"></td>
                         }
-                        <td>@appeal.RecipientAgency</td>
-                        <td>@appeal.DecisionBasis</td>
+                        <td>@appeal.ProsecutorAction</td>
+                        <td>@appeal.InvestigationResults</td>
+                        <td class="text-center">@appeal.RightsRestoration</td>
+                        <td class="text-center">@appeal.ApplicantNotification</td>
 
                         <td class="text-center fw-bold">
-                            <a href="/estimateredirectedappeal/@appeal.Id/@DepartmentName/@appeal.District" class="btn btn-outline-primary">Оценить</a>
+                            <a href="/estimatesatisfiedappeal/@appeal.Id/@DepartmentName/@appeal.District" class="btn btn-outline-primary">Оценить</a>
                         </td>
 
 @*                        @if (!UserState.User.IsInRole(Participants.Department))
@@ -67,12 +70,12 @@
                             <td class="text-center fw-bold">
                                 @if (string.IsNullOrEmpty(appeal.DepartmentAssessment))
                                 {
-                                    <a href="/estimateredirectedappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-primary">Оценить</a>
+                                    <a href="/estimatesatisfiedappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-primary">Оценить</a>
                                 }
                                 else
                                 {
                                     <p>@appeal.DepartmentAssessment</p>
-                                    <a href="/estimateredirectedappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-secondary">Изменить</a>
+                                    <a href="/estimatesatisfiedappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-secondary">Изменить</a>
                                 }
                             </td>
                         }*@
@@ -82,9 +85,9 @@
             </tbody>
         }
     </table>
-    <a href="/redirecteddistrictspage/@DepartmentName/@Period/@Year" class="btn btn-outline-success"><span class="h5 fw-bold">&#60; </span>Районы</a>
+    <a href="/satisfieddistrictspage/@DepartmentName/@Period/@Year" class="btn btn-outline-success"><span class="h5 fw-bold">&#60; </span>Районы</a>
     <div>
-        <RedirectedAppealCommentsComponent />
+        <SatisfiedAppealCommentsComponent />
     </div>
 </div>
 
@@ -93,7 +96,7 @@
     //[Inject]
     //public IUserService UserService { get; set; }
     [Inject]
-    public IRedirectedAppealDataService RedirectedAppealDataService { get; set; }
+    public ISatisfiedAppealDataService? SatisfiedAppealDataService { get; set; }
     //[CascadingParameter(Name = "UserState")]
     //public AuthenticationState UserState { get; set; }
 
@@ -109,28 +112,28 @@
     //private string districtDescription;
     private int num;
 
-    private RedirectedAppealModelDTO[] appealsList = new RedirectedAppealModelDTO[] { };
+    private SatisfiedAppealModelDTO[] appealsList = new SatisfiedAppealModelDTO[] { };
 
     protected override async Task OnInitializedAsync()
     {
         num = 1;
 
-        appealsList = (await RedirectedAppealDataService.GetAllRedirectedUnansweredForDepartment(DepartmentName, Period, Year)).ToArray();
+        appealsList = (await SatisfiedAppealDataService.GetAllSatisfiedUnansweredForDepartment(DepartmentName, Period, Year)).ToArray();
 
         if (appealsList.Length == 0)
         {
-            navManager.NavigateTo($"/redirectedpage/{Year}");
+            navManager.NavigateTo($"/satisfiedpage/{Year}");
         }
 
         //districtDescription = await UserService.GetUserDescription(District);
 
         //if (!UserState.User.IsInRole(Participants.Department))
         //{
-        //    appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals(District, Period, Year)).ToArray();
+        //    appealsList = (await SatisfiedAppealDataService.GetAllSatisfiedAppeals(District, Period, Year)).ToArray();
         //}
         //else
         //{
-        //    appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppealsByDepartment(District, DepartmentName, Period, Year)).ToArray();
+        //    appealsList = (await SatisfiedAppealDataService.GetAllSatisfiedAppealsForDepartment(District, DepartmentName, Period, Year)).ToArray();
         //}
     }
 }
