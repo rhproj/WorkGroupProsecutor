@@ -4,7 +4,7 @@
 
 <div class="container-fluid mt-2 text-center">
     <h2 class="mb-5">Реестры обращений, предполагаемых к переадресации в иные органы и ведомства <span class="fw-bold">@Period.@Year г.</span> </h2>
-@if (districtsList == null)
+@if (districtsDict.Count == 0)  //districtsList.Length
 {
 <div class="container overflow-auto" style="background-image: url('img/BG5.jpg'); height: 800px; background-repeat: no-repeat; background-position: center;">
     <div class="d-flex justify-content-center  align-items-center" style="height: 700px">
@@ -14,15 +14,9 @@
     </div>
 </div>
 }
-else if (districtsList.Length == 0)
-{
-<div class="container overflow-auto" style="background-image: url('img/BG5.jpg'); height: 800px; background-repeat: no-repeat; background-position: center;">
-    <h2 class="text-secondary">Отсутствуют данные за заданный период</h2>
-</div>
-}
 else
 {
-        <div class="container overflow-auto" style="background-image: url('img/BG5.jpg'); height: 800px; background-repeat: no-repeat; background-position: center;">
+<div class="container overflow-auto" style="background-image: url('img/BG5.jpg'); height: 800px; background-repeat: no-repeat; background-position: center;">
 <div>
     <table class="table table-striped align-middle text-center ">
         <thead class="table-primary">
@@ -32,7 +26,29 @@ else
             </tr>
         </thead>
         <tbody>
-        @for (int i = 0; i < districtsList.Length; i++)
+        @foreach (var district in districtsDict)
+        {
+           <tr style="height:100px">
+               <td class="fs-3">
+                   <div class="d-flex justify-content-center">
+                       <div class="my-3">@district.Key</div>
+                       <div class="mx-4">                    
+                       @if (!string.IsNullOrEmpty(DepartmentName))
+                       {
+                           <a href="/redirectedappealassessment/@district.Value/@DepartmentName/@Period/@Year" class="btn btn-outline-primary"><img src="img/edit32.png" width="50" height="50" class="mt-2" /></a>
+                       }
+                       else
+                       {
+                            <a href="/redirectedappealassessment/@district.Value/@Period/@Year" class="btn btn-outline-primary"><img src="img/edit32.png" width="50" height="50" class="mt-2"/></a>                          
+                       }
+                       </div>
+                   </div>
+               </td>
+           </tr>
+        }
+
+
+@*        @for (int i = 0; i < districtsList.Length; i++)
         {
             <tr style="height:100px">
                 <td class="fs-3">
@@ -51,7 +67,7 @@ else
                     </div>
                 </td>
             </tr>
-        }
+        }*@
         </tbody>
     </table>   
 </div>    
@@ -72,11 +88,15 @@ else
     public string DepartmentName { get; set; }
 
     // For Departments and guests only, the size of the collection won't get changed till the end of the session
-    private string[] districtsList;
-    private string[] districtsDescriptionList;
+    //private string[] districtsList;
+    //private string[] districtsDescriptionList;
+    private SortedDictionary<string, string> districtsDict;// = new(); //v
 
     protected override async Task OnInitializedAsync()
     {
+        string[] districtsList; //v 
+        districtsDict = new();
+
         @if (!string.IsNullOrEmpty(DepartmentName))
         {
             districtsList = (await RedirectedAppealDataService.GetRedirectedAppealsByDistrictsForDepartment(DepartmentName, Period, Year)).ToArray();
@@ -85,12 +105,18 @@ else
         {
             districtsList = (await RedirectedAppealDataService.GetRedirectedAppealsByDistricts(Period, Year)).ToArray();
         }
-        districtsDescriptionList = new string[districtsList.Length];
 
-        for (int i = 0; i < districtsList.Length; i++)
+        for (int i = 0; i < districtsList.Length; i++)  //v
         {
-            districtsDescriptionList[i] = await UserService.GetUserDescription(districtsList[i]);
+            districtsDict.Add(await UserService.GetUserDescription(districtsList[i]), districtsList[i]);
         }
+
+        //districtsDescriptionList = new string[districtsList.Length];
+
+        //for (int i = 0; i < districtsList.Length; i++)
+        //{
+        //    districtsDescriptionList[i] = await UserService.GetUserDescription(districtsList[i]);
+        //}
         //Array.Sort(districtsDescriptionList);
     }
 }
