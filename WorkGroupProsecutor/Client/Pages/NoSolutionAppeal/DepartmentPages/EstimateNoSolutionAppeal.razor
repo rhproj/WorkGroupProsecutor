@@ -1,20 +1,15 @@
 ﻿@page "/estimatenosolutionappeal/{Id:int}/{DepartmentName}/{District}"
 @page "/estimatenosolutionappeal/{Id:int}/{DepartmentName}/{District}/{Selected:bool}"
-@*@page "/estimatenosolutionappeal/{Id:int}/{DepartmentName}/{DistrictDescription}"*@
 @attribute [Authorize(Roles = @Participants.Department)]
 @*DEP*@
 
 <h1 class="mt-3 mb-5 text-center">Оценка законности, своевременности и обоснованности принятого решения<br class="mt-1" /><a href="@appeal.NadzorHyperlink" class="h2 fw-bold"> №@appeal.RegistrationNumber</a></h1>
 
 <div class="container">
-    @*    <div class="form-group h4">
-
-    </div>*@
     <table class="table table-striped align-middle h3">
         <tbody>
             <tr>
                 <td class="py-3" style="width:50%">Прокуратура:</td>
-@*                <td>@DistrictDescription</td>*@
                 <td class="fw-bold">@districtDescription</td>
             </tr>
             <tr>
@@ -59,8 +54,7 @@
     public string DepartmentName { get; set; }
     [Parameter]
     public string District { get; set; }
-    //[Parameter]
-    //public string DistrictDescription { get; set; }
+
     private string districtDescription; //v
     [Parameter]
     public bool Selected { get; set; } //v

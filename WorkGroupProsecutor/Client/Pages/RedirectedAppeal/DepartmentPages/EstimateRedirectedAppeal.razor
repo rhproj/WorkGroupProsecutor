@@ -1,16 +1,11 @@
 ﻿@page "/estimateredirectedappeal/{Id:int}/{DepartmentName}/{District}"
 @page "/estimateredirectedappeal/{Id:int}/{DepartmentName}/{District}/{Selected:bool}"
-@*@page "/estimateredirectedappeal/{Id:int}/{DepartmentName}/{DistrictDescription}"*@
-
 @attribute [Authorize(Roles = @Participants.Department)]
 @*DEP*@
 
 <h1 class="mt-3 mb-5 text-center">Оценка возможности переадресации обращения: <br class="mt-1" /><a href="@appeal.NadzorHyperlink" class="h2 fw-bold"> №@appeal.RegistrationNumber</a></h1>
 
 <div class="container">
-@*    <div class="form-group h4">
-
-    </div>*@
     <table class="table table-striped align-middle h3">
         <tbody>
             <tr>
@@ -45,12 +40,7 @@
         <button class="btn btn-outline-danger btn-lg" style="width:150px" @onclick="Disapprove">Нет</button>
         <button class="btn btn-secondary btn-lg" style="width:150px" @onclick="GoBack">Отмена</button>
     </div>
-
-
 </div>
-@*<h3>Оценка возможности переадресации обращения №@appeal.RegistrationNumber</h3>*@
-
-
 
 @code {
     [Inject]
@@ -64,8 +54,6 @@
     public string DepartmentName { get; set; }
     [Parameter]
     public string District { get; set; }
-    //[Parameter]
-    //public string DistrictDescription { get; set; }
 
     private string districtDescription; //v
     [Parameter]
@@ -84,7 +72,7 @@
         }
     }
 
-    private async Task Approve() //turns out we can't have method with PageName
+    private async Task Approve()
     {
         if (appeal != null)
         {
@@ -94,7 +82,6 @@
                 appeal.DepartmentAssessment += $": {comments}";
             }
             await RedirectedAppealDataService.UpdateRedirectedAppeal(appeal);
-            //await RedirectedAppealDataService.DeleteRedirectedAppeal(Id); //httpClient.DeleteAsync($"api//{Id}");
         }
         GoBack();
     }
@@ -109,7 +96,6 @@
                 appeal.DepartmentAssessment += $": {comments}";
             }
             await RedirectedAppealDataService.UpdateRedirectedAppeal(appeal);
-            //await RedirectedAppealDataService.DeleteRedirectedAppeal(Id); //httpClient.DeleteAsync($"api//{Id}");
         }
         GoBack();
     }
@@ -119,7 +105,6 @@
         if (appeal != null)
         {
             appeal.DepartmentAssessment = "Нет";
-            //await RedirectedAppealDataService.DeleteRedirectedAppeal(Id); //httpClient.DeleteAsync($"api//{Id}");
             if (!string.IsNullOrWhiteSpace(comments))
             {
                 appeal.DepartmentAssessment += $": {comments}";
@@ -139,7 +124,5 @@
         {
             navManager.NavigateTo($"/redirectedunanswered/{DepartmentName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
         }
-
-        //navManager.NavigateTo($"/redirectedappealassessment/{appeal.District}/{DepartmentName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
     }
 }

@@ -19,30 +19,6 @@
             </tr>
         </thead>
 
-@*        @if (appealsList == null)
-        {
-            <tbody>
-                <tr>
-                    <td align="center" colspan="10" style="border:none">
-                        <div class="py-5">
-                            <div style="color: rgb(0,0,120)" class="la-timer la-2x">
-                                <div></div>
-                            </div>
-                        </div>
-                    </td>
-                </tr>
-            </tbody>
-        }
-        else if (appealsList.Length == 0)
-        {
-            <tbody>
-                <tr>
-                    <td colspan="10" style="border:none">
-                        <h2 class="text-secondary text-center py-5">Нет не рассмотренных обращений за этот период</h2>
-                    </td>
-                </tr>
-            </tbody>
-        }*@
         @if (appealsList.Length == 0)
         {
             <tbody>
@@ -76,25 +52,6 @@
                         <td class="text-center fw-bold">
                             <a href="/estimatenosolutionappeal/@appeal.Id/@DepartmentName/@appeal.District" class="btn btn-outline-primary">Оценить</a>
                         </td>
-
-@*                        @if (!UserState.User.IsInRole(Participants.Department))
-                        {
-                            <td class="text-center fw-bold">@appeal.DepartmentAssessment</td>
-                        }
-                        else
-                        {
-                            <td class="text-center fw-bold">
-                                @if (string.IsNullOrEmpty(appeal.DepartmentAssessment))
-                                {
-                                    <a href="/estimatenosolutionappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-primary">Оценить</a>
-                                }
-                                else
-                                {
-                                    <p>@appeal.DepartmentAssessment</p>
-                                    <a href="/estimatenosolutionappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-secondary">Изменить</a>
-                                }
-                            </td>
-                        }*@
                     </tr>
                     num++;
                 }
@@ -110,15 +67,9 @@
 
 
 @code {
-    //[Inject]
-    //public IUserService UserService { get; set; }
     [Inject]
     public INoSolutionAppealDataService NoSolutionAppealDataService { get; set; }
-    //[CascadingParameter(Name = "UserState")]
-    //public AuthenticationState UserState { get; set; }
 
-    //[Parameter]
-    //public string District { get; set; }
     [Parameter]
     public string DepartmentName { get; set; }
     [Parameter]
@@ -126,7 +77,6 @@
     [Parameter]
     public int Year { get; set; }
 
-    //private string districtDescription;
     private int num;
 
     private NoSolutionAppealModelDTO[] appealsList = new NoSolutionAppealModelDTO[] { };
@@ -141,16 +91,5 @@
         {
             navManager.NavigateTo($"/nosolutionpage/{Year}");
         }
-
-        //districtDescription = await UserService.GetUserDescription(District);
-
-        //if (!UserState.User.IsInRole(Participants.Department))
-        //{
-        //    appealsList = (await NoSolutionAppealDataService.GetAllNoSolutionAppeals(District, Period, Year)).ToArray();
-        //}
-        //else
-        //{
-        //    appealsList = (await NoSolutionAppealDataService.GetAllNoSolutionAppealsForDepartment(District, DepartmentName, Period, Year)).ToArray();
-        //}
     }
 }

@@ -4,7 +4,7 @@
 
 <div class="container-fluid mt-2 text-center">
     <h2 class="mb-5">Реестры обращений, предполагаемых к переадресации в иные органы и ведомства <span class="fw-bold">@Period.@Year г.</span> </h2>
-@if (districtsDict.Count == 0)  //districtsList.Length
+@if (districtsDict.Count == 0)
 {
 <div class="container overflow-auto" style="background-image: url('img/BG5.jpg'); height: 800px; background-repeat: no-repeat; background-position: center;">
     <div class="d-flex justify-content-center  align-items-center" style="height: 700px">
@@ -55,7 +55,7 @@ else
 
 @code {
     [Inject]
-    public IRedirectedAppealDataService? RedirectedAppealDataService { get; set; }
+    public IRedirectedAppealDataService RedirectedAppealDataService { get; set; }
     [Inject]
     public IUserService UserService { get; set; }
     [Parameter]

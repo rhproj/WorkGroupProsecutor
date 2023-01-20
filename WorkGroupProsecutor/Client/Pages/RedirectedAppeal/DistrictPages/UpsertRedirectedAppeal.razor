@@ -145,7 +145,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         isEditable = true;
-        departmentsList = (await DepartmentService.GetAllDepartments()).ToArray();      //httpClient.GetFromJsonAsync<List<Department>>("api/Department");
+        departmentsList = (await DepartmentService.GetAllDepartments()).ToArray();
         if (Id == 0)
         {
             appeal.YearInfo = Year;

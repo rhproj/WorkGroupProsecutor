@@ -81,31 +81,6 @@ else
                     </td>
                 </tr>
             }
-
-@*            @foreach (var p in periodsList)
-            {
-                <tr style="height:100px">
-                        <td class="fs-2">
-                            <div class="d-flex justify-content-center">
-                                <div class="my-3">@p.@Year Переадресация </div>
-                                <div class="mx-4">
-                                    @if (UserState.User.IsInRole(Participants.District))
-                                    {
-                                        <a href="/redirectedappealregistry/@DistrictName/@p/@Year" class="btn btn-outline-primary"><img src="img/edit32.png" width="50" height="50" class="mt-2"/></a>
-                                    }
-                                    else if (UserState.User.IsInRole(Participants.Department))
-                                    {
-                                        <a href="/redirecteddistrictspage/@DistrictName/@p/@Year" class="btn btn-outline-primary"><img src="img/open32.png" width="50" height="50" class="mt-2"/></a>
-                                    }
-                                    else
-                                    {
-                                        <a href="/redirecteddistrictspage/@p/@Year" class="btn btn-outline-primary"><img src="img/open32.png" width="50" height="50" class="mt-2"/></a>
-                                    }
-                                </div>
-                            </div>                         
-                        </td>
-                </tr>
-            }*@
         </tbody>
     </table>    
 </div>

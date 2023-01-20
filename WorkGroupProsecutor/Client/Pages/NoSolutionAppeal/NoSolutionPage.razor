@@ -43,31 +43,6 @@
                         </td>
                     </tr>
                 }
-@*                    @foreach (var q in ReferencePeriod.Quarters)
-                    {
-                        <tr style="height:100px">
-                            <td class="fs-2">
-                                <div class="d-flex justify-content-center">
-                                    <div class="my-3">@q.Value @Year Без разрешения </div>
-                                    <div class="mx-4">
-                                        @if (UserState.User.IsInRole(Participants.District))
-                                        {
-                                            <a href="/nosolutionappealregistry/@DistrictName/@q.Key/@Year" class="btn btn-outline-primary"><img src="img/edit32.png" width="50" height="50" class="mt-2" /></a>
-                                        }
-                                        else if (UserState.User.IsInRole(Participants.Department))
-                                        {
-                                            <a href="/nosolutiondistrictspage/@DistrictName/@q.Key/@Year" class="btn btn-outline-primary"><img src="img/open32.png" width="50" height="50" class="mt-2" /></a>
-                                            <a href="/nosolutionunanswered/@DistrictName/@q.Key/@Year" class="btn btn-outline-primary">Не рассмотрено</a>
-                                        }
-                                        else
-                                        {
-                                            <a href="/nosolutiondistrictspage/@q.Key/@Year" class="btn btn-outline-primary"><img src="img/open32.png" width="50" height="50" class="mt-2" /></a>
-                                        }
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    }*@
                 </tbody>
             </table>
         </div>
