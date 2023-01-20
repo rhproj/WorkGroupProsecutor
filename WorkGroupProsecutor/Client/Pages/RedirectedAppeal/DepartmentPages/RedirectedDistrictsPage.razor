@@ -46,28 +46,6 @@ else
                </td>
            </tr>
         }
-
-
-@*        @for (int i = 0; i < districtsList.Length; i++)
-        {
-            <tr style="height:100px">
-                <td class="fs-3">
-                    <div class="d-flex justify-content-center">
-                        <div class="my-3">@districtsDescriptionList[i]</div>
-                        <div class="mx-4">                    
-                        @if (!string.IsNullOrEmpty(DepartmentName))
-                        {
-                            <a href="/redirectedappealassessment/@districtsList[i]/@DepartmentName/@Period/@Year" class="btn btn-outline-primary"><img src="img/edit32.png" width="50" height="50" class="mt-2" /></a>
-                        }
-                        else
-                        {
-                             <a href="/redirectedappealassessment/@districtsList[i]/@Period/@Year" class="btn btn-outline-primary"><img src="img/edit32.png" width="50" height="50" class="mt-2"/></a>                          
-                        }
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        }*@
         </tbody>
     </table>   
 </div>    
@@ -87,15 +65,11 @@ else
     [Parameter]
     public string DepartmentName { get; set; }
 
-    // For Departments and guests only, the size of the collection won't get changed till the end of the session
-    //private string[] districtsList;
-    //private string[] districtsDescriptionList;
-    private SortedDictionary<string, string> districtsDict;// = new(); //v
+    private SortedDictionary<string, string> districtsDict = new ();//v
 
     protected override async Task OnInitializedAsync()
     {
         string[] districtsList; //v 
-        districtsDict = new();
 
         @if (!string.IsNullOrEmpty(DepartmentName))
         {
@@ -110,13 +84,5 @@ else
         {
             districtsDict.Add(await UserService.GetUserDescription(districtsList[i]), districtsList[i]);
         }
-
-        //districtsDescriptionList = new string[districtsList.Length];
-
-        //for (int i = 0; i < districtsList.Length; i++)
-        //{
-        //    districtsDescriptionList[i] = await UserService.GetUserDescription(districtsList[i]);
-        //}
-        //Array.Sort(districtsDescriptionList);
     }
 }
