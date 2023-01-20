@@ -5,7 +5,7 @@
 <div class="container-fluid mt-2 text-center">
     <h4 class="text-center my-2">Реестр обращений, по которым приняты решения: "Оставлено без разрешения и (или) приобщено к НП, в том числе списано без уведомления" и "Оставлено без разрешения – возвращено заявителю"</h4>
     <h3 class="text-center mb-3">@ReferencePeriod.Quarters[Period] @Year г.</h3>
-    @if (districtsDict == null)
+    @if (districtsList == null)
     {
         <div class="container overflow-auto" style="background-image: url('img/BG5.jpg'); height: 780px; background-repeat: no-repeat; background-position: center;">
             <div class="d-flex justify-content-center  align-items-center" style="height: 700px">
@@ -15,7 +15,7 @@
             </div>
         </div>
     }
-    else if (districtsDict.Count == 0)
+    else if (districtsList.Length == 0)
     {
         <div class="container overflow-auto" style="background-image: url('img/BG5.jpg'); height: 780px; background-repeat: no-repeat; background-position: center;">
             <h2 class="text-secondary">Отсутствуют данные за заданный период</h2>
@@ -71,12 +71,11 @@
     [Parameter]
     public string DepartmentName { get; set; }
 
-    private SortedDictionary<string, string> districtsDict = new();//v
+    string[] districtsList; //v
+    private SortedDictionary<string, string> districtsDict;//v
 
     protected override async Task OnInitializedAsync()
     {
-        string[] districtsList; //v
-
         @if (!string.IsNullOrEmpty(DepartmentName))
         {
             districtsList = (await NoSolutionAppealDataService.GetNoSolutionAppealsByDistrictsForDepartment(DepartmentName, Period, Year)).ToArray();
@@ -86,9 +85,13 @@
             districtsList = (await NoSolutionAppealDataService.GetNoSolutionAppealsByDistricts(Period, Year)).ToArray();
         }
 
-        for (int i = 0; i < districtsList.Length; i++)  //v
+        if (districtsList.Length > 0)
         {
-            districtsDict.Add(await UserService.GetUserDescription(districtsList[i]), districtsList[i]);
+            districtsDict = new();
+            for (int i = 0; i < districtsList.Length; i++)  //v
+            {
+                districtsDict.Add(await UserService.GetUserDescription(districtsList[i]), districtsList[i]);
+            }
         }
     }
 }

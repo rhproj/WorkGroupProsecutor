@@ -5,7 +5,7 @@
 <div class="container-fluid mt-2 text-center">
     <h2>Реестры обращений, по которым приняты решения "Удовлетворено" и "Удовлетворено частично"</h2>
     <h2 class="mb-4">@ReferencePeriod.Quarters[Period] @Year г.</h2>
-    @if (districtsDict == null)
+    @if (districtsList == null)
     {
         <div class="container overflow-auto" style="background-image: url('img/BG5.jpg'); height: 780px; background-repeat: no-repeat; background-position: center;">
             <div class="d-flex justify-content-center  align-items-center" style="height: 700px">
@@ -15,7 +15,7 @@
             </div>
         </div>
     }
-    else if (districtsDict.Count == 0)
+    else if (districtsList.Length == 0)
     {
         <div class="container overflow-auto" style="background-image: url('img/BG5.jpg'); height: 780px; background-repeat: no-repeat; background-position: center;">
             <h2 class="text-secondary">Отсутствуют данные за заданный период</h2>
@@ -72,11 +72,11 @@
     [Parameter]
     public string DepartmentName { get; set; }
 
-    private SortedDictionary<string, string> districtsDict = new();//v
+    string[] districtsList; //v
+    private SortedDictionary<string, string> districtsDict;//v
 
     protected override async Task OnInitializedAsync()
     {
-        string[] districtsList; //v
 
         @if (!string.IsNullOrEmpty(DepartmentName))
         {
@@ -87,9 +87,13 @@
             districtsList = (await SatisfiedAppealDataService.GetSatisfiedAppealsByDistricts(Period, Year)).ToArray();
         }
 
-        for (int i = 0; i < districtsList.Length; i++)  //v
+        if (districtsList.Length > 0)
         {
-            districtsDict.Add(await UserService.GetUserDescription(districtsList[i]), districtsList[i]);
+            districtsDict = new();
+            for (int i = 0; i < districtsList.Length; i++)  //v
+            {
+                districtsDict.Add(await UserService.GetUserDescription(districtsList[i]), districtsList[i]);
+            }
         }
     }
 }
