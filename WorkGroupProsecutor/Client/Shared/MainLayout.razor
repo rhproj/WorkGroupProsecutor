@@ -8,7 +8,6 @@
 
     <main>
         <div class="top-row d-flex justify-content-between bg-dark bg-gradient">
-@*            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>*@
             <AuthorizeView>
                 <Authorized>
                     <h4 class="text-white">Прокуратура Республики Татарстан: @UserDescription</h4>
@@ -25,7 +24,17 @@
             <CascadingValue Name="UserState" Value="UserState">
                 <CascadingValue Name="DistrictName" Value="DistrictName">
                     <CascadingValue Name="UserDescription" Value="UserDescription">
-                       @Body 
+                        <CustomErrorBoundary Context="Exception">
+                            <ChildContent>
+                                @Body
+                            </ChildContent>
+                            <ErrorContent>
+                                <div class="alert bg-danger text-white alert-dismissible">
+                                    <p class="my-custom-class">Произошла ошибка, свяжитесь с отделом информационных технологий</p>
+                                    Детали исключения: @Exception.GetType(): @Exception.Message
+                                </div>
+                            </ErrorContent>
+                        </CustomErrorBoundary>
                     </CascadingValue>
                 </CascadingValue>
             </CascadingValue>
@@ -39,24 +48,10 @@
     [CascadingParameter]
     private Task<AuthenticationState> authenticationState { get; set; }
 
-    //%// 
     public AuthenticationState UserState { get; set; }
     public string? DistrictName { get; set; }
-    public string? UserDescription { get; set; } //private string userDescription;
-                                                 //%//
+    public string? UserDescription { get; set; }
 
-
-
-    //protected override async Task OnInitializedAsync() //On Parameters set
-    //{
-    //    UserState = await authenticationState;
-    //    DistrictName = UserState?.User.Identity.Name;
-
-    //    if (!string.IsNullOrEmpty(DistrictName))
-    //    {
-    //        UserDescription = await UserService.GetUserDescription(DistrictName);
-    //    }
-    //}
 
     protected override async Task OnParametersSetAsync()
     {
