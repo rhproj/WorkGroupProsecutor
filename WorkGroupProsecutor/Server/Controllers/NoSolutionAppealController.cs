@@ -2,7 +2,6 @@
 using WorkGroupProsecutor.Server.Data.Repositories;
 using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WorkGroupProsecutor.Server.Controllers
 {
@@ -23,9 +22,14 @@ namespace WorkGroupProsecutor.Server.Controllers
         /// <param name="period">Отчетный период</param>
         /// <param name="year">Отчетный год</param>
         [HttpGet("{district}/{period}/{year}")]
-        public async Task<IActionResult> Get(string district, string period, int year)
+        public async Task<IActionResult> GetAppeals(string district, string period, int year)
         {
-            return Ok(await _appealRepository.GetAllNoSolutionAppeals(district, period, year));
+            var appeals = await _appealRepository.GetAllNoSolutionAppeals(district, period, year);
+            if (appeals == null)
+            {
+                return NotFound();
+            }
+            return Ok(appeals);
         }
 
         #region for Dep-ts and w/o auth-n
@@ -39,7 +43,12 @@ namespace WorkGroupProsecutor.Server.Controllers
         [HttpGet("getAllForDepartment/{district}/{department}/{period}/{year}")]
         public async Task<IActionResult> GetAllForDepartment(string district, string department, string period, int year)
         {
-            return Ok(await _appealRepository.GetAllNoSolutionAppealsForDepartment(district, department, period, year));
+            var appeals = await _appealRepository.GetAllNoSolutionAppealsForDepartment(district, department, period, year);
+            if (appeals == null)
+            {
+                return NotFound();
+            }
+            return Ok(appeals);
         }
 
         /// <summary>
@@ -51,7 +60,12 @@ namespace WorkGroupProsecutor.Server.Controllers
         [HttpGet("getAllUnansweredForDepartment/{department}/{period}/{year}")]
         public async Task<IActionResult> GetAllUnansweredForDepartment(string department, string period, int year)
         {
-            return Ok(await _appealRepository.GetAllNoSolutionUnansweredForDepartment(department, period, year));
+            var appeals = await _appealRepository.GetAllNoSolutionUnansweredForDepartment(department, period, year);
+            if (appeals == null)
+            {
+                return NotFound();
+            }
+            return Ok(appeals);
         }
 
         [HttpGet("getUnansweredNumberForDepartment/{department}/{period}/{year}")]
@@ -69,7 +83,12 @@ namespace WorkGroupProsecutor.Server.Controllers
         [HttpGet("getByDistricts/{period}/{year}")]
         public async Task<IActionResult> GetByDistricts(string period, int year)
         {
-            return Ok(await _appealRepository.GetNoSolutiondAppealsByDistricts(period, year));
+            var appeals = await _appealRepository.GetNoSolutiondAppealsByDistricts(period, year);
+            if (appeals == null)
+            {
+                return NotFound();
+            }
+            return Ok(appeals);
         }
 
         /// <summary>
@@ -82,7 +101,12 @@ namespace WorkGroupProsecutor.Server.Controllers
         [HttpGet("getByDistrictsForDepartment/{department}/{period}/{year}")]
         public async Task<IActionResult> GetByDistrictsForDepartment(string department, string period, int year) //n
         {
-            return Ok(await _appealRepository.GetNoSolutionAppealsByDistrictsForDepartment(department, period, year));
+            var appeals = await _appealRepository.GetNoSolutionAppealsByDistrictsForDepartment(department, period, year);
+            if (appeals == null)
+            {
+                return NotFound();
+            }
+            return Ok(appeals);
         }
         #endregion
 
@@ -90,9 +114,14 @@ namespace WorkGroupProsecutor.Server.Controllers
         /// Возвращает обращение по заданному id
         /// </summary>
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetAppeal(int id)
         {
-            return Ok(await _appealRepository.GetNoSolutionAppealById(id));
+            var appeal = await _appealRepository.GetNoSolutionAppealById(id);
+            if (appeal == null)
+            {
+                return NotFound();
+            }
+            return Ok(appeal);
         }
 
         /// <summary>

@@ -20,7 +20,7 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
 
         public async Task<IEnumerable<RedirectedAppealModelDTO>> GetAllRedirectedAppeals(string district, string period, int year)
         {
-            var appeals = await _dbContext.RedirectedAppeal.Include(a=>a.Department) //"AppealClassification"
+            var appeals = await _dbContext.RedirectedAppeal.Include(a=>a.Department)
                 .Where(a => a.District == district)
                 .Where(a => a.PeriodInfo == period)
                 .Where(a => a.YearInfo == year).ToListAsync();
@@ -30,7 +30,7 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
 
         public async Task<IEnumerable<RedirectedAppealModelDTO>> GetAllRedirectedAppealsByDepartment(string district, string department, string period, int year)  //m
         {
-            var appeals = await _dbContext.RedirectedAppeal.Include(a => a.Department) //"AppealClassification"
+            var appeals = await _dbContext.RedirectedAppeal.Include(a => a.Department)
                 .Where(a => a.Department.DepartmentIndex == department)
                 .Where(a => a.District == district)
                 .Where(a => a.PeriodInfo == period)
@@ -78,16 +78,15 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
                 .Where(a => a.YearInfo == year).Select(p => p.PeriodInfo).Distinct().ToListAsync();
         }
 
-        public async Task<IEnumerable<string>> GetRedirectedPeriodsForDepartment(string department, int year) //n int departmentId
+        public async Task<IEnumerable<string>> GetRedirectedPeriodsForDepartment(string department, int year) //n
         {
             return await _dbContext.RedirectedAppeal
-                //.Where(a => a.DepartmentId == departmentId)
                 .Where(a => a.Department.DepartmentIndex == department)
                 .Where(a => a.YearInfo == year).Select(p => p.PeriodInfo).Distinct().ToListAsync();
         } 
         #endregion
 
-        public async Task<IEnumerable<string>> GetRedirectedAppealsByDistricts(string period, int year) ///
+        public async Task<IEnumerable<string>> GetRedirectedAppealsByDistricts(string period, int year)
         {
             return await _dbContext.RedirectedAppeal
                 .Where(a => a.PeriodInfo == period)
@@ -120,33 +119,36 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
 
         public async Task UpdateRedirectedAppeal(RedirectedAppealModelDTO appealDto)
         {
-            //var appeal = _mapper.Map<RedirectedAppealModel>(appealDto);
-
             var appealToEdit = await _dbContext.RedirectedAppeal.FirstOrDefaultAsync(d => d.Id == appealDto.Id);
-            
-            appealToEdit.District = appealDto.District;
-            appealToEdit.PeriodInfo = appealDto.PeriodInfo;
-            appealToEdit.YearInfo = appealDto.YearInfo;
+            if (appealToEdit != null)
+            {
+                appealToEdit.District = appealDto.District;
+                appealToEdit.PeriodInfo = appealDto.PeriodInfo;
+                appealToEdit.YearInfo = appealDto.YearInfo;
 
-            appealToEdit.RegistrationNumber = appealDto.RegistrationNumber;
-            appealToEdit.NadzorHyperlink = appealDto.NadzorHyperlink;
+                appealToEdit.RegistrationNumber = appealDto.RegistrationNumber;
+                appealToEdit.NadzorHyperlink = appealDto.NadzorHyperlink;
 
-            appealToEdit.ApplicantFullName = appealDto.ApplicantFullName;
-            appealToEdit.RecipientAgency = appealDto.RecipientAgency;
-            appealToEdit.DecisionBasis = appealDto.DecisionBasis;
+                appealToEdit.ApplicantFullName = appealDto.ApplicantFullName;
+                appealToEdit.RecipientAgency = appealDto.RecipientAgency;
+                appealToEdit.DecisionBasis = appealDto.DecisionBasis;
 
-            appealToEdit.DepartmentId = appealDto.DepartmentId;
-            appealToEdit.DepartmentAssessment = appealDto.DepartmentAssessment;
+                appealToEdit.DepartmentId = appealDto.DepartmentId;
+                appealToEdit.DepartmentAssessment = appealDto.DepartmentAssessment;
 
-            _dbContext.RedirectedAppeal.Update(appealToEdit);
-            await _dbContext.SaveChangesAsync();
+                _dbContext.RedirectedAppeal.Update(appealToEdit);
+                await _dbContext.SaveChangesAsync();
+            }
         }
 
         public async Task DeleteRedirectedAppeal(int id)
         {
             var appeal = await _dbContext.RedirectedAppeal.FirstOrDefaultAsync(a => a.Id == id);
-            _dbContext.RedirectedAppeal.Remove(appeal);
-            await _dbContext.SaveChangesAsync();
+            if (appeal != null)
+            {
+                _dbContext.RedirectedAppeal.Remove(appeal);
+                await _dbContext.SaveChangesAsync();
+            }
         }
     }
 }

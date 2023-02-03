@@ -3,8 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using WorkGroupProsecutor.Server.Data.Repositories;
 using WorkGroupProsecutor.Shared.Models.Participants;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-
+//NOT IMPLEMENTED
 namespace WorkGroupProsecutor.Server.Controllers
 {
     [Route("api/[controller]")]

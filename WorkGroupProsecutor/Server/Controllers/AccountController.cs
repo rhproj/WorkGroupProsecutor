@@ -38,7 +38,7 @@ namespace WorkGroupProsecutor.Server.Controllers
             {
                 return BadRequest();
             }
-            return Ok(await _userAccountService.GetUserDescriptionByUserName(userName));  //userAccount.UserDescription);
+            return Ok(await _userAccountService.GetUserDescriptionByUserName(userName));
         }
 
     }

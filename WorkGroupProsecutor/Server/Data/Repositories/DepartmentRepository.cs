@@ -22,7 +22,7 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
             return await _dbContext.Department.FirstOrDefaultAsync(d => d.Id == id);
         }
 
-        public async Task AddDepartment(Department department) //temp move to it's own Repo
+        public async Task AddDepartment(Department department)
         {
             await _dbContext.Department.AddAsync(department);
             await _dbContext.SaveChangesAsync();

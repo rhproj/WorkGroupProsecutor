@@ -18,7 +18,7 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
 
         public async Task<IEnumerable<NoSolutionAppealModelDTO>> GetAllNoSolutionAppeals(string district, string period, int year)
         {
-            var appeals = await _dbContext.NoSolutionAppeal.Include(a => a.Department) //"AppealClassification"
+            var appeals = await _dbContext.NoSolutionAppeal.Include(a => a.Department)
                 .Where(a => a.District == district)
                 .Where(a => a.PeriodInfo == period)
                 .Where(a => a.YearInfo == year).ToListAsync();
@@ -28,7 +28,7 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
 
         public async Task<IEnumerable<NoSolutionAppealModelDTO>> GetAllNoSolutionAppealsForDepartment(string district, string department, string period, int year)
         {
-            var appeals = await _dbContext.NoSolutionAppeal.Include(a => a.Department) //"AppealClassification"
+            var appeals = await _dbContext.NoSolutionAppeal.Include(a => a.Department)
                 .Where(a => a.Department.DepartmentIndex == department)
                 .Where(a => a.District == district)
                 .Where(a => a.PeriodInfo == period)
@@ -91,31 +91,36 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
         public async Task UpdateNoSolutionAppeal(NoSolutionAppealModelDTO appealDto)
         {
             var appealToEdit = await _dbContext.NoSolutionAppeal.FirstOrDefaultAsync(d => d.Id == appealDto.Id);
+            if (appealToEdit != null)
+            {
+                appealToEdit.District = appealDto.District;
+                appealToEdit.PeriodInfo = appealDto.PeriodInfo;
+                appealToEdit.YearInfo = appealDto.YearInfo;
 
-            appealToEdit.District = appealDto.District;
-            appealToEdit.PeriodInfo = appealDto.PeriodInfo;
-            appealToEdit.YearInfo = appealDto.YearInfo;
+                appealToEdit.RegistrationNumber = appealDto.RegistrationNumber;
+                appealToEdit.NadzorHyperlink = appealDto.NadzorHyperlink;
 
-            appealToEdit.RegistrationNumber = appealDto.RegistrationNumber;
-            appealToEdit.NadzorHyperlink = appealDto.NadzorHyperlink;
+                appealToEdit.ApplicantFullName = appealDto.ApplicantFullName;
 
-            appealToEdit.ApplicantFullName = appealDto.ApplicantFullName;
+                appealToEdit.DepartmentId = appealDto.DepartmentId;
+                appealToEdit.DepartmentAssessment = appealDto.DepartmentAssessment;
 
-            appealToEdit.DepartmentId = appealDto.DepartmentId;
-            appealToEdit.DepartmentAssessment = appealDto.DepartmentAssessment;
+                appealToEdit.DepartmentResolution = appealDto.DepartmentResolution;
+                appealToEdit.DecisionBasis = appealDto.DecisionBasis;
 
-            appealToEdit.DepartmentResolution = appealDto.DepartmentResolution;
-            appealToEdit.DecisionBasis = appealDto.DecisionBasis;
-
-            _dbContext.NoSolutionAppeal.Update(appealToEdit);
-            await _dbContext.SaveChangesAsync();
+                _dbContext.NoSolutionAppeal.Update(appealToEdit);
+                await _dbContext.SaveChangesAsync();
+            }
         }
 
         public async Task DeleteNoSolutionAppeal(int id)
         {
             var appeal = await _dbContext.NoSolutionAppeal.FirstOrDefaultAsync(a => a.Id == id);
-            _dbContext.NoSolutionAppeal.Remove(appeal);
-            await _dbContext.SaveChangesAsync();
+            if (appeal != null)
+            {
+                _dbContext.NoSolutionAppeal.Remove(appeal);
+                await _dbContext.SaveChangesAsync();
+            }
         }
     }
 }

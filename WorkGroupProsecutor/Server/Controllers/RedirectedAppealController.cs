@@ -1,10 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WorkGroupProsecutor.Server.Data.Repositories;
-using WorkGroupProsecutor.Shared.Models.Appeal;
 using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
-using WorkGroupProsecutor.Shared.Models.Participants;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WorkGroupProsecutor.Server.Controllers
 {
@@ -26,7 +23,12 @@ namespace WorkGroupProsecutor.Server.Controllers
         [HttpGet("getPeriods/{year}")]
         public async Task<IActionResult> GetPeriods(int year)
         {
-            return Ok(await _appealRepository.GetAllRedirectedPeriods(year));
+            var periods = await _appealRepository.GetAllRedirectedPeriods(year);
+            if (periods == null)
+            {
+                return NotFound();
+            }
+            return Ok(periods);
         }
 
         /// <summary>
@@ -35,9 +37,14 @@ namespace WorkGroupProsecutor.Server.Controllers
         /// <param name="district">Район (УЗ пользователя)</param>
         /// <param name="year">Отчетный год</param>
         [HttpGet("{district}/{year}")]
-        public async Task<IActionResult> Get(string district, int year)
+        public async Task<IActionResult> GetPeriodsByDistrict(string district, int year)
         {
-            return Ok(await _appealRepository.GetRedirectedPeriodsByDistrict(district, year));
+            var appeals = await _appealRepository.GetRedirectedPeriodsByDistrict(district, year);
+            if (appeals == null)
+            {
+                return NotFound();
+            }
+            return Ok(appeals);
         }
 
         /// <summary>
@@ -48,7 +55,12 @@ namespace WorkGroupProsecutor.Server.Controllers
         [HttpGet("getForDepartment/{department}/{year}")]
         public async Task<IActionResult> GetForDepartment(string department, int year)     //n
         {
-            return Ok(await _appealRepository.GetRedirectedPeriodsForDepartment(department, year));
+            var appeals = await _appealRepository.GetRedirectedPeriodsForDepartment(department, year);
+            if (appeals == null)
+            {
+                return NotFound();
+            }
+            return Ok(appeals);
         }
 
         /// <summary>
@@ -58,9 +70,14 @@ namespace WorkGroupProsecutor.Server.Controllers
         /// <param name="period">Отчетный период</param>
         /// <param name="year">Отчетный год</param>
         [HttpGet("{district}/{period}/{year}")]
-        public async Task<IActionResult> Get(string district, string period, int year)
+        public async Task<IActionResult> GetAppeals(string district, string period, int year)
         {
-            return Ok(await _appealRepository.GetAllRedirectedAppeals(district, period, year));
+            var appeals = await _appealRepository.GetAllRedirectedAppeals(district, period, year);
+            if (appeals == null)
+            {
+                return NotFound();
+            }
+            return Ok(appeals);
         }
 
 
@@ -73,9 +90,14 @@ namespace WorkGroupProsecutor.Server.Controllers
         /// <param name="period">Отчетный период</param>
         /// <param name="year">Отчетный год</param>
         [HttpGet("getAllByDepartment/{district}/{department}/{period}/{year}")]
-        public async Task<IActionResult> Get(string district, string department, string period, int year)  //m
+        public async Task<IActionResult> GetAppealsByDepartment(string district, string department, string period, int year)  //m
         {
-            return Ok(await _appealRepository.GetAllRedirectedAppealsByDepartment(district, department, period, year));
+            var appeals = await _appealRepository.GetAllRedirectedAppealsByDepartment(district, department, period, year);
+            if (appeals == null)
+            {
+                return NotFound();
+            }
+            return Ok(appeals);
         }
 
         /// <summary>
@@ -87,7 +109,12 @@ namespace WorkGroupProsecutor.Server.Controllers
         [HttpGet("getAllUnansweredForDepartment/{department}/{period}/{year}")]
         public async Task<IActionResult> GetAllUnansweredForDepartment(string department, string period, int year)
         {
-            return Ok(await _appealRepository.GetAllRedirectedUnansweredForDepartment(department, period, year));
+            var appeals = await _appealRepository.GetAllRedirectedUnansweredForDepartment(department, period, year);
+            if (appeals == null)
+            {
+                return NotFound();
+            }
+            return Ok(appeals);
         }
 
         [HttpGet("getUnansweredNumberForDepartment/{department}/{period}/{year}")]
@@ -106,7 +133,12 @@ namespace WorkGroupProsecutor.Server.Controllers
         [HttpGet("getByDistricts/{period}/{year}")]
         public async Task<IActionResult> GetByDistricts(string period, int year)
         {
-            return Ok(await _appealRepository.GetRedirectedAppealsByDistricts(period, year));
+            var appeals = await _appealRepository.GetRedirectedAppealsByDistricts(period, year);
+            if (appeals == null)
+            {
+                return NotFound();
+            }
+            return Ok(appeals);
         }
 
         /// <summary>
@@ -119,7 +151,12 @@ namespace WorkGroupProsecutor.Server.Controllers
         [HttpGet("getByDistrictsForDepartment/{department}/{period}/{year}")]
         public async Task<IActionResult> GetByDistrictsForDepartment(string department, string period, int year) //n
         {
-            return Ok(await _appealRepository.GetRedirectedAppelsByDistrictsForDepartment(department, period, year));
+            var appeals = await _appealRepository.GetRedirectedAppelsByDistrictsForDepartment(department, period, year);
+            if (appeals == null)
+            {
+                return NotFound();
+            }
+            return Ok(appeals);
         }
         #endregion
 
@@ -127,9 +164,14 @@ namespace WorkGroupProsecutor.Server.Controllers
         /// Возвращает обращение по заданному id
         /// </summary>
         [HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        public async Task<IActionResult> GetAppeal(int id)
         {
-            return Ok(await _appealRepository.GetRedirectedAppealById(id));
+            var appeal = await _appealRepository.GetRedirectedAppealById(id);
+            if (appeal == null)
+            {
+                return NotFound();
+            }
+            return Ok(appeal);
         }
 
         /// <summary>
