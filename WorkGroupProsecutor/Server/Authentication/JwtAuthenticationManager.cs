@@ -17,7 +17,7 @@ namespace WorkGroupProsecutor.Server.Authentication
             _userAccountService = uAservice;
         }
 
-        public async Task<UserSession?> GenerateJwtToken(string userName, string password) //вернет сессию
+        public async Task<UserSession?> GenerateJwtToken(string userName, string password)
         {
             if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(password))
                 return null;
