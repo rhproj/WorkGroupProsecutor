@@ -16,9 +16,12 @@
                 <th style="width: auto">Основание переадресации</th>
                 <th style="width: 10%">Оценка возможности переадресации**</th>
                 <th style="width: 8%">
-                    <a href="/addredirectedappeal/@DistrictName/@Period/@Year" class="btn btn-outline-success m-0" role="button">
-                        <p class="h5 pt-1 mb-1">Создать запись</p>
-                    </a>
+                    @if (isOpen)
+                    {
+                        <a href="/addredirectedappeal/@DistrictName/@Period/@Year" class="btn btn-outline-success m-0" role="button">
+                            <p class="h5 pt-1 mb-1">Создать запись</p>
+                        </a>
+                    }
                 </th>
             </tr>
         </thead>
@@ -94,6 +97,7 @@
     [Parameter]
     public string DistrictName { get; set; }
     private int num;
+    private bool isOpen;
 
     private RedirectedAppealModelDTO[] appealsList;
 
@@ -101,6 +105,8 @@
     {
         num = 1;
         appealsList = (await RedirectedAppealDataService.GetAllRedirectedAppeals(DistrictName, Period, Year)).ToArray();
+
+        isOpen = DateTime.Parse($"{Period}.{Year}") >= DateTime.Now.Date;
     }
 }
 

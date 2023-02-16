@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\**" />
+    <Content Remove="Migrations\**" />
+    <EmbeddedResource Remove="Migrations\**" />
+    <None Remove="Migrations\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Remove="Controllers\DistrictRegisterController.cs" />
     <Compile Remove="Data\Repositories\DistrictRegisterRepository.cs" />
   </ItemGroup>

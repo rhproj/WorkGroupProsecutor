@@ -1,5 +1,4 @@
-﻿using WorkGroupProsecutor.Shared.Models;
-using WorkGroupProsecutor.Shared.Models.Participants;
+﻿using WorkGroupProsecutor.Shared.Models.Participants;
 
 namespace WorkGroupProsecutor.Server.Data.Repositories
 {

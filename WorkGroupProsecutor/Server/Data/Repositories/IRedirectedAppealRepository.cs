@@ -1,7 +1,4 @@
-﻿using WorkGroupProsecutor.Shared.Models;
-using WorkGroupProsecutor.Shared.Models.Appeal;
-using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
-using WorkGroupProsecutor.Shared.Models.Participants;
+﻿using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
 
 namespace WorkGroupProsecutor.Server.Data.Repositories
 {

@@ -4,21 +4,28 @@
     <h1 class="mb-5">Реестры обращений, предполагаемых к переадресации в иные органы и ведомства</h1>
 <AuthorizeView Roles=@Participants.District>
     <Authorized>
-            <div class="d-inline-flex mb-3 justify-content-end w-75 h3">
+            <div class="d-inline-flex mb-3 w-75 h3">
                 <div class="mt-1">
                     <label>Дата: </label>
                 </div>
-                <div class="ms-3 me-3 mt-1">
+                <div class="mt-1 ms-3 me-3">
                     <input type="date" @bind=dateTime />
                 </div>
-                <div>
-
-                    <button class="btn btn-primary btn-lg" @onclick="NavigateToAddPage">
-                        Создать запись
-                    </button>
-                </div>
+               @if (dateTime.Day >= DateTime.Now.Day && (dateTime.DayOfWeek == DayOfWeek.Monday || dateTime.DayOfWeek == DayOfWeek.Thursday))
+               {
+               <div>
+                   <button class="btn btn-primary btn-lg" @onclick="NavigateToAddPage">
+                       Создать запись
+                   </button>
+               </div>
+               }
+               else
+               {
+               <div class="mt-2">
+                    <h4 class="text-success fst-italic">Выберите последующий день регистрации обращений (пн, чт)</h4>
+               </div>
+               }
             </div>
-
     </Authorized>
 </AuthorizeView>
 
@@ -103,7 +110,7 @@ else
     [Parameter]
     public int Year { get; set; }
     private string period;
-    private bool isDisabled = true;
+    private bool isOpen;
     private string[] periodsList;
 
     //private enum LoadingCollectionState {Loading, Loaded, Error};
@@ -117,6 +124,8 @@ else
         {
             periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsByDistrict(DistrictName, Year)).OrderByDescending(p => DateOnly.Parse(p)).ToArray();   //ToList();  //"Az"
             dateTime = DateTime.Now;
+
+            //isOpen = ;
         }
         else if (UserState != null && UserState.User.IsInRole(Participants.Department))
         {

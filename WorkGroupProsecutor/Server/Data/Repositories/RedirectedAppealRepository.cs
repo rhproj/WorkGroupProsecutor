@@ -1,10 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
 using WorkGroupProsecutor.Server.Data.Context;
 using WorkGroupProsecutor.Shared.Models.Appeal;
 using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
-using WorkGroupProsecutor.Shared.Models.Participants;
 
 namespace WorkGroupProsecutor.Server.Data.Repositories
 {
