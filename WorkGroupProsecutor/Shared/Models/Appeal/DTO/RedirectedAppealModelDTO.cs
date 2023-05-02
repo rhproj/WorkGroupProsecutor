@@ -22,6 +22,7 @@ namespace WorkGroupProsecutor.Shared.Models.Appeal.DTO
         public Department? Department { get; set; }
         public string? DepartmentAssessment { get; set; }
         public int YearInfo { get; set; }
+        [StringLength(5, MinimumLength = 5, ErrorMessage ="формат даты: день.месяц (01.01)")]
         public string PeriodInfo { get; set; }
         public string District { get; set; }
 
