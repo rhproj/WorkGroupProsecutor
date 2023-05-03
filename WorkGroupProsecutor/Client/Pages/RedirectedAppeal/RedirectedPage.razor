@@ -100,12 +100,11 @@ else
 @code {
     [Inject]
     public IRedirectedAppealDataService? RedirectedAppealDataService { get; set; }
-    //%//
+
     [CascadingParameter(Name = "UserState")]
     public AuthenticationState UserState { get; set; }
     [CascadingParameter(Name = "DistrictName")]
     public string DistrictName { get; set; }
-    //%//
 
     [Parameter]
     public int Year { get; set; }
@@ -113,23 +112,19 @@ else
     private bool isOpen;
     private string[] periodsList;
 
-    //private enum LoadingCollectionState {Loading, Loaded, Error};
     private DateTime dateTime;
     private int[]? unansweredsByPeriod;
-    //private LoadingCollectionState state;
 
     protected override async Task OnInitializedAsync()
     {
         if (UserState!= null && UserState.User.IsInRole(Participants.District))
         {
-            periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsByDistrict(DistrictName, Year)).OrderByDescending(p => DateOnly.Parse(p)).ToArray();   //ToList();  //"Az"
+            periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsByDistrict(DistrictName, Year)).OrderByDescending(p => DateOnly.Parse(p)).ToArray();
             dateTime = DateTime.Now;
-
-            //isOpen = ;
         }
         else if (UserState != null && UserState.User.IsInRole(Participants.Department))
         {
-            periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsForDepartment(DistrictName, Year)).OrderByDescending(p => DateOnly.Parse(p)).ToArray(); //.ToList();
+            periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsForDepartment(DistrictName, Year)).OrderByDescending(p => DateOnly.Parse(p)).ToArray();
 
             unansweredsByPeriod = new int[periodsList.Length];
 
@@ -140,7 +135,7 @@ else
         }
         else
         {
-            periodsList = (await RedirectedAppealDataService.GetAllRedirectedPeriods(Year)).OrderByDescending(p => DateOnly.Parse(p)).ToArray(); //.ToList();
+            periodsList = (await RedirectedAppealDataService.GetAllRedirectedPeriods(Year)).OrderByDescending(p => DateOnly.Parse(p)).ToArray();
         }
     }
 

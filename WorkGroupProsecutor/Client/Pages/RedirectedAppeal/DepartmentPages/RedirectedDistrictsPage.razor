@@ -65,11 +65,11 @@ else
     [Parameter]
     public string DepartmentName { get; set; }
 
-    private SortedDictionary<string, string> districtsDict = new ();//v
+    private SortedDictionary<string, string> districtsDict = new ();
 
     protected override async Task OnInitializedAsync()
     {
-        string[] districtsList; //v 
+        string[] districtsList;
 
         @if (!string.IsNullOrEmpty(DepartmentName))
         {
@@ -80,7 +80,7 @@ else
             districtsList = (await RedirectedAppealDataService.GetRedirectedAppealsByDistricts(Period, Year)).ToArray();
         }
 
-        for (int i = 0; i < districtsList.Length; i++)  //v
+        for (int i = 0; i < districtsList.Length; i++)
         {
             districtsDict.Add(await UserService.GetUserDescription(districtsList[i]), districtsList[i]);
         }

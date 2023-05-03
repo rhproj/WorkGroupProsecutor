@@ -22,7 +22,7 @@ namespace WorkGroupProsecutor.Shared.Models.Base
         public virtual string PeriodInfo { get; set; }
         public virtual string District { get; set; }
 
-        //PARTII:
+
         public virtual bool? HasNoAppeals { get; set; }
         public virtual bool? IsArchived { get; set; }
     }

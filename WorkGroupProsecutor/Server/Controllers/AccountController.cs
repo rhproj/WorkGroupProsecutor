@@ -18,7 +18,7 @@ namespace WorkGroupProsecutor.Server.Controllers
 
         [HttpPost]
         [Route("Login")]
-        [AllowAnonymous] //IActionResult vv
+        [AllowAnonymous]
         public async Task<ActionResult<UserSession>> Login([FromBody] LoginRequest loginRequest)
         {
             var jwtAuthManager = new JwtAuthenticationManager(_userAccountService);

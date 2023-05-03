@@ -33,36 +33,6 @@ else
         </div>
     </div>
 
-@*   <div class="input-group mb-4 input-group-lg">
-       <div class="input-group-prepend">
-           <button class="btn btn-outline-success btn-lg" type="button" disabled="true" @onclick=PasteFromClipboard>Cсылка на документ:</button>
-       </div>
-       <div class="row">
-           <InputText class="form-control form-control-lg" placeholder="Ссылка на документ" @bind-Value="appeal.NadzorHyperlink" />
-       </div>
-           <ValidationMessage For="@(() => appeal.NadzorHyperlink)" />
-           <p class="text-black-50 fs-4 mt-2 fst-italic">Чтобы вставить ссылку документа Надзора откройте его в новой вклатке (прав.кп мыши "Открыть в новой вкладке") и скопируйте всю адресную строку (http://...)</p>
-   </div>
-*@
-
-@*    <div class="mb-4">
-        <label for="RegistrationNumber" class="form-label">Cсылка в системе Надзор-WEB:</label>
-        <div class="col-md-4 w-100">
-            <InputText class="form-control form-control-lg" @bind-Value="appeal.NadzorHyperlink" />
-        </div>
-        <ValidationMessage For="@(() => appeal.NadzorHyperlink)" />
-         <p class="text-black-50 fs-4 fst-italic">Чтобы вставить ссылку документа Надзора откройте его в новой вклатке (прав.кп мыши "Открыть в новой вкладке") и скопируйте всю адресную строку (http://...)</p>
-    </div>*@
-
-@* BTN   <div class="input-group mb-4 input-group-lg">
-        <div class="input-group-prepend">
-            <button class="btn btn-outline-primary btn-lg" type="button" @onclick=PasteFromClipboard>Вставить ссылку на документ:</button>
-            <a href="@appeal.NadzorHyperlink" class="text-primary ms-3 fst-italic">@hyperlabel</a>
-        </div>
-            <ValidationMessage For="@(() => appeal.NadzorHyperlink)" />
-            <p class="text-black-50 fs-4 mt-2 fst-italic">Чтобы вставить ссылку документа Надзора откройте его в новой вклатке (прав.кп мыши "Открыть в новой вкладке") и скопируйте всю адресную строку (http://...)</p>
-    </div>*@
-
 
     <div class="my-5">
         <label for="ApplicantFullName" class="form-label">ФИО заявителя / Наименование организации:</label>

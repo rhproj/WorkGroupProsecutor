@@ -27,16 +27,5 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
             await _dbContext.Department.AddAsync(department);
             await _dbContext.SaveChangesAsync();
         }
-
-        public Task UpdateDepartment(Department department)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task DeleteDepartment(int id)
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }

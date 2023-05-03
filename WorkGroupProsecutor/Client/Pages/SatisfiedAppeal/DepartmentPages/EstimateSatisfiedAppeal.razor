@@ -1,6 +1,5 @@
 ﻿@page "/estimatesatisfiedappeal/{Id:int}/{DepartmentName}/{District}"
 @page "/estimatesatisfiedappeal/{Id:int}/{DepartmentName}/{District}/{Selected:bool}"
-@*@page "/estimatesatisfiedappeal/{Id:int}/{DepartmentName}/{DistrictDescription}"*@
 @attribute [Authorize(Roles = @Participants.Department)]
 @*DEP*@
 
@@ -11,7 +10,6 @@
         <tbody>
             <tr>
                 <td class="py-3" style="width:50%">Прокуратура:</td>
-@*                <td>@DistrictDescription</td>*@
                 <td class="fw-bold">@districtDescription</td>
             </tr>
             <tr>
@@ -54,7 +52,7 @@
 
 @code {
     [Inject]
-    public IUserService UserService { get; set; } //v
+    public IUserService UserService { get; set; }
     [Inject]
     public ISatisfiedAppealDataService SatisfiedAppealDataService { get; set; }
 
@@ -64,11 +62,10 @@
     public string DepartmentName { get; set; }
     [Parameter]
     public string District { get; set; }
-    //[Parameter]
-    //public string DistrictDescription { get; set; }
-    private string districtDescription; //v
+
+    private string districtDescription; 
     [Parameter]
-    public bool Selected { get; set; } //v
+    public bool Selected { get; set; }
 
     private SatisfiedAppealModelDTO appeal = new();
     private string? comments;
@@ -78,8 +75,7 @@
         if (Id != 0)
         {
             appeal = await SatisfiedAppealDataService.GetSatisfiedAppealById(Id);
-
-            districtDescription = await UserService.GetUserDescription(District); //v
+            districtDescription = await UserService.GetUserDescription(District);
         }
     }
 
@@ -113,7 +109,7 @@
 
     private void GoBack()
     {
-        if (Selected) //v
+        if (Selected)
         {
             navManager.NavigateTo($"/satisfiedappealassessment/{appeal.District}/{DepartmentName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
         }
@@ -121,7 +117,5 @@
         {
             navManager.NavigateTo($"/satisfiedunanswered/{DepartmentName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
         }
-
-        //navManager.NavigateTo($"/satisfiedappealassessment/{appeal.District}/{DepartmentName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
     }
 }

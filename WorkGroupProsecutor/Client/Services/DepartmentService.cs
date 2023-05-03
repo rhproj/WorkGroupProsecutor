@@ -24,21 +24,5 @@ namespace WorkGroupProsecutor.Client.Services
             var depJson = new StringContent(JsonSerializer.Serialize(department), Encoding.UTF8, "application/json");
             await _httpClient.PostAsync("api/Department", depJson);
         }
-
-        public Task<Department> GetDepartmentById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-
-        public Task DeleteDepartment(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task UpdateDepartment(Department department)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

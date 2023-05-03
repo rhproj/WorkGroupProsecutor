@@ -71,8 +71,8 @@
     [Parameter]
     public string DepartmentName { get; set; }
 
-    string[] districtsList; //v
-    private SortedDictionary<string, string> districtsDict;//v
+    string[] districtsList;
+    private SortedDictionary<string, string> districtsDict;
 
     protected override async Task OnInitializedAsync()
     {
@@ -88,7 +88,7 @@
         if (districtsList.Length > 0)
         {
             districtsDict = new();
-            for (int i = 0; i < districtsList.Length; i++)  //v
+            for (int i = 0; i < districtsList.Length; i++) 
             {
                 districtsDict.Add(await UserService.GetUserDescription(districtsList[i]), districtsList[i]);
             }

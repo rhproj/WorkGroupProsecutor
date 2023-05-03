@@ -22,7 +22,7 @@
     </div>
     <div class="form-group">
         <button type="submit" class="btn btn-primary">Save</button>
-        <button class="btn btn-light" @onclick="GotToHomePage">Cancel</button> <!--explisetly @onclick-->
+        <button class="btn btn-light" @onclick="GotToHomePage">Cancel</button>
     </div>
 </EditForm>
 <br />
@@ -35,53 +35,18 @@
     }
 </ol>
 
-@*<EditForm Model="@appeal" OnValidSubmit="SaveDepartmetn">
-    <DataAnnotationsValidator />
-    <div class="mb-3">
-        <label for="RegistrationNumber" class="form-label">Registration Number</label>
-        <div class="col-md-4">
-            <InputText class="form-control" @bind-Value="appeal.RegistrationNumber" />
-        </div>
-        <ValidationMessage For="@(() => appeal.RegistrationNumber)" />
-    </div>
-    <div class="mb-3">
-        <label for="ApplicantFullName" class="form-label">Applicant FullName</label>
-        <div class="col-md-4">
-            <InputText class="form-control" @bind-Value="appeal.ApplicantFullName" />
-        </div>
-        <ValidationMessage For="@(() => appeal.ApplicantFullName)" />
-    </div>
-    <div class="form-group">
-        <button type="submit" class="btn btn-primary">Save</button>
-        <button class="btn btn-light" @onclick="GotToHomePage">Cancel</button> <!--explisetly @onclick-->
-    </div>
-</EditForm>*@
-
 @code {
-    //[Parameter]
-    //public Guid Id { get; set; }
     private List<Department> departmentsList = new();
     private Department department = new();
-    //private RedirectedAppealModel appeal = new();
-
-    //protected override async Task OnParametersSetAsync()
-    //{
-    //    if (Id != Guid.Empty)
-    //    {
-    //        title = "edit";
-    //        developer = await HttpClient.GetFromJsonAsync<Developer>($"api/developer/{Id}"); //<Developer>
-    //                                                                                         
-    //    }//else throw error Id hasnt been passed
-    //}
+ 
     protected override async Task OnInitializedAsync()
     {
         departmentsList = await httpClient.GetFromJsonAsync<List<Department>>("api/Department");
     }
 
-    private async Task SaveDepartmetn() //for new and edit
+    private async Task SaveDepartmetn() 
     {
         await httpClient.PostAsJsonAsync<Department>("api/Department", department); 
-        //await HttpClient.PostAsJsonAsync<RedirectedAppealModel>("api/RedirectedAppeal", appeal);
         GotToHomePage();
     }
 

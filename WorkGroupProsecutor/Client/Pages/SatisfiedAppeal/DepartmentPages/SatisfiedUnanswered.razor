@@ -60,25 +60,6 @@
                         <td class="text-center fw-bold">
                             <a href="/estimatesatisfiedappeal/@appeal.Id/@DepartmentName/@appeal.District" class="btn btn-outline-primary">Оценить</a>
                         </td>
-
-@*                        @if (!UserState.User.IsInRole(Participants.Department))
-                        {
-                            <td class="text-center fw-bold">@appeal.DepartmentAssessment</td>
-                        }
-                        else
-                        {
-                            <td class="text-center fw-bold">
-                                @if (string.IsNullOrEmpty(appeal.DepartmentAssessment))
-                                {
-                                    <a href="/estimatesatisfiedappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-primary">Оценить</a>
-                                }
-                                else
-                                {
-                                    <p>@appeal.DepartmentAssessment</p>
-                                    <a href="/estimatesatisfiedappeal/@appeal.Id/@DepartmentName/@districtDescription" class="btn btn-outline-secondary">Изменить</a>
-                                }
-                            </td>
-                        }*@
                     </tr>
                     num++;
                 }
@@ -93,15 +74,9 @@
 
 
 @code {
-    //[Inject]
-    //public IUserService UserService { get; set; }
     [Inject]
     public ISatisfiedAppealDataService? SatisfiedAppealDataService { get; set; }
-    //[CascadingParameter(Name = "UserState")]
-    //public AuthenticationState UserState { get; set; }
 
-    //[Parameter]
-    //public string District { get; set; }
     [Parameter]
     public string DepartmentName { get; set; }
     [Parameter]
@@ -109,7 +84,6 @@
     [Parameter]
     public int Year { get; set; }
 
-    //private string districtDescription;
     private int num;
 
     private SatisfiedAppealModelDTO[] appealsList = new SatisfiedAppealModelDTO[] { };
@@ -124,16 +98,5 @@
         {
             navManager.NavigateTo($"/satisfiedpage/{Year}");
         }
-
-        //districtDescription = await UserService.GetUserDescription(District);
-
-        //if (!UserState.User.IsInRole(Participants.Department))
-        //{
-        //    appealsList = (await SatisfiedAppealDataService.GetAllSatisfiedAppeals(District, Period, Year)).ToArray();
-        //}
-        //else
-        //{
-        //    appealsList = (await SatisfiedAppealDataService.GetAllSatisfiedAppealsForDepartment(District, DepartmentName, Period, Year)).ToArray();
-        //}
     }
 }

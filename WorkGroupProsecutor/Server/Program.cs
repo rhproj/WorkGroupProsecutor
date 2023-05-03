@@ -45,7 +45,6 @@ builder.Services.AddScoped<IRedirectedAppealRepository, RedirectedAppealReposito
 builder.Services.AddScoped<ISatisfiedAppealRepository, SatisfiedAppealRepository>();
 builder.Services.AddScoped<INoSolutionAppealRepository, NoSolutionAppealRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
-//builder.Services.AddScoped<IUserAccountRepository, UserAccountRepository>();
 
 var app = builder.Build();
 

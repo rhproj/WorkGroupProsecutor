@@ -52,7 +52,7 @@
 
 @code {
     [Inject]
-    public INoSolutionAppealDataService? NoSolutionAppealDataService { get; set; } //v
+    public INoSolutionAppealDataService? NoSolutionAppealDataService { get; set; }
 
     [CascadingParameter(Name = "UserState")]
     public AuthenticationState UserState { get; set; }

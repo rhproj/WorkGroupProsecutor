@@ -44,7 +44,7 @@
 
 @code {
     [Inject]
-    public IUserService UserService { get; set; } //v
+    public IUserService UserService { get; set; } 
     [Inject]
     public INoSolutionAppealDataService NoSolutionAppealDataService { get; set; }
 
@@ -55,9 +55,9 @@
     [Parameter]
     public string District { get; set; }
 
-    private string districtDescription; //v
+    private string districtDescription;
     [Parameter]
-    public bool Selected { get; set; } //v
+    public bool Selected { get; set; }
 
     private NoSolutionAppealModelDTO appeal = new();
     private string? comments;
@@ -68,7 +68,7 @@
         {
             appeal = await NoSolutionAppealDataService.GetNoSolutionAppealById(Id);
 
-            districtDescription = await UserService.GetUserDescription(District); //v
+            districtDescription = await UserService.GetUserDescription(District);
         }
     }
 
@@ -102,7 +102,7 @@
 
     private void GoBack()
     {
-        if (Selected) //v
+        if (Selected)
         {
             navManager.NavigateTo($"/nosolutionappealassessment/{appeal.District}/{DepartmentName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
         }

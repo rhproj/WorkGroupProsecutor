@@ -9,7 +9,6 @@ namespace WorkGroupProsecutor.Server.Authentication
     public class JwtAuthenticationManager
     {
         public const string JWT_SECURITY_KEY = "eyJSb2xlIjoiQWRtaW4iLCJJc3N1ZXIiOiJJc3N1ZXIiLCJVc2Vybm";
-        //private const int JWT_TOKEN_VALIDITY_MINS = 20;
         private UserAccountService _userAccountService;
 
         public JwtAuthenticationManager(UserAccountService uAservice)
@@ -21,14 +20,25 @@ namespace WorkGroupProsecutor.Server.Authentication
         {
             if (string.IsNullOrWhiteSpace(userName) || string.IsNullOrWhiteSpace(password))
                 return null;
-            //validating user:
+
             var userAccount = await _userAccountService.GetUserAccountByUserName(userName);
             if (userAccount == null || userAccount.Password != password)
                 return null;
 
-            //generating JWT token
-            //var tokenExpiryTimeStamp = DateTime.Now.AddMinutes(JWT_TOKEN_VALIDITY_MINS); //20 минут до просрачивания
-            var tokenKey = Encoding.ASCII.GetBytes(JWT_SECURITY_KEY); //bites of the securiry key constant
+            string token = GenerateJWTtoken(userAccount);
+
+            var userSession = new UserSession
+            {
+                UserName = userAccount.UserName,
+                Role = userAccount.Role,
+                Token = token
+            };
+            return userSession;
+        }
+
+        private static string GenerateJWTtoken(UserAccount userAccount)
+        {
+            var tokenKey = Encoding.ASCII.GetBytes(JWT_SECURITY_KEY);
 
             var claimsIdentity = new ClaimsIdentity(new List<Claim>
             {
@@ -41,7 +51,6 @@ namespace WorkGroupProsecutor.Server.Authentication
             var securityTokenDescription = new SecurityTokenDescriptor
             {
                 Subject = claimsIdentity,
-                //Expires = tokenExpiryTimeStamp,
                 SigningCredentials = signingCredential
             };
 
@@ -49,17 +58,7 @@ namespace WorkGroupProsecutor.Server.Authentication
             var securityToken = jwtSecurityTokenHandler.CreateToken(securityTokenDescription);
 
             var token = jwtSecurityTokenHandler.WriteToken(securityToken);
-
-            var userSession = new UserSession
-            {
-                UserName = userAccount.UserName,
-                Role = userAccount.Role,
-                Token = token,
-                //ExpiresIn = (int)tokenExpiryTimeStamp.Subtract(DateTime.Now).TotalSeconds
-                //ExpiryTimeStamp used in Client
-            };
-            return userSession;
+            return token;
         }
-
     }
 }

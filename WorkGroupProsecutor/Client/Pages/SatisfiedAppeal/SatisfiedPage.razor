@@ -54,7 +54,7 @@
 
 @code {
     [Inject]
-    public ISatisfiedAppealDataService? SatisfiedAppealDataService { get; set; } //v
+    public ISatisfiedAppealDataService? SatisfiedAppealDataService { get; set; }
 
     [CascadingParameter(Name = "UserState")]
     public AuthenticationState UserState { get; set; }

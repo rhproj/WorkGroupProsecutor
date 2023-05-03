@@ -44,7 +44,7 @@
 
 @code {
     [Inject]
-    public IUserService UserService { get; set; } //v
+    public IUserService UserService { get; set; } 
     [Inject]
     public IRedirectedAppealDataService RedirectedAppealDataService { get; set; }
 
@@ -55,9 +55,9 @@
     [Parameter]
     public string District { get; set; }
 
-    private string districtDescription; //v
+    private string districtDescription;
     [Parameter]
-    public bool Selected { get; set; } //v
+    public bool Selected { get; set; }
 
     private RedirectedAppealModelDTO appeal = new();
     private string? comments;
@@ -68,7 +68,7 @@
         {
             appeal = await RedirectedAppealDataService.GetRedirectedAppealById(Id);
 
-            districtDescription = await UserService.GetUserDescription(District); //v
+            districtDescription = await UserService.GetUserDescription(District);
         }
     }
 
@@ -116,7 +116,7 @@
 
     private void GoBack()
     {
-        if (Selected) //v
+        if (Selected)
         {
             navManager.NavigateTo($"/redirectedappealassessment/{appeal.District}/{DepartmentName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
         }
