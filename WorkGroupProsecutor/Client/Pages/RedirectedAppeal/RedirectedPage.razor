@@ -11,7 +11,7 @@
                 <div class="mt-1 ms-3 me-3">
                     <input type="date" @bind=dateTime />
                 </div>
-               @if (dateTime.Date >= DateTime.Now && (dateTime.DayOfWeek == DayOfWeek.Monday || dateTime.DayOfWeek == DayOfWeek.Thursday))
+               @if (dateTime.Date >= DateTime.Now.Date && (dateTime.DayOfWeek == DayOfWeek.Monday || dateTime.DayOfWeek == DayOfWeek.Thursday))
                {
                <div>
                    <button class="btn btn-primary btn-lg" @onclick="NavigateToAddPage">
