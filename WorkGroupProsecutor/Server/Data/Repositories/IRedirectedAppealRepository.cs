@@ -8,7 +8,7 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
 
         Task<IEnumerable<string>> GetRedirectedPeriodsByDistrict(string district, int year);
 
-        Task<IEnumerable<string>> GetRedirectedPeriodsForDepartment(string department, int year); //n 
+        Task<IEnumerable<string>> GetRedirectedPeriodsForDepartment(string department, int year);
 
         Task<IEnumerable<RedirectedAppealModelDTO>> GetAllRedirectedAppeals(string district, string period, int year);
 
@@ -19,7 +19,7 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
 
         Task<IEnumerable<string>> GetRedirectedAppealsByDistricts(string period, int year);
 
-        Task<IEnumerable<string>> GetRedirectedAppelsByDistrictsForDepartment(string department, string period, int year); //n
+        Task<IEnumerable<string>> GetRedirectedAppelsByDistrictsForDepartment(string department, string period, int year); 
 
         Task<RedirectedAppealModelDTO> GetRedirectedAppealById(int id);
 

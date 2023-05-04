@@ -5,6 +5,5 @@ namespace WorkGroupProsecutor.Client.Services
     public interface IDepartmentService
     {
         Task<IEnumerable<Department>> GetAllDepartments();
-        Task AddDepartment(Department department);
     }
 }

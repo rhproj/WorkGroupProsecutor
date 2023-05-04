@@ -18,11 +18,5 @@ namespace WorkGroupProsecutor.Client.Services
             return await JsonSerializer.DeserializeAsync<IEnumerable<Department>>
                 (await _httpClient.GetStreamAsync($"api/Department"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });            
         }
-
-        public async Task AddDepartment(Department department)
-        {
-            var depJson = new StringContent(JsonSerializer.Serialize(department), Encoding.UTF8, "application/json");
-            await _httpClient.PostAsync("api/Department", depJson);
-        }
     }
 }

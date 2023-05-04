@@ -19,4 +19,9 @@
     <ProjectReference Include="..\Shared\WorkGroupProsecutor.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\NoSolutionReturnsAppeal\DepartmentPages\" />
+    <Folder Include="Pages\NoSolutionReturnsAppeal\DistrictPages\" />
+  </ItemGroup>
+
 </Project>

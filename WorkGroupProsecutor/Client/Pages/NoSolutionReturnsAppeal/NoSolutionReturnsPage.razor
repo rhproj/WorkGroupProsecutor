@@ -1,0 +1,51 @@
+﻿@page "/nosolutionreturnspage/{Year:int}"
+@*@page "/nosolutionreturnspage"*@
+<h1>Без разрешения либо возвращено заявителю @Year y.</h1>
+
+@code {
+    [Inject]
+    public IRedirectedAppealDataService? RedirectedAppealDataService { get; set; }
+
+    [CascadingParameter(Name = "UserState")]
+    public AuthenticationState UserState { get; set; }
+    [CascadingParameter(Name = "DistrictName")]
+    public string DistrictName { get; set; }
+
+    [Parameter]
+    public int Year { get; set; }
+    private string period;
+    private bool isOpen;
+    private string[] periodsList;
+
+    private DateTime dateTime;
+    private int[]? unansweredsByPeriod;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (UserState != null && UserState.User.IsInRole(Participants.District))
+        {
+            periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsByDistrict(DistrictName, Year)).OrderByDescending(p => DateOnly.Parse(p)).ToArray();
+            dateTime = DateTime.Now;
+        }
+        else if (UserState != null && UserState.User.IsInRole(Participants.Department))
+        {
+            periodsList = (await RedirectedAppealDataService.GetRedirectedPeriodsForDepartment(DistrictName, Year)).OrderByDescending(p => DateOnly.Parse(p)).ToArray();
+
+            unansweredsByPeriod = new int[periodsList.Length];
+
+            for (int i = 0; i < unansweredsByPeriod.Length; i++)
+            {
+                unansweredsByPeriod[i] = await RedirectedAppealDataService.GetUnansweredNumberForDepartment(DistrictName, periodsList[i], Year);
+            }
+        }
+        else
+        {
+            periodsList = (await RedirectedAppealDataService.GetAllRedirectedPeriods(Year)).OrderByDescending(p => DateOnly.Parse(p)).ToArray();
+        }
+    }
+
+    private void NavigateToAddPage()
+    {
+        navManager.NavigateTo($"/addredirectedappeal/{DistrictName}/{dateTime.ToString("dd.MM")}/{Year}");
+    }
+}
