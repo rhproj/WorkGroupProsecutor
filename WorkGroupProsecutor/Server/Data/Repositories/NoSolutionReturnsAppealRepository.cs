@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using WorkGroupProsecutor.Server.Data.Context;
 using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
 
@@ -14,20 +15,26 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
             _mapper = mapper;
         }
 
-        public Task<IEnumerable<string>> GetAllNoSolutionReturnsPeriods(int year)
+        #region PERIODS
+        public async Task<IEnumerable<string>> GetAllNoSolutionReturnsPeriods(int year)
         {
-            throw new NotImplementedException();
+            return await _dbContext.NoSolutionAppeal
+                .Where(p => p.YearInfo == year).Select(p => p.PeriodInfo).Distinct().ToListAsync();
         }
-        public Task<IEnumerable<string>> GetNoSolutionReturnsPeriodsByDistrict(string district, int year)
+        public async Task<IEnumerable<string>> GetNoSolutionReturnsPeriodsByDistrict(string district, int year)
         {
-            throw new NotImplementedException();
+            return await _dbContext.NoSolutionAppeal
+                .Where(a => a.District == district)
+                .Where(a => a.YearInfo == year).Select(p => p.PeriodInfo).Distinct().ToListAsync();
         }
 
-        public Task<IEnumerable<string>> GetNoSolutionReturnsPeriodsForDepartment(string department, int year)
+        public async Task<IEnumerable<string>> GetNoSolutionReturnsPeriodsForDepartment(string department, int year)
         {
-            throw new NotImplementedException();
+            return await _dbContext.NoSolutionAppeal
+                .Where(a => a.Department.DepartmentIndex == department)
+                .Where(a => a.YearInfo == year).Select(p => p.PeriodInfo).Distinct().ToListAsync();
         }
-
+        #endregion
 
         public Task AddNoSolutionReturnsAppeal(NoSolutionReturnsAppealModelDTO appeal)
         {

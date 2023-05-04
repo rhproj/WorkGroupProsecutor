@@ -52,7 +52,7 @@ namespace WorkGroupProsecutor.Server.Controllers
         /// <param name="department">Отдел</param>
         /// <param name="year">Отчетный год</param>
         [HttpGet("getForDepartment/{department}/{year}")]
-        public async Task<IActionResult> GetForDepartment(string department, int year)     //n
+        public async Task<IActionResult> GetForDepartment(string department, int year)
         {
             var appeals = await _appealRepository.GetNoSolutionReturnsPeriodsForDepartment(department, year);
             if (appeals == null)

@@ -44,6 +44,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IRedirectedAppealRepository, RedirectedAppealRepository>();
 builder.Services.AddScoped<ISatisfiedAppealRepository, SatisfiedAppealRepository>();
 builder.Services.AddScoped<INoSolutionAppealRepository, NoSolutionAppealRepository>();
+builder.Services.AddScoped<INoSolutionReturnsAppealRepository, NoSolutionReturnsAppealRepository>();
 builder.Services.AddScoped<IDepartmentRepository, DepartmentRepository>();
 
 var app = builder.Build();

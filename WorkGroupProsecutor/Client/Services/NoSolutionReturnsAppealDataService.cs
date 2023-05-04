@@ -21,12 +21,14 @@ namespace WorkGroupProsecutor.Client.Services
 
         public async Task<IEnumerable<string>> GetNoSolutionReturnsPeriodsByDistrict(string district, int year)
         {
-            throw new NotImplementedException();
+            return await JsonSerializer.DeserializeAsync<IEnumerable<string>>
+                (await _httpClient.GetStreamAsync($"api/NoSolutionReturnsAppeal/{district}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
         public async Task<IEnumerable<string>> GetNoSolutionReturnsPeriodsForDepartment(string department, int year)
         {
-            throw new NotImplementedException();
+            return await JsonSerializer.DeserializeAsync<IEnumerable<string>>
+                (await _httpClient.GetStreamAsync($"api/NoSolutionReturnsAppeal/getForDepartment/{department}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         } 
         #endregion
 

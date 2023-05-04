@@ -25,7 +25,7 @@ namespace WorkGroupProsecutor.Client.Services
                 (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/{district}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
-        public async Task<IEnumerable<string>> GetRedirectedPeriodsForDepartment(string department, int year) //n
+        public async Task<IEnumerable<string>> GetRedirectedPeriodsForDepartment(string department, int year)
         {
             return await JsonSerializer.DeserializeAsync<IEnumerable<string>>
                 (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/getForDepartment/{department}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });

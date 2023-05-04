@@ -76,7 +76,7 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
                 .Where(a => a.YearInfo == year).Select(p => p.PeriodInfo).Distinct().ToListAsync();
         }
 
-        public async Task<IEnumerable<string>> GetRedirectedPeriodsForDepartment(string department, int year) //n
+        public async Task<IEnumerable<string>> GetRedirectedPeriodsForDepartment(string department, int year)
         {
             return await _dbContext.RedirectedAppeal
                 .Where(a => a.Department.DepartmentIndex == department)
