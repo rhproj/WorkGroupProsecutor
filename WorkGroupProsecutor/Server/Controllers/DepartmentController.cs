@@ -27,12 +27,5 @@ namespace WorkGroupProsecutor.Server.Controllers
         {
             return Ok(await _repository.GetDepartmentById(id));
         }
-
-        [HttpPost]
-        public async Task<IActionResult> Post([FromBody] Department department)
-        {
-            await _repository.AddDepartment(department);
-            return Ok("Новый отдел успешно добавлен");
-        }
     }
 }

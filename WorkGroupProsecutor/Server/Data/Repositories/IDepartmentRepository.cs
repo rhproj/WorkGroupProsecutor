@@ -6,6 +6,5 @@ namespace WorkGroupProsecutor.Server.Data.Repositories
     {
         Task<IEnumerable<Department>> GetAllDepartments();
         Task<Department> GetDepartmentById(int id);
-        Task AddDepartment(Department department);
     }
 }
