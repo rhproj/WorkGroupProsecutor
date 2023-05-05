@@ -3,6 +3,58 @@
 @*DEP, GUE*@
 
 <div class="container-fluid mt-2 text-center">
+    <h3 class="mb-5">Реестр обращений, по которым приняты решения: "Оставлено без разрешения и (или) приобщено к НП, в том числе списано без уведомления" и "Оставлено без разрешения – возвращено заявителю" <span class="fw-bold">@Period.@Year г.</span></h3>
+@*    <h2 class="mb-5">Реестр обращений, по которым приняты решения:<br /> "Оставлено без разрешения или возвращено заявителю" <span class="fw-bold">@Period.@Year г.</span> </h2>*@
+    @if (districtsDict.Count == 0)
+    {
+        <div class="container overflow-auto" style="background-image: url('img/BG5.jpg'); height: 800px; background-repeat: no-repeat; background-position: center;">
+            <div class="d-flex justify-content-center  align-items-center" style="height: 700px">
+                <div style="color: rgb(0,0,120)" class="la-timer la-2x">
+                    <div></div>
+                </div>
+            </div>
+        </div>
+    }
+    else
+    {
+        <div class="container overflow-auto" style="background-image: url('img/BG5.jpg'); height: 800px; background-repeat: no-repeat; background-position: center;">
+            <div>
+                <table class="table table-striped align-middle text-center ">
+                    <thead class="table-primary">
+                        <tr>
+                            <th></th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var district in districtsDict)
+                        {
+                            <tr style="height:100px">
+                                <td class="fs-3">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="my-3">@district.Key</div>
+                                        <div class="mx-4">
+                                            @if (!string.IsNullOrEmpty(DepartmentName))
+                                            {
+                                                <a href="/nosolutionreturnsappealassessment/@district.Value/@DepartmentName/@Period/@Year" class="btn btn-outline-primary"><img src="img/edit32.png" width="50" height="50" class="mt-2" /></a>
+                                            }
+                                            else
+                                            {
+                                                <a href="/nosolutionreturnsappealassessment/@district.Value/@Period/@Year" class="btn btn-outline-primary"><img src="img/edit32.png" width="50" height="50" class="mt-2" /></a>
+                                            }
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+</div>
+
+@*<div class="container-fluid mt-2 text-center">
     <h4 class="text-center my-2">Реестр обращений, по которым приняты решения: "Оставлено без разрешения и (или) приобщено к НП, в том числе списано без уведомления" и "Оставлено без разрешения – возвращено заявителю"</h4>
     <h3 class="text-center mb-3">@ReferencePeriod.Quarters[Period] @Year г.</h3>
     @if (districtsList == null)
@@ -57,7 +109,7 @@
             </div>
         </div>
     }
-</div>
+</div>*@
 
 @code {
     [Inject]
@@ -71,11 +123,13 @@
     [Parameter]
     public string DepartmentName { get; set; }
 
-    string[] districtsList;
-    private SortedDictionary<string, string> districtsDict;
+    //string[] districtsList;
+    private SortedDictionary<string, string> districtsDict = new();
 
     protected override async Task OnInitializedAsync()
     {
+        string[] districtsList;
+
         if (!string.IsNullOrEmpty(DepartmentName))
         {
             districtsList = (await NoSolutionAppealDataService.GetNoSolutionReturnsAppealsByDistrictsForDepartment(DepartmentName, Period, Year)).ToArray();
@@ -85,13 +139,29 @@
             districtsList = (await NoSolutionAppealDataService.GetNoSolutionReturnsAppealsByDistricts(Period, Year)).ToArray();
         }
 
-        if (districtsList.Length > 0)
+        for (int i = 0; i < districtsList.Length; i++)
         {
-            districtsDict = new();
-            for (int i = 0; i < districtsList.Length; i++)
-            {
-                districtsDict.Add(await UserService.GetUserDescription(districtsList[i]), districtsList[i]);
-            }
+            districtsDict.Add(await UserService.GetUserDescription(districtsList[i]), districtsList[i]);
         }
     }
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    if (!string.IsNullOrEmpty(DepartmentName))
+    //    {
+    //        districtsList = (await NoSolutionAppealDataService.GetNoSolutionReturnsAppealsByDistrictsForDepartment(DepartmentName, Period, Year)).ToArray();
+    //    }
+    //    else
+    //    {
+    //        districtsList = (await NoSolutionAppealDataService.GetNoSolutionReturnsAppealsByDistricts(Period, Year)).ToArray();
+    //    }
+
+    //    if (districtsList.Length > 0)
+    //    {
+    //        districtsDict = new();
+    //        for (int i = 0; i < districtsList.Length; i++)
+    //        {
+    //            districtsDict.Add(await UserService.GetUserDescription(districtsList[i]), districtsList[i]);
+    //        }
+    //    }
+    //}
 }

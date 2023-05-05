@@ -1,5 +1,108 @@
-﻿<h3>NoSolutionReturnsAppealRegistryPage</h3>
+﻿@page "/nosolutionreturnsappealregistry/{DistrictName}/{Period}/{Year:int}"
+@attribute [Authorize(Roles = @Participants.District)]
+@*DIS*@
+
+<div class="container-fluid m-1">
+    <h4 class="text-center my-2">Реестр обращений, по которым приняты решения: "Оставлено без разрешения и (или) приобщено к НП, в том числе списано без уведомления" и "Оставлено без разрешения – возвращено заявителю"</h4>
+    <h3 class="text-center mb-3">@ReferencePeriod.Quarters[Period] @Year г.</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr class="text-center align-middle">
+                <th style="width: 1%">№</th>
+                <th style="width: 10%">Регистрационный номер в системе Надзор-WEB</th>
+                <th style="width: 15%">ФИО заявителя</th>
+@*                <th style="width: 1%">Характер обращ- ения*</th>*@
+                <th style="width: 29%">Принятое решение**</th>
+                <th style="width: 23%">Основание принятого решения</th>
+                <th style="width: 13%">Оценка законности, своевременности и обоснованности принятого решения***</th>
+                <th style="width: 8%">
+                    <a href="/addnosolutionreturnsappeal/@DistrictName/@Period/@Year" class="btn btn-outline-success m-0" role="button">
+                        <p class="h5 pt-1 mb-1">Создать запись</p>
+                    </a>
+                </th>
+            </tr>
+        </thead>
+        @if (appealsList == null)
+        {
+            <tbody>
+                <tr>
+                    <td align="center" colspan="10" style="border:none">
+                        <div class="py-5">
+                            <div style="color: rgb(0,0,120)" class="la-timer la-2x">
+                                <div></div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        }
+        else if (appealsList.Length == 0)
+        {
+            <tbody>
+                <tr>
+                    <td colspan="10" style="border:none">
+                        <h2 class="text-secondary text-center py-5">Отсутствуют данные за заданный период</h2>
+                    </td>
+                </tr>
+            </tbody>
+        }
+        else
+        {
+            <tbody class="align-middle">
+                @foreach (var appeal in appealsList)
+                {
+                    <tr class="align-content-start">
+                        <td class="text-center">@num</td>
+                        <td class="text-center">
+                            <a href=@appeal.NadzorHyperlink>@appeal.RegistrationNumber</a>
+                        </td>
+                        <td>@appeal.ApplicantFullName</td>
+@*                        @if (appeal.Department != null)
+                        {
+                            <td class="text-center">@appeal.Department.DepartmentIndex</td>
+                        }
+                        else
+                        {
+                            <td class="text-center"></td>
+                        }*@
+                        <td>@appeal.DepartmentResolution</td>
+                        <td>@appeal.DecisionBasis</td>
+
+                        <td class="text-center fw-bold">@appeal.DepartmentAssessment</td>
+                        <td class="text-center">
+                            <a href="/updatenosolutionreturnsappeal/@DistrictName/@Period/@Year/@appeal.Id" class="btn btn-outline-primary">Изменить</a>
+                            <a href="/deletenosolutionreturnsappeal/@DistrictName/@appeal.Id" class="btn btn-outline-danger px-3">Удалить</a>
+                        </td>
+                    </tr>
+                    num++;
+                }
+            </tbody>
+        }
+
+    </table>
+    <div class="mt-5">
+        <NoSolutionAppealCommentsComponent />
+    </div>
+</div>
+
 
 @code {
+    [Inject]
+    public INoSolutionReturnsAppealDataService? NoSolutionAppealDataService { get; set; }
 
+    [Parameter]
+    public int Year { get; set; }
+    [Parameter]
+    public string Period { get; set; }
+    [Parameter]
+    public string DistrictName { get; set; }
+    private int num;
+
+    private NoSolutionReturnsAppealModelDTO[] appealsList;
+
+    protected override async Task OnInitializedAsync()
+    {
+        num = 1;
+        appealsList = (await NoSolutionAppealDataService.GetAllNoSolutionReturnsAppeals(DistrictName, Period, Year)).ToArray();
+    }
 }
