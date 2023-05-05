@@ -38,7 +38,7 @@ namespace WorkGroupProsecutor.Client.Services
                 (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/{district}/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
         
-        public async Task<IEnumerable<RedirectedAppealModelDTO>> GetAllRedirectedAppealsByDepartment(string district, string department, string period, int year) //m
+        public async Task<IEnumerable<RedirectedAppealModelDTO>> GetAllRedirectedAppealsByDepartment(string district, string department, string period, int year)
         {
             return await JsonSerializer.DeserializeAsync<IEnumerable<RedirectedAppealModelDTO>>
                 (await _httpClient.GetStreamAsync($"api/RedirectedAppeal/getAllByDepartment/{district}/{department}/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
@@ -76,7 +76,7 @@ namespace WorkGroupProsecutor.Client.Services
         public async Task AddRedirectedAppeal(RedirectedAppealModelDTO appeal)
         {
             var appealJson = new StringContent(JsonSerializer.Serialize(appeal), Encoding.UTF8, "application/json");
-            await _httpClient.PostAsync("api/RedirectedAppeal", appealJson); //var response = 
+            await _httpClient.PostAsync("api/RedirectedAppeal", appealJson);
         }
 
         public async Task UpdateRedirectedAppeal(RedirectedAppealModelDTO appeal)

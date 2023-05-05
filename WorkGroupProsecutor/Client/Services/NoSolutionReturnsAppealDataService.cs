@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
 
 namespace WorkGroupProsecutor.Client.Services
@@ -10,7 +11,6 @@ namespace WorkGroupProsecutor.Client.Services
         {
             _httpClient = httpClient;
         }
-
 
         #region PERIODS
         public async Task<IEnumerable<string>> GetAllNoSolutionReturnsPeriods(int year)
@@ -29,61 +29,66 @@ namespace WorkGroupProsecutor.Client.Services
         {
             return await JsonSerializer.DeserializeAsync<IEnumerable<string>>
                 (await _httpClient.GetStreamAsync($"api/NoSolutionReturnsAppeal/getForDepartment/{department}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
-        } 
+        }
         #endregion
 
-
-        public Task AddNoSolutionReturnsAppeal(NoSolutionReturnsAppealModelDTO appeal)
+        public async Task<IEnumerable<NoSolutionReturnsAppealModelDTO>> GetAllNoSolutionReturnsAppeals(string district, string period, int year)
         {
-            throw new NotImplementedException();
+            return await JsonSerializer.DeserializeAsync<IEnumerable<NoSolutionReturnsAppealModelDTO>>
+                (await _httpClient.GetStreamAsync($"api/NoSolutionReturnsAppeal/{district}/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
-        public Task DeleteNoSolutionReturnsAppeal(int id)
+        public async Task<IEnumerable<NoSolutionReturnsAppealModelDTO>> GetAllNoSolutionReturnsAppealsByDepartment(string district, string department, string period, int year)
         {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<NoSolutionReturnsAppealModelDTO>> GetAllNoSolutionReturnsAppeals(string district, string period, int year)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<IEnumerable<NoSolutionReturnsAppealModelDTO>> GetAllNoSolutionReturnsAppealsByDepartment(string district, string department, string period, int year)
-        {
-            throw new NotImplementedException();
+            return await JsonSerializer.DeserializeAsync<IEnumerable<NoSolutionReturnsAppealModelDTO>>
+                (await _httpClient.GetStreamAsync($"api/NoSolutionReturnsAppeal/getAllByDepartment/{district}/{department}/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
 
-        public Task<IEnumerable<NoSolutionReturnsAppealModelDTO>> GetAllNoSolutionReturnsUnansweredForDepartment(string department, string period, int year)
+        public async Task<IEnumerable<NoSolutionReturnsAppealModelDTO>> GetAllNoSolutionReturnsUnansweredForDepartment(string department, string period, int year)
         {
-            throw new NotImplementedException();
+            return await JsonSerializer.DeserializeAsync<IEnumerable<NoSolutionReturnsAppealModelDTO>>
+                (await _httpClient.GetStreamAsync($"api/NoSolutionReturnsAppeal/getAllUnansweredForDepartment/{department}/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
-        public Task<NoSolutionReturnsAppealModelDTO> GetNoSolutionReturnsAppealById(int id)
+        public async Task<int> GetUnansweredNumberForDepartment(string department, string period, int year)
         {
-            throw new NotImplementedException();
+            return await JsonSerializer.DeserializeAsync<int>(await _httpClient.GetStreamAsync($"api/NoSolutionReturnsAppeal/getUnansweredNumberForDepartment/{department}/{period}/{year}"));
         }
 
-        public Task<IEnumerable<string>> GetNoSolutionReturnsAppealsByDistricts(string period, int year)
+        public async Task<IEnumerable<string>> GetNoSolutionReturnsAppealsByDistricts(string period, int year)
         {
-            throw new NotImplementedException();
+            return await JsonSerializer.DeserializeAsync<IEnumerable<string>>
+                (await _httpClient.GetStreamAsync($"api/NoSolutionReturnsAppeal/getByDistricts/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
-        public Task<IEnumerable<string>> GetNoSolutionReturnsAppealsByDistrictsForDepartment(string department, string period, int year)
+        public async Task<IEnumerable<string>> GetNoSolutionReturnsAppealsByDistrictsForDepartment(string department, string period, int year)
         {
-            throw new NotImplementedException();
+            return await JsonSerializer.DeserializeAsync<IEnumerable<string>>
+                (await _httpClient.GetStreamAsync($"api/NoSolutionReturnsAppeal/getByDistrictsForDepartment/{department}/{period}/{year}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
-
-
-        public Task<int> GetUnansweredNumberForDepartment(string department, string period, int year)
+        public async Task<NoSolutionReturnsAppealModelDTO> GetNoSolutionReturnsAppealById(int id)
         {
-            throw new NotImplementedException();
+            return await JsonSerializer.DeserializeAsync<NoSolutionReturnsAppealModelDTO>
+                (await _httpClient.GetStreamAsync($"api/NoSolutionReturnsAppeal/{id}"), new JsonSerializerOptions() { PropertyNameCaseInsensitive = true });
         }
 
-        public Task UpdateNoSolutionReturnsAppeal(NoSolutionReturnsAppealModelDTO appeal)
+        public async Task AddNoSolutionReturnsAppeal(NoSolutionReturnsAppealModelDTO appeal)
         {
-            throw new NotImplementedException();
+            var appealJson = new StringContent(JsonSerializer.Serialize(appeal), Encoding.UTF8, "application/json");
+            await _httpClient.PostAsync("api/NoSolutionReturnsAppeal", appealJson);
+        }
+
+        public async Task UpdateNoSolutionReturnsAppeal(NoSolutionReturnsAppealModelDTO appeal)
+        {
+            var appealJson = new StringContent(JsonSerializer.Serialize(appeal), Encoding.UTF8, "application/json");
+            await _httpClient.PutAsync("api/NoSolutionReturnsAppeal", appealJson);
+        }
+
+        public async Task DeleteNoSolutionReturnsAppeal(int id)
+        {
+            await _httpClient.DeleteAsync($"api/NoSolutionReturnsAppeal/{id}");
         }
     }
 }
