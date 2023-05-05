@@ -1,0 +1,114 @@
+﻿@page "/estimatenosolutionreturnsappeal/{Id:int}/{DepartmentName}/{District}"
+@page "/estimatenosolutionreturnsappeal/{Id:int}/{DepartmentName}/{District}/{Selected:bool}"
+@attribute [Authorize(Roles = @Participants.Department)]
+@*DEP*@
+
+<h1 class="mt-3 mb-5 text-center">Оценка законности, своевременности и обоснованности принятого решения<br class="mt-1" /><a href="@appeal.NadzorHyperlink" class="h2 fw-bold"> №@appeal.RegistrationNumber</a></h1>
+
+<div class="container">
+    <table class="table table-striped align-middle h3">
+        <tbody>
+            <tr>
+                <td class="py-3" style="width:50%">Прокуратура:</td>
+                <td class="fw-bold">@districtDescription</td>
+            </tr>
+            <tr>
+                <td class="py-3">ФИО заявителя / Наименование организации:</td>
+                <td>@appeal.ApplicantFullName</td>
+            </tr>
+            <tr>
+                <td class="py-3">Принятое решение:</td>
+                <td>@appeal.DepartmentResolution</td>
+            </tr>
+            <tr>
+                <td class="py-3">Основание принятого решения:</td>
+                <td>@appeal.DecisionBasis</td>
+            </tr>
+            <tr>
+                <td class="py-3">Оценка законности, своевременности и обоснованности принятого решения:</td>
+                <td>@appeal.DepartmentAssessment</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="input-group align-middle input-group-lg mt-5">
+        <span class="input-group-text">Добавить комментарий:</span>
+        <textarea class="form-control" @bind=comments aria-label="комментарий"></textarea>
+    </div>
+    <div class="form-group text-center my-5">
+        <button class="btn btn-outline-success btn-lg" style="width:150px" @onclick="Approve">Да</button>
+        <button class="btn btn-outline-danger btn-lg" style="width:150px" @onclick="Disapprove">Нет</button>
+        <button class="btn btn-secondary btn-lg" style="width:150px" @onclick="GoBack">Отмена</button>
+    </div>
+</div>
+
+
+@code {
+    [Inject]
+    public IUserService UserService { get; set; }
+    [Inject]
+    public INoSolutionReturnsAppealDataService NoSolutionAppealDataService { get; set; }
+
+    [Parameter]
+    public int Id { get; set; }
+    [Parameter]
+    public string DepartmentName { get; set; }
+    [Parameter]
+    public string District { get; set; }
+
+    private string districtDescription;
+    [Parameter]
+    public bool Selected { get; set; }
+
+    private NoSolutionReturnsAppealModelDTO appeal = new();
+    private string? comments;
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != 0)
+        {
+            appeal = await NoSolutionAppealDataService.GetNoSolutionReturnsAppealById(Id);
+
+            districtDescription = await UserService.GetUserDescription(District);
+        }
+    }
+
+    private async Task Approve()
+    {
+        if (appeal != null)
+        {
+            appeal.DepartmentAssessment = "Да";
+            if (!string.IsNullOrWhiteSpace(comments))
+            {
+                appeal.DepartmentAssessment += $": {comments}";
+            }
+            await NoSolutionAppealDataService.UpdateNoSolutionReturnsAppeal(appeal);
+        }
+        GoBack();
+    }
+
+    private async Task Disapprove()
+    {
+        if (appeal != null)
+        {
+            appeal.DepartmentAssessment = "Нет";
+            if (!string.IsNullOrWhiteSpace(comments))
+            {
+                appeal.DepartmentAssessment += $": {comments}";
+            }
+            await NoSolutionAppealDataService.UpdateNoSolutionReturnsAppeal(appeal);
+        }
+        GoBack();
+    }
+
+    private void GoBack()
+    {
+        if (Selected)
+        {
+            navManager.NavigateTo($"/nosolutionreturnsappealassessment/{appeal.District}/{DepartmentName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
+        }
+        else
+        {
+            navManager.NavigateTo($"/nosolutionreturnsunanswered/{DepartmentName}/{appeal.PeriodInfo}/{appeal.YearInfo}");
+        }
+    }
+}

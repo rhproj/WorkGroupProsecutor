@@ -1,0 +1,123 @@
+﻿@page "/nosolutionappealreturnsassessment/{District}/{DepartmentName}/{Period}/{Year:int}"
+@page "/nosolutionappealreturnsassessment/{District}/{Period}/{Year:int}"
+@*DEP, GUE*@
+
+<div class="container-fluid m-1">
+    <h4 class="text-center my-2">Реестр обращений, по которым приняты решения: "Оставлено без разрешения и (или) приобщено к НП, в том числе списано без уведомления" и "Оставлено без разрешения – возвращено заявителю"</h4>
+    <h3 class="text-center mb-3">@districtDescription @ReferencePeriod.Quarters[Period] @Year г.</h3>
+    <table class="table table-bordered">
+        <thead>
+            <tr class="text-center align-middle">
+                <th style="width: 1%">№</th>
+                <th style="width: 10%">Регистрационный номер в системе Надзор-WEB</th>
+                <th style="width: 15%">ФИО заявителя</th>
+                <th style="width: 1%">Характер обращ- ения*</th>
+                <th style="width: 33%">Принятое решение**</th>
+                <th style="width: 27%">Основание принятого решения</th>
+                <th style="width: 13%">Оценка законности, своевременности и обоснованности принятого решения***</th>
+            </tr>
+        </thead>
+        @if (appealsList.Length == 0)
+        {
+            <tbody>
+                <tr>
+                    <td align="center" colspan="10" style="border:none">
+                        <div class="py-5">
+                            <div style="color: rgb(0,0,120)" class="la-timer la-2x">
+                                <div></div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        }
+        else
+        {
+            <tbody class="align-middle">
+                @foreach (var appeal in appealsList)
+                {
+                    <tr class="align-content-start">
+                        <td class="text-center">@num</td>
+                        <td class="text-center">
+                            <a href=@appeal.NadzorHyperlink>@appeal.RegistrationNumber</a>
+                        </td>
+                        <td>@appeal.ApplicantFullName</td>
+                        @if (appeal.Department != null)
+                        {
+                            <td class="text-center">@appeal.Department.DepartmentIndex</td>
+                        }
+                        else
+                        {
+                            <td class="text-center"></td>
+                        }
+                        <td>@appeal.DepartmentResolution</td>
+                        <td>@appeal.DecisionBasis</td>
+
+                        @if (!UserState.User.IsInRole(Participants.Department))
+                        {
+                            <td class="text-center fw-bold">@appeal.DepartmentAssessment</td>
+                        }
+                        else
+                        {
+                            <td class="text-center fw-bold">
+                                @if (string.IsNullOrEmpty(appeal.DepartmentAssessment))
+                                {
+                                    <a href="/estimatenosolutionreturnsappeal/@appeal.Id/@DepartmentName/@District/@true" class="btn btn-outline-primary">Оценить</a>
+                                }
+                                else
+                                {
+                                    <p>@appeal.DepartmentAssessment</p>
+                                    <a href="/estimatenosolutionreturnsappeal/@appeal.Id/@DepartmentName/@District/@true" class="btn btn-outline-secondary">Изменить</a>
+                                }
+                            </td>
+                        }
+                    </tr>
+                    num++;
+                }
+            </tbody>
+        }
+    </table>
+    <a href="/nosolutionreturnsdistrictspage/@DepartmentName/@Period/@Year" class="btn btn-outline-success"><span class="h5 fw-bold">&#60; </span>Районы</a>
+    <div>
+        <NoSolutionAppealCommentsComponent />
+    </div>
+</div>
+
+
+@code {
+    [Inject]
+    public IUserService UserService { get; set; }
+    [Inject]
+    public INoSolutionReturnsAppealDataService NoSolutionAppealDataService { get; set; }
+    [CascadingParameter(Name = "UserState")]
+    public AuthenticationState UserState { get; set; }
+
+    [Parameter]
+    public string District { get; set; }
+    [Parameter]
+    public string DepartmentName { get; set; }
+    [Parameter]
+    public string Period { get; set; }
+    [Parameter]
+    public int Year { get; set; }
+
+    private string districtDescription;
+    private int num;
+
+    private NoSolutionReturnsAppealModelDTO[] appealsList = new NoSolutionReturnsAppealModelDTO[] { };
+
+    protected override async Task OnInitializedAsync()
+    {
+        num = 1;
+        districtDescription = await UserService.GetUserDescription(District);
+
+        if (!UserState.User.IsInRole(Participants.Department))
+        {
+            appealsList = (await NoSolutionAppealDataService.GetAllNoSolutionReturnsAppeals(District, Period, Year)).ToArray();
+        }
+        else
+        {
+            appealsList = (await NoSolutionAppealDataService.GetAllNoSolutionReturnsAppealsByDepartment(District, DepartmentName, Period, Year)).ToArray();
+        }
+    }
+}
