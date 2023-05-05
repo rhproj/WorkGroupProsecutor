@@ -53,7 +53,7 @@ namespace WorkGroupProsecutor.Server.Controllers
         /// <param name="department">Отдел</param>
         /// <param name="year">Отчетный год</param>
         [HttpGet("getForDepartment/{department}/{year}")]
-        public async Task<IActionResult> GetForDepartment(string department, int year)     //n
+        public async Task<IActionResult> GetForDepartment(string department, int year)
         {
             var appeals = await _appealRepository.GetRedirectedPeriodsForDepartment(department, year);
             if (appeals == null)
@@ -90,7 +90,7 @@ namespace WorkGroupProsecutor.Server.Controllers
         /// <param name="period">Отчетный период</param>
         /// <param name="year">Отчетный год</param>
         [HttpGet("getAllByDepartment/{district}/{department}/{period}/{year}")]
-        public async Task<IActionResult> GetAppealsByDepartment(string district, string department, string period, int year)  //m
+        public async Task<IActionResult> GetAppealsByDepartment(string district, string department, string period, int year)
         {
             var appeals = await _appealRepository.GetAllRedirectedAppealsByDepartment(district, department, period, year);
             if (appeals == null)
@@ -149,7 +149,7 @@ namespace WorkGroupProsecutor.Server.Controllers
         /// <param name="year">Отчетный год</param>
         /// <returns></returns>
         [HttpGet("getByDistrictsForDepartment/{department}/{period}/{year}")]
-        public async Task<IActionResult> GetByDistrictsForDepartment(string department, string period, int year) //n
+        public async Task<IActionResult> GetByDistrictsForDepartment(string department, string period, int year)
         {
             var appeals = await _appealRepository.GetRedirectedAppelsByDistrictsForDepartment(department, period, year);
             if (appeals == null)
