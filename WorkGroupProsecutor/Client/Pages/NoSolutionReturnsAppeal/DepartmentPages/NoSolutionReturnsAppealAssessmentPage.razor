@@ -1,10 +1,10 @@
-﻿@page "/nosolutionappealreturnsassessment/{District}/{DepartmentName}/{Period}/{Year:int}"
-@page "/nosolutionappealreturnsassessment/{District}/{Period}/{Year:int}"
+﻿@page "/nosolutionreturnsappealassessment/{District}/{DepartmentName}/{Period}/{Year:int}"
+@page "/nosolutionreturnsappealassessment/{District}/{Period}/{Year:int}"
 @*DEP, GUE*@
 
 <div class="container-fluid m-1">
     <h4 class="text-center my-2">Реестр обращений, по которым приняты решения: "Оставлено без разрешения и (или) приобщено к НП, в том числе списано без уведомления" и "Оставлено без разрешения – возвращено заявителю"</h4>
-    <h3 class="text-center mb-3">@districtDescription @ReferencePeriod.Quarters[Period] @Year г.</h3>
+    <h3 class="text-center mb-3">@districtDescription @Period.@Year г.</h3>
     <table class="table table-bordered">
         <thead>
             <tr class="text-center align-middle">

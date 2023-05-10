@@ -4,7 +4,7 @@
 
 <div class="container-fluid m-1">
     <h4 class="text-center my-2">Реестр обращений, по которым приняты решения: "Оставлено без разрешения и (или) приобщено к НП, в том числе списано без уведомления" и "Оставлено без разрешения – возвращено заявителю"</h4>
-    <h3 class="text-center mb-3">@ReferencePeriod.Quarters[Period] @Year г.</h3>
+    <h3 class="text-center mb-3">@Period.@Year г.</h3>
     <table class="table table-bordered">
         <thead>
             <tr class="text-center align-middle">
@@ -16,9 +16,12 @@
                 <th style="width: 23%">Основание принятого решения</th>
                 <th style="width: 13%">Оценка законности, своевременности и обоснованности принятого решения***</th>
                 <th style="width: 8%">
+                @if (isOpen)
+                {
                     <a href="/addnosolutionreturnsappeal/@DistrictName/@Period/@Year" class="btn btn-outline-success m-0" role="button">
                         <p class="h5 pt-1 mb-1">Создать запись</p>
                     </a>
+                }
                 </th>
             </tr>
         </thead>
@@ -97,6 +100,7 @@
     [Parameter]
     public string DistrictName { get; set; }
     private int num;
+    private bool isOpen;
 
     private NoSolutionReturnsAppealModelDTO[] appealsList;
 
@@ -104,5 +108,7 @@
     {
         num = 1;
         appealsList = (await NoSolutionAppealDataService.GetAllNoSolutionReturnsAppeals(DistrictName, Period, Year)).ToArray();
+        
+        isOpen = DateTime.Parse($"{Period}.{Year}") >= DateTime.Now.Date;
     }
 }

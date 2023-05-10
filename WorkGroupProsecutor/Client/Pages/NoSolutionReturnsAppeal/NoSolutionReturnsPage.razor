@@ -117,7 +117,7 @@
     {
         if (UserState != null && UserState.User.IsInRole(Participants.District))
         {
-            periodsList = (await NoSolutionReturnsAppealDataService.GetNoSolutionReturnsAppealsByDistricts(DistrictName, Year)).OrderByDescending(p => DateOnly.Parse(p)).ToArray();
+            periodsList = (await NoSolutionReturnsAppealDataService.GetNoSolutionReturnsPeriodsByDistrict(DistrictName, Year)).OrderByDescending(p => DateOnly.Parse(p)).ToArray();
             dateTime = DateTime.Now;
         }
         else if (UserState != null && UserState.User.IsInRole(Participants.Department))
