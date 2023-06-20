@@ -11,8 +11,8 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
 {
     public class RedirectedAppealControllerTests
     {
-        private DepartmentController _departmentController;
-        private Mock<IDepartmentRepository> _departmentRepositoryMock;
+        private RedirectedAppealController _appealController;
+        private Mock<IRedirectedAppealRepository> _appealRepositoryMock;
 
 
     }
