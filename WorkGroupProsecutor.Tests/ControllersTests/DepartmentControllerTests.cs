@@ -96,19 +96,19 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
         public async Task GetById_ShouldContain_GivenDepartment()
         {
             //Arrange
-            var testCollection = GetTestGeneratedDepartments(10); 
-            testCollection.ToArray()[5].Id = 5;
+            int testId = 5;
+            var testCollection = GetTestGeneratedDepartments(10).ToArray();
+            var expectedDepartment = SetIdForElemntOfCollection(testId, 5, testCollection);
 
-            _departmentRepositoryMock.Setup(m => m.GetAllDepartments()).ReturnsAsync(testCollection);
+            _departmentRepositoryMock.Setup(m => m.GetDepartmentById(testId)).ReturnsAsync(expectedDepartment);
             _departmentController = new DepartmentController(_departmentRepositoryMock.Object);
 
             //Act
-            var actionResutl = await _departmentController.Get(5);
-            var okObjectResult = Assert.IsType<OkObjectResult>(actionResutl).Value;
-            var result = (Department)okObjectResult;
+            var actionResutl = await _departmentController.Get(testId);
+            var result = Assert.IsType<OkObjectResult>(actionResutl).Value;
 
             //Assert
-            Assert.Equal(testCollection.ToArray()[5], result);
+            Assert.Equal(expectedDepartment, result);
         }
 
         private IEnumerable<Department> GetTestGeneratedDepartments(int count = 1)
@@ -124,6 +124,16 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
                 });
             }
             return result;
+        }
+
+        private Department SetIdForElemntOfCollection(int value, int index, Department[] collection)
+        {
+            if (index >= collection.Length)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+            collection[index].Id = value;
+            return collection[index];
         }
     }
 }
