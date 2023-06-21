@@ -34,7 +34,7 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
         [Fact]
         public async Task GetById_ShouldReturn_OkObjectResult()
         {
-            var okObjectresult = await _departmentController.Get(GetRandom.Byte());
+            var okObjectresult = await _departmentController.Get(It.IsAny<int>());
             Assert.IsType<OkObjectResult>(okObjectresult);
         }
 
@@ -62,7 +62,7 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
         }
 
         [Fact]
-        public async Task Get_ShouldPass_GivenCollection()
+        public async Task Get_ShouldPass_ExpectedCollection()
         {
             //Arrange
             var Id1 = GetRandom.Id();
@@ -75,9 +75,9 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             var department1 = new Department { Id = Id1, DepartmentIndex = DepartmentIndex1, DepartmentName = DepartmentName1 };
             var department2 = new Department { Id = Id2, DepartmentIndex = DepartmentIndex2, DepartmentName = DepartmentName2 };
 
-            var testCollection = new Department[] { department1, department2 };
+            var expectedCollection = new Department[] { department1, department2 };
 
-            _departmentRepositoryMock.Setup(m => m.GetAllDepartments()).ReturnsAsync(testCollection);
+            _departmentRepositoryMock.Setup(m => m.GetAllDepartments()).ReturnsAsync(expectedCollection);
             _departmentController = new DepartmentController(_departmentRepositoryMock.Object);
 
             //Act
@@ -86,19 +86,22 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             var resultCollection = Assert.IsAssignableFrom<IEnumerable<Department>>(okObjectResult);
 
             //Assert
-            Assert.Equal(testCollection, resultCollection);
-            Assert.Collection(testCollection,
+            Assert.Equal(expectedCollection, resultCollection);
+            Assert.Collection(expectedCollection,
                 t => { Assert.Equal(Id1, t.Id); Assert.Equal(DepartmentIndex1, t.DepartmentIndex); Assert.Equal(DepartmentName1, t.DepartmentName); },
                 t => { Assert.Equal(Id2, t.Id); Assert.Equal(DepartmentIndex2, t.DepartmentIndex); Assert.Equal(DepartmentName2, t.DepartmentName); });
         }
 
         [Fact]
-        public async Task GetById_ShouldContain_GivenDepartment()
+        public async Task GetById_ShouldReturn_ExpectedDepartment()
         {
             //Arrange
             int testId = 5;
-            var testCollection = GetTestGeneratedDepartments(10).ToArray();
-            var expectedDepartment = SetIdForElemntOfCollection(testId, 5, testCollection);
+            int arrayIndex = 5;
+            int departmensCount = 10;
+
+            var testCollection = GetTestGeneratedDepartments(departmensCount);
+            var expectedDepartment = SetIdForElemntOfCollection(testId, arrayIndex, testCollection);
 
             _departmentRepositoryMock.Setup(m => m.GetDepartmentById(testId)).ReturnsAsync(expectedDepartment);
             _departmentController = new DepartmentController(_departmentRepositoryMock.Object);
@@ -111,14 +114,14 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             Assert.Equal(expectedDepartment, result);
         }
 
-        private IEnumerable<Department> GetTestGeneratedDepartments(int count = 1)
+        private Department[] GetTestGeneratedDepartments(int count = 1)
         {
             var result = new Department[count];
             for (int i = 0; i < count; i++)
             {
                 result[i] = (new Department()
                 {
-                    Id = GetRandom.Byte(),
+                    Id = GetRandom.Id(),
                     DepartmentIndex = GetRandom.String(),
                     DepartmentName = GetRandom.String()
                 });
