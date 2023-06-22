@@ -15,12 +15,13 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
 {
     public class RedirectedAppealControllerTests
     {
-        private RedirectedAppealController _appealController;
+        private RedirectedAppealController _sutAppealController;
         private Mock<IRedirectedAppealRepository> _appealRepositoryMock;
 
         public RedirectedAppealControllerTests()
         {
             _appealRepositoryMock = new Mock<IRedirectedAppealRepository>();
+            _sutAppealController = new RedirectedAppealController(_appealRepositoryMock.Object);
         }
 
         [Fact]
@@ -33,9 +34,8 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             int year = GetRandom.Int32(2000,3000);
 
             _appealRepositoryMock.Setup(m => m.GetAllRedirectedPeriods(year)).ReturnsAsync(periodsExpected);
-            _appealController = new RedirectedAppealController(_appealRepositoryMock.Object);
 
-            var actionResutl = await _appealController.GetPeriods(year);
+            var actionResutl = await _sutAppealController.GetPeriods(year);
             var resultPeriods = Assert.IsType<OkObjectResult>(actionResutl).Value;
 
             Assert.Equal(periodsExpected, resultPeriods);
@@ -52,9 +52,8 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             int year = GetRandom.Int32(2000, 3000);
 
             _appealRepositoryMock.Setup(m => m.GetRedirectedPeriodsByDistrict(district, year)).ReturnsAsync(periodsExpected);
-            _appealController = new RedirectedAppealController(_appealRepositoryMock.Object);
 
-            var actionResutl = await _appealController.GetPeriodsByDistrict(district, year);
+            var actionResutl = await _sutAppealController.GetPeriodsByDistrict(district, year);
             var resultPeriods = Assert.IsType<OkObjectResult>(actionResutl).Value;
 
             Assert.Equal(periodsExpected, resultPeriods);
@@ -71,9 +70,8 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             int year = GetRandom.Int16(2000, 3000);
 
             _appealRepositoryMock.Setup(m => m.GetRedirectedPeriodsForDepartment(department, year)).ReturnsAsync(periodsExpected);
-            _appealController = new RedirectedAppealController(_appealRepositoryMock.Object);
 
-            var actionResult = await _appealController.GetForDepartment(department, year);
+            var actionResult = await _sutAppealController.GetForDepartment(department, year);
             var resultPeriods = Assert.IsType<OkObjectResult>(actionResult).Value;
 
             Assert.Equal(periodsExpected, resultPeriods);
@@ -88,9 +86,8 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             var expectedRedirectedAppeals = GetTestRedirectedAppealModelDTOs(10);
 
             _appealRepositoryMock.Setup(m => m.GetAllRedirectedAppeals(district,period, year)).ReturnsAsync(expectedRedirectedAppeals);
-            _appealController = new RedirectedAppealController(_appealRepositoryMock.Object);
 
-            var actionResult = await _appealController.GetAppeals(district, period, year);
+            var actionResult = await _sutAppealController.GetAppeals(district, period, year);
             var resultPeriods = Assert.IsType<OkObjectResult>(actionResult).Value;
 
             Assert.Equal(expectedRedirectedAppeals, resultPeriods);
@@ -106,16 +103,13 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             var expectedRedirectedAppeals = GetTestRedirectedAppealModelDTOs(10);
 
             _appealRepositoryMock.Setup(m => m.GetAllRedirectedAppealsByDepartment(district, department, period, year)).ReturnsAsync(expectedRedirectedAppeals);
-            _appealController = new RedirectedAppealController(_appealRepositoryMock.Object);
 
-            var actionResult = await _appealController.GetAppealsByDepartment(district, department, period, year);
+            var actionResult = await _sutAppealController.GetAppealsByDepartment(district, department, period, year);
             var resultPeriods = Assert.IsType<OkObjectResult>(actionResult).Value;
 
             Assert.Equal(expectedRedirectedAppeals, resultPeriods);
         }
 
-
-        #region HOME
         [Fact]
         public async Task GetAllUnansweredForDepartment_ShouldPass_ExpectedRedirectedAppeals()
         {
@@ -125,9 +119,8 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             var expectedRedirectedAppeals = GetTestRedirectedAppealModelDTOs(10);
 
             _appealRepositoryMock.Setup(m => m.GetAllRedirectedUnansweredForDepartment(department, period, year)).ReturnsAsync(expectedRedirectedAppeals);
-            _appealController = new RedirectedAppealController(_appealRepositoryMock.Object);
 
-            var actionResult = await _appealController.GetAllUnansweredForDepartment(department, period, year);
+            var actionResult = await _sutAppealController.GetAllUnansweredForDepartment(department, period, year);
             var resultRedirectedAppeals = Assert.IsType<OkObjectResult>(actionResult).Value;
 
             Assert.Equal(expectedRedirectedAppeals, resultRedirectedAppeals);
@@ -142,14 +135,12 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             int year = GetRandom.Int16(2000, 3000);
 
             _appealRepositoryMock.Setup(m => m.GetUnansweredNumberForDepartment(department, period, year)).ReturnsAsync(expectedNumber);
-            _appealController = new RedirectedAppealController(_appealRepositoryMock.Object);
 
-            var actionResult = await _appealController.GetUnansweredNumber(department, period, year);
+            var actionResult = await _sutAppealController.GetUnansweredNumber(department, period, year);
             var resultNumber = Assert.IsType<OkObjectResult>(actionResult).Value;
 
             Assert.Equal(expectedNumber, resultNumber);
         }
-
 
         [Fact]
         public async Task GetByDistricts_ShouldPass_ExpectedCollectionOfDistricts()
@@ -159,14 +150,12 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             var expectedDistricts = GetRandom.StringCollection(10, 7);
 
             _appealRepositoryMock.Setup(m => m.GetRedirectedAppealsByDistricts(period, year)).ReturnsAsync(expectedDistricts);
-            _appealController = new RedirectedAppealController(_appealRepositoryMock.Object);
 
-            var actionResult = await _appealController.GetByDistricts(period, year);
+            var actionResult = await _sutAppealController.GetByDistricts(period, year);
             var resultDistricts = Assert.IsType<OkObjectResult>(actionResult).Value;
 
             Assert.Equal(expectedDistricts, resultDistricts);
         }
-
 
         [Fact]
         public async Task GetByDistrictsForDepartment_ShouldPass_ExpectedCollectionOfDistricts()
@@ -177,9 +166,8 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             var expectedDistricts = GetRandom.StringCollection(10, 7);
 
             _appealRepositoryMock.Setup(m => m.GetRedirectedAppelsByDistrictsForDepartment(department, period, year)).ReturnsAsync(expectedDistricts);
-            _appealController = new RedirectedAppealController(_appealRepositoryMock.Object);
 
-            var actionResult = await _appealController.GetByDistrictsForDepartment(department, period, year);
+            var actionResult = await _sutAppealController.GetByDistrictsForDepartment(department, period, year);
             var resultDistricts = Assert.IsType<OkObjectResult>(actionResult).Value;
 
             Assert.Equal(expectedDistricts, resultDistricts);
@@ -192,9 +180,8 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             var expectedAppeal = GenerateAppealModelDTO();
 
             _appealRepositoryMock.Setup(m => m.GetRedirectedAppealById(appealId)).ReturnsAsync(expectedAppeal);
-            _appealController = new RedirectedAppealController(_appealRepositoryMock.Object);
 
-            var actionResult = await _appealController.GetAppeal(appealId);
+            var actionResult = await _sutAppealController.GetAppeal(appealId);
             var resultAppeal = Assert.IsType<OkObjectResult>(actionResult).Value;
 
             Assert.Equal(expectedAppeal, resultAppeal);
@@ -206,9 +193,8 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             var appeal = GenerateAppealModelDTO();
 
             _appealRepositoryMock.Setup(m => m.AddRedirectedAppeal(appeal));
-            _appealController = new RedirectedAppealController(_appealRepositoryMock.Object);
 
-            await _appealController.Post(appeal);
+            await _sutAppealController.Post(appeal);
 
             _appealRepositoryMock.Verify(m => m.AddRedirectedAppeal(appeal), Times.Once);
         }
@@ -219,9 +205,8 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             var appeal = GenerateAppealModelDTO();
 
             _appealRepositoryMock.Setup(m => m.UpdateRedirectedAppeal(appeal));
-            _appealController = new RedirectedAppealController(_appealRepositoryMock.Object);
 
-            await _appealController.Put(appeal);
+            await _sutAppealController.Put(appeal);
 
             _appealRepositoryMock.Verify(m => m.UpdateRedirectedAppeal(appeal), Times.Once);
         }
@@ -232,22 +217,18 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             var appealId = GetRandom.Byte();
 
             _appealRepositoryMock.Setup(m => m.DeleteRedirectedAppeal(appealId));
-            _appealController = new RedirectedAppealController(_appealRepositoryMock.Object);
 
-            await _appealController.Delete(appealId);
+            await _sutAppealController.Delete(appealId);
 
             _appealRepositoryMock.Verify(m => m.DeleteRedirectedAppeal(appealId), Times.Once);
         }
 
-        #endregion
-
-
-        private List<RedirectedAppealModelDTO> GetTestRedirectedAppealModelDTOs(int capacity)
+        private IEnumerable<RedirectedAppealModelDTO> GetTestRedirectedAppealModelDTOs(int capacity)
         {
-            List<RedirectedAppealModelDTO> resultList = new();
+            var resultList = new RedirectedAppealModelDTO[capacity];
             for (int i = 0; i < capacity; i++)
             {
-                resultList.Add(GenerateAppealModelDTO());
+                resultList[i] = GenerateAppealModelDTO();
             }
             return resultList;
         }
@@ -268,14 +249,6 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
                 RecipientAgency = GetRandom.String(),
                 DecisionBasis = GetRandom.String()
             };
-        }
-
-
-        [Fact]
-        public void GetTestRedirectedAppealModelDTOsTest() //DELETE
-        {
-            var result = GetRandom.StringCollection(10,5);
-            Assert.Equal(10, result.Count());
         }
     }
 }

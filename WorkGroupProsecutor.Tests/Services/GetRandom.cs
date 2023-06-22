@@ -747,12 +747,12 @@ namespace WorkGroupProsecutor.Tests.Services
             return result;
         }
 
-        public static IEnumerable<string> StringCollection(int capacity, int stringLength)
+        public static IEnumerable<string> StringCollection(int capacity, int stringMaxLength)
         {
             var stringArray = new string[capacity];
             for (int i = 0; i < capacity; i++)
             {
-                stringArray[i] = String(stringLength);
+                stringArray[i] = String(stringMaxLength);
             }
 
             return stringArray;
