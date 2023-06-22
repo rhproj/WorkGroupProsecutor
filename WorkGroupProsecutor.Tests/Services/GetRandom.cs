@@ -401,22 +401,6 @@ namespace WorkGroupProsecutor.Tests.Services
             return Element((IEnumerable<TEnum>)Enum.GetValues(enumType), exclude);
         }
 
-        /// <summary>Returns a randomly-chosen first name.</summary>
-        /// <param name="male">A nullable Boolean value indicating whether the name should be male or female.</param>
-        /// <returns>
-        ///     If <paramref name="male" /> is true, a male name; If false, a female name; If null, a randomly-chosen male or
-        ///     female name.
-        /// </returns>
-        public static string FirstName(bool? male = null)
-        {
-            if (!male.HasValue)
-            {
-                male = Bool();
-            }
-
-            var result = Element(male.Value ? Names.Male : Names.Female);
-            return result;
-        }
 
         public static string GetStringPrefix()
         {
@@ -619,20 +603,6 @@ namespace WorkGroupProsecutor.Tests.Services
             return result;
         }
 
-        /// <summary>Returns a randomly-chosen last name.</summary>
-        /// <returns>A string containing a last name chosen at random from a list of typical names.</returns>
-        public static string LastName()
-        {
-            var result = Element(Names.Last);
-            return result;
-        }
-
-        /// <summary>Returns a randomly-chosen first and last name.</summary>
-        /// <returns>A string containing a first and last name chosen at random from a list of typical names.</returns>
-        public static string Name()
-        {
-            return FirstName() + " " + LastName();
-        }
 
         /// <summary>Returns an instance of the specified class.</summary>
         /// <typeparam name="T">The type of the class to return.</typeparam>
@@ -777,6 +747,17 @@ namespace WorkGroupProsecutor.Tests.Services
             return result;
         }
 
+        public static IEnumerable<string> StringCollection(int capacity, int stringLength)
+        {
+            var stringArray = new string[capacity];
+            for (int i = 0; i < capacity; i++)
+            {
+                stringArray[i] = String(stringLength);
+            }
+
+            return stringArray;
+        }
+
         public static class Names
         {
             public static readonly string[] Cities =
@@ -802,158 +783,6 @@ namespace WorkGroupProsecutor.Tests.Services
                 "Vandalia", "Van Wert", "Vermilion", "Vienna Center",
                 "Wadsworth", "Wapakoneta", "Warren", "Warrensville Heights", "Washington", "Wauseon", "Waverly City", "Wellston", "West Carrollton City", "Westerville", "West Hill", "Westlake", "West Portsmouth", "Wetherington", "Wheelersburg", "Whitehall", "White Oak", "White Oak East", "White Oak West", "Wickliffe", "Wilberforce", "Willard", "Willoughby", "Willoughby Hills", "Willowick", "Wilmington", "Withamsville", "Woodbourne-Hyde Park", "Wooster", "Worthington", "Wright-Patterson AFB", "Wyoming",
                 "Xenia", "Youngstown", "Zanesville"
-            };
-
-            public static readonly string[] Female =
-            {
-                "Aaliyah", "Abby", "Abigail", "Addison", "Adriana", "Adrianna", "Alana", "Alexa", "Alexandra", "Alexandria",
-                "Alexia", "Alexis", "Alicia", "Allison", "Alondra", "Alyssa", "Amanda", "Amber", "Amelia", "Amy",
-                "Ana", "Andrea", "Angel", "Angela", "Angelica", "Angelina", "Anna", "Ariana", "Arianna", "Ashley",
-                "Ashlyn", "Aubrey", "Audrey", "Autumn", "Ava", "Avery", "Bailey", "Bianca", "Breanna", "Briana",
-                "Brianna", "Brittany", "Brooke", "Brooklyn", "Caitlin", "Caitlyn", "Camila", "Caroline", "Cassandra", "Cassidy",
-                "Catherine", "Charlotte", "Chelsea", "Cheyenne", "Chloe", "Christina", "Claire", "Courtney", "Crystal", "Daisy",
-                "Daniela", "Danielle", "Delaney", "Destiny", "Diana", "Elizabeth", "Ella", "Ellie", "Emily", "Emma",
-                "Erica", "Erin", "Eva", "Evelyn", "Faith", "Gabriela", "Gabriella", "Gabrielle", "Genesis", "Gianna",
-                "Giselle", "Grace", "Gracie", "Hailey", "Haley", "Hannah", "Hope", "Isabel", "Isabella", "Isabelle",
-                "Jacqueline", "Jada", "Jade", "Jasmin", "Jasmine", "Jayla", "Jazmin", "Jenna", "Jennifer", "Jessica",
-                "Jillian", "Jocelyn", "Jordan", "Jordyn", "Julia", "Juliana", "Kaitlyn", "Karen", "Karina", "Kate",
-                "Katelyn", "Katherine", "Kathryn", "Katie", "Kayla", "Kaylee", "Kelly", "Kelsey", "Kendall", "Kennedy",
-                "Kiara", "Kimberly", "Kylee", "Kylie", "Laura", "Lauren", "Layla", "Leah", "Leslie", "Liliana",
-                "Lillian", "Lilly", "Lily", "Lindsey", "Lucy", "Lydia", "Mackenzie", "Madeline", "Madelyn", "Madison",
-                "Makayla", "Makenzie", "Margaret", "Maria", "Mariah", "Marissa", "Mary", "Maya", "Mckenzie", "Megan",
-                "Melanie", "Melissa", "Mia", "Michelle", "Mikayla", "Miranda", "Molly", "Morgan", "Mya", "Naomi",
-                "Natalia", "Natalie", "Nevaeh", "Nicole", "Olivia", "Paige", "Payton", "Peyton", "Rachel", "Reagan",
-                "Rebecca", "Riley", "Ruby", "Rylee", "Sabrina", "Sadie", "Samantha", "Sara", "Sarah", "Savannah",
-                "Serenity", "Shelby", "Sierra", "Skylar", "Sofia", "Sophia", "Sophie", "Stephanie", "Summer", "Sydney",
-                "Taylor", "Tiffany", "Trinity", "Valeria", "Valerie", "Vanessa", "Veronica", "Victoria", "Zoe", "Zoey"
-            };
-
-            public static readonly string[] Last =
-            {
-                "Abbott", "Acevedo", "Acosta", "Adams", "Adkins", "Aguilar", "Aguirre", "Albert", "Alexander", "Alford",
-                "Allen", "Allison", "Alston", "Alvarado", "Alvarez", "Anderson", "Andrews", "Anthony", "Armstrong", "Arnold",
-                "Ashley", "Atkins", "Atkinson", "Austin", "Avery", "Avila", "Ayala", "Ayers", "Bailey", "Baird",
-                "Baker", "Baldwin", "Ball", "Ballard", "Banks", "Barber", "Barker", "Barlow", "Barnes", "Barnett",
-                "Barr", "Barrera", "Barrett", "Barron", "Barry", "Bartlett", "Barton", "Bass", "Bates", "Battle",
-                "Bauer", "Baxter", "Beach", "Bean", "Beard", "Beasley", "Beck", "Becker", "Bell", "Bender",
-                "Benjamin", "Bennett", "Benson", "Bentley", "Benton", "Berg", "Berger", "Bernard", "Berry", "Best",
-                "Bird", "Bishop", "Black", "Blackburn", "Blackwell", "Blair", "Blake", "Blanchard", "Blankenship", "Blevins",
-                "Bolton", "Bond", "Bonner", "Booker", "Boone", "Booth", "Bowen", "Bowers", "Bowman", "Boyd",
-                "Boyer", "Boyle", "Bradford", "Bradley", "Bradshaw", "Brady", "Branch", "Bray", "Brennan", "Brewer",
-                "Bridges", "Briggs", "Bright", "Britt", "Brock", "Brooks", "Brown", "Browning", "Bruce", "Bryan",
-                "Bryant", "Buchanan", "Buck", "Buckley", "Buckner", "Bullock", "Burch", "Burgess", "Burke", "Burks",
-                "Burnett", "Burns", "Burris", "Burt", "Burton", "Bush", "Butler", "Byers", "Byrd", "Cabrera",
-                "Cain", "Calderon", "Caldwell", "Calhoun", "Callahan", "Camacho", "Cameron", "Campbell", "Campos", "Cannon",
-                "Cantrell", "Cantu", "Cardenas", "Carey", "Carlson", "Carney", "Carpenter", "Carr", "Carrillo", "Carroll",
-                "Carson", "Carter", "Carver", "Case", "Casey", "Cash", "Castaneda", "Castillo", "Castro", "Cervantes",
-                "Chambers", "Chan", "Chandler", "Chaney", "Chang", "Chapman", "Charles", "Chase", "Chavez", "Chen",
-                "Cherry", "Christensen", "Christian", "Church", "Clark", "Clarke", "Clay", "Clayton", "Clements", "Clemons",
-                "Cleveland", "Cline", "Cobb", "Cochran", "Coffey", "Cohen", "Cole", "Coleman", "Collier", "Collins",
-                "Colon", "Combs", "Compton", "Conley", "Conner", "Conrad", "Contreras", "Conway", "Cook", "Cooke",
-                "Cooley", "Cooper", "Copeland", "Cortez", "Cote", "Cotton", "Cox", "Craft", "Craig", "Crane",
-                "Crawford", "Crosby", "Cross", "Cruz", "Cummings", "Cunningham", "Curry", "Curtis", "Dale", "Dalton",
-                "Daniel", "Daniels", "Daugherty", "Davenport", "David", "Davidson", "Davis", "Dawson", "Day", "Dean",
-                "Decker", "Dejesus", "Delacruz", "Delaney", "Deleon", "Delgado", "Dennis", "Diaz", "Dickerson", "Dickson",
-                "Dillard", "Dillon", "Dixon", "Dodson", "Dominguez", "Donaldson", "Donovan", "Dorsey", "Dotson", "Douglas",
-                "Downs", "Doyle", "Drake", "Dudley", "Duffy", "Duke", "Duncan", "Dunlap", "Dunn", "Duran",
-                "Durham", "Dyer", "Eaton", "Edwards", "Elliott", "Ellis", "Ellison", "Emerson", "England", "English",
-                "Erickson", "Espinoza", "Estes", "Estrada", "Evans", "Everett", "Ewing", "Farley", "Farmer", "Farrell",
-                "Faulkner", "Ferguson", "Fernandez", "Ferrell", "Fields", "Figueroa", "Finch", "Finley", "Fischer", "Fisher",
-                "Fitzgerald", "Fitzpatrick", "Fleming", "Fletcher", "Flores", "Flowers", "Floyd", "Flynn", "Foley", "Forbes",
-                "Ford", "Foreman", "Foster", "Fowler", "Fox", "Francis", "Franco", "Frank", "Franklin", "Franks",
-                "Frazier", "Frederick", "Freeman", "French", "Frost", "Fry", "Frye", "Fuentes", "Fuller", "Fulton",
-                "Gaines", "Gallagher", "Gallegos", "Galloway", "Gamble", "Garcia", "Gardner", "Garner", "Garrett", "Garrison",
-                "Garza", "Gates", "Gay", "Gentry", "George", "Gibbs", "Gibson", "Gilbert", "Giles", "Gill",
-                "Gillespie", "Gilliam", "Gilmore", "Glass", "Glenn", "Glover", "Goff", "Golden", "Gomez", "Gonzales",
-                "Gonzalez", "Good", "Goodman", "Goodwin", "Gordon", "Gould", "Graham", "Grant", "Graves", "Gray",
-                "Green", "Greene", "Greer", "Gregory", "Griffin", "Griffith", "Grimes", "Gross", "Guerra", "Guerrero",
-                "Guthrie", "Gutierrez", "Guy", "Guzman", "Hahn", "Hale", "Haley", "Hall", "Hamilton", "Hammond",
-                "Hampton", "Hancock", "Haney", "Hansen", "Hanson", "Hardin", "Harding", "Hardy", "Harmon", "Harper",
-                "Harrell", "Harrington", "Harris", "Harrison", "Hart", "Hartman", "Harvey", "Hatfield", "Hawkins", "Hayden",
-                "Hayes", "Haynes", "Hays", "Head", "Heath", "Hebert", "Henderson", "Hendricks", "Hendrix", "Henry",
-                "Hensley", "Henson", "Herman", "Hernandez", "Herrera", "Herring", "Hess", "Hester", "Hewitt", "Hickman",
-                "Hicks", "Higgins", "Hill", "Hines", "Hinton", "Hobbs", "Hodge", "Hodges", "Hoffman", "Hogan",
-                "Holcomb", "Holden", "Holder", "Holland", "Holloway", "Holman", "Holmes", "Holt", "Hood", "Hooper",
-                "Hoover", "Hopkins", "Hopper", "Horn", "Horne", "Horton", "House", "Houston", "Howard", "Howe",
-                "Howell", "Hubbard", "Huber", "Hudson", "Huff", "Huffman", "Hughes", "Hull", "Humphrey", "Hunt",
-                "Hunter", "Hurley", "Hurst", "Hutchinson", "Hyde", "Ingram", "Irwin", "Jackson", "Jacobs", "Jacobson",
-                "James", "Jarvis", "Jefferson", "Jenkins", "Jennings", "Jensen", "Jimenez", "Johns", "Johnson", "Johnston",
-                "Jones", "Jordan", "Joseph", "Joyce", "Joyner", "Juarez", "Justice", "Kane", "Kaufman", "Keith",
-                "Keller", "Kelley", "Kelly", "Kemp", "Kennedy", "Kent", "Kerr", "Key", "Kidd", "Kim",
-                "King", "Kinney", "Kirby", "Kirk", "Kirkland", "Klein", "Kline", "Knapp", "Knight", "Knowles",
-                "Knox", "Koch", "Kramer", "Lamb", "Lambert", "Lancaster", "Landry", "Lane", "Lang", "Langley",
-                "Lara", "Larsen", "Larson", "Lawrence", "Lawson", "Le", "Leach", "Leblanc", "Lee", "Leon",
-                "Leonard", "Lester", "Levine", "Levy", "Lewis", "Lindsay", "Lindsey", "Little", "Livingston", "Lloyd",
-                "Logan", "Long", "Lopez", "Lott", "Love", "Lowe", "Lowery", "Lucas", "Luna", "Lynch",
-                "Lynn", "Lyons", "MacDonald", "Macias", "Mack", "Madden", "Maddox", "Maldonado", "Malone", "Mann",
-                "Manning", "Marks", "Marquez", "Marsh", "Marshall", "Martin", "Martinez", "Mason", "Massey", "Mathews",
-                "Mathis", "Matthews", "Maxwell", "May", "Mayer", "Maynard", "Mayo", "Mays", "McBride", "McCall",
-                "McCarthy", "McCarty", "McClain", "McClure", "McConnell", "McCormick", "McCoy", "McCray", "McCullough", "McDaniel",
-                "McDonald", "McDowell", "McFadden", "McFarland", "McGee", "McGowan", "McGuire", "McIntosh", "McIntyre", "McKay",
-                "McKee", "McKenzie", "McKinney", "McKnight", "McLaughlin", "McLean", "McLeod", "McMahon", "McMillan", "McNeil",
-                "McPherson", "Meadows", "Medina", "Mejia", "Melendez", "Melton", "Mendez", "Mendoza", "Mercado", "Mercer",
-                "Merrill", "Merritt", "Meyer", "Meyers", "Michael", "Middleton", "Miles", "Miller", "Mills", "Miranda",
-                "Mitchell", "Molina", "Monroe", "Montgomery", "Montoya", "Moody", "Moon", "Mooney", "Moore", "Morales",
-                "Moran", "Moreno", "Morgan", "Morin", "Morris", "Morrison", "Morrow", "Morse", "Morton", "Moses",
-                "Mosley", "Moss", "Mueller", "Mullen", "Mullins", "Munoz", "Murphy", "Murray", "Myers", "Nash",
-                "Navarro", "Neal", "Nelson", "Newman", "Newton", "Nguyen", "Nichols", "Nicholson", "Nielsen", "Nieves",
-                "Nixon", "Noble", "Noel", "Nolan", "Norman", "Norris", "Norton", "Nunez", "O'Brien", "Ochoa",
-                "O'Connor", "Odom", "O'Donnell", "Oliver", "Olsen", "Olson", "O'Neal", "O'Neil", "O'Neill", "Orr",
-                "Ortega", "Ortiz", "Osborn", "Osborne", "Owen", "Owens", "Pace", "Pacheco", "Padilla", "Page",
-                "Palmer", "Park", "Parker", "Parks", "Parrish", "Parsons", "Pate", "Patel", "Patrick", "Patterson",
-                "Patton", "Paul", "Payne", "Pearson", "Peck", "Pena", "Pennington", "Perez", "Perkins", "Perry",
-                "Peters", "Petersen", "Peterson", "Petty", "Phelps", "Phillips", "Pickett", "Pierce", "Pittman", "Pitts",
-                "Pollard", "Poole", "Pope", "Porter", "Potter", "Potts", "Powell", "Powers", "Pratt", "Preston",
-                "Price", "Prince", "Pruitt", "Puckett", "Pugh", "Quinn", "Ramirez", "Ramos", "Ramsey", "Randall",
-                "Randolph", "Rasmussen", "Ratliff", "Ray", "Raymond", "Reed", "Reese", "Reeves", "Reid", "Reilly",
-                "Reyes", "Reynolds", "Rhodes", "Rice", "Rich", "Richard", "Richards", "Richardson", "Richmond", "Riddle",
-                "Riggs", "Riley", "Rios", "Rivas", "Rivera", "Rivers", "Roach", "Robbins", "Roberson", "Roberts",
-                "Robertson", "Robinson", "Robles", "Rocha", "Rodgers", "Rodriguez", "Rodriquez", "Rogers", "Rojas", "Rollins",
-                "Roman", "Romero", "Rosa", "Rosales", "Rosario", "Rose", "Ross", "Roth", "Rowe", "Rowland",
-                "Roy", "Ruiz", "Rush", "Russell", "Russo", "Rutledge", "Ryan", "Salas", "Salazar", "Salinas",
-                "Sampson", "Sanchez", "Sanders", "Sandoval", "Sanford", "Santana", "Santiago", "Santos", "Sargent", "Saunders",
-                "Savage", "Sawyer", "Schmidt", "Schneider", "Schroeder", "Schultz", "Schwartz", "Scott", "Sears", "Sellers",
-                "Serrano", "Sexton", "Shaffer", "Shannon", "Sharp", "Sharpe", "Shaw", "Shelton", "Shepard", "Shepherd",
-                "Sheppard", "Sherman", "Shields", "Short", "Silva", "Simmons", "Simon", "Simpson", "Sims", "Singleton",
-                "Skinner", "Slater", "Sloan", "Small", "Smith", "Snider", "Snow", "Snyder", "Solis", "Solomon",
-                "Sosa", "Soto", "Sparks", "Spears", "Spence", "Spencer", "Stafford", "Stanley", "Stanton", "Stark",
-                "Steele", "Stein", "Stephens", "Stephenson", "Stevens", "Stevenson", "Stewart", "Stokes", "Stone", "Stout",
-                "Strickland", "Strong", "Stuart", "Suarez", "Sullivan", "Summers", "Sutton", "Swanson", "Sweeney", "Sweet",
-                "Sykes", "Talley", "Tanner", "Tate", "Taylor", "Terrell", "Terry", "Thomas", "Thompson", "Thornton",
-                "Tillman", "Todd", "Torres", "Townsend", "Tran", "Travis", "Trevino", "Trujillo", "Tucker", "Turner",
-                "Tyler", "Tyson", "Underwood", "Valdez", "Valencia", "Valentine", "Valenzuela", "Vance", "Vang", "Vargas",
-                "Vasquez", "Vaughan", "Vaughn", "Vazquez", "Vega", "Velasquez", "Velazquez", "Velez", "Villarreal", "Vincent",
-                "Vinson", "Wade", "Wagner", "Walker", "Wall", "Wallace", "Waller", "Walls", "Walsh", "Walter",
-                "Walters", "Walton", "Ward", "Ware", "Warner", "Warren", "Washington", "Waters", "Watkins", "Watson",
-                "Watts", "Weaver", "Webb", "Weber", "Webster", "Weeks", "Weiss", "Welch", "Wells", "West",
-                "Wheeler", "Whitaker", "White", "Whitehead", "Whitfield", "Whitley", "Whitney", "Wiggins", "Wilcox", "Wilder",
-                "Wiley", "Wilkerson", "Wilkins", "Wilkinson", "William", "Williams", "Williamson", "Willis", "Wilson", "Winters",
-                "Wise", "Witt", "Wolf", "Wolfe", "Wong", "Wood", "Woodard", "Woods", "Woodward", "Wooten",
-                "Workman", "Wright", "Wyatt", "Wynn", "Yang", "Yates", "York", "Young", "Zamora", "Zimmerman"
-            };
-
-            public static readonly string[] Male =
-            {
-                "Aaron", "Abraham", "Adam", "Adrian", "Aidan", "Aiden", "Alan", "Alejandro", "Alex", "Alexander",
-                "Alexis", "Andres", "Andrew", "Angel", "Anthony", "Antonio", "Ashton", "Austin", "Ayden", "Benjamin",
-                "Blake", "Braden", "Bradley", "Brady", "Brandon", "Brayden", "Brendan", "Brian", "Brody", "Bryan",
-                "Bryce", "Bryson", "Caden", "Caleb", "Cameron", "Carlos", "Carson", "Carter", "Cesar", "Charles",
-                "Chase", "Christian", "Christopher", "Cody", "Colby", "Cole", "Colin", "Collin", "Colton", "Conner",
-                "Connor", "Cooper", "Cristian", "Dakota", "Dalton", "Damian", "Daniel", "David", "Derek", "Devin",
-                "Devon", "Diego", "Dominic", "Donovan", "Dylan", "Edgar", "Eduardo", "Edward", "Edwin", "Eli",
-                "Elias", "Elijah", "Emmanuel", "Eric", "Erick", "Erik", "Ethan", "Evan", "Fernando", "Francisco",
-                "Gabriel", "Gage", "Garrett", "Gavin", "George", "Giovanni", "Grant", "Gregory", "Hayden", "Hector",
-                "Henry", "Hunter", "Ian", "Isaac", "Isaiah", "Ivan", "Jack", "Jackson", "Jacob", "Jaden",
-                "Jake", "Jalen", "James", "Jared", "Jason", "Javier", "Jayden", "Jeffrey", "Jeremiah", "Jeremy",
-                "Jesse", "Jesus", "Joel", "John", "Johnathan", "Jonah", "Jonathan", "Jordan", "Jorge", "Jose",
-                "Joseph", "Joshua", "Josiah", "Juan", "Julian", "Justin", "Kaden", "Kaleb", "Kenneth", "Kevin",
-                "Kyle", "Landon", "Leonardo", "Levi", "Liam", "Logan", "Lucas", "Luis", "Luke", "Malachi",
-                "Manuel", "Marco", "Marcus", "Mario", "Mark", "Martin", "Mason", "Matthew", "Max", "Maxwell",
-                "Micah", "Michael", "Miguel", "Nathan", "Nathaniel", "Nicholas", "Nicolas", "Noah", "Nolan", "Oliver",
-                "Omar", "Oscar", "Owen", "Parker", "Patrick", "Paul", "Peter", "Peyton", "Preston", "Raymond",
-                "Ricardo", "Richard", "Riley", "Robert", "Ryan", "Samuel", "Sean", "Sebastian", "Sergio", "Seth",
-                "Shane", "Shawn", "Spencer", "Stephen", "Steven", "Tanner", "Thomas", "Timothy", "Travis", "Trenton",
-                "Trevor", "Tristan", "Tyler", "Victor", "Vincent", "Wesley", "William", "Wyatt", "Xavier", "Zachary"
             };
         }
     }
