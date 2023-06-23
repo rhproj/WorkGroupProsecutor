@@ -453,6 +453,10 @@ namespace WorkGroupProsecutor.Tests.Services
             return Int16(minValue, maxValue, null);
         }
 
+        public static short Year()
+        {
+            return Int16(2000, 3000);
+        }
         /// <summary>
         ///     Returns a nonnegative random <see cref="short" /> value within the specified range, excluding the specified
         ///     value.
