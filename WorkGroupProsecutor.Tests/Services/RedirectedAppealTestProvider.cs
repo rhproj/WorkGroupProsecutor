@@ -42,18 +42,8 @@ namespace WorkGroupProsecutor.Tests.Services
                 YearInfo = year,
                 PeriodInfo = period,
                 District = district,
-                Department = GenerateDepartment(department),
+                Department = DepartmentGenerator.GenerateDepartment(department),
                 DepartmentAssessment = assessment
-            };
-        }
-
-        private static Department GenerateDepartment(string departmentIndex)
-        {
-            return new Department()
-            {
-                Id = GetRandom.Id(),
-                DepartmentIndex = departmentIndex,
-                DepartmentName = GetRandom.String()
             };
         }
 
@@ -82,7 +72,7 @@ namespace WorkGroupProsecutor.Tests.Services
                 District = GetRandom.String(),
                 RecipientAgency = GetRandom.String(),
                 DecisionBasis = GetRandom.String(),
-                Department = GenerateDepartment(GetRandom.String(3))
+                Department = DepartmentGenerator.GenerateDepartment(GetRandom.String(3))
             };
         }
     }

@@ -1,54 +1,65 @@
-﻿using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
-using WorkGroupProsecutor.Shared.Models.Participants;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using WorkGroupProsecutor.Server.Data.Context;
+using WorkGroupProsecutor.Server.Data.Repositories;
+using WorkGroupProsecutor.Server.Mapper;
+using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
 using WorkGroupProsecutor.Tests.Services;
 
 namespace WorkGroupProsecutor.Tests.RepositoriesTests
 {
-    public class RedirectedAppealRepositoryTests : RedirectedAppealRepositoryTestBase
+    public class NoSolutionReturnsAppealRepositoryTests : NoSolutionReturnsAppealRepositoryTestBase
     {
         private int _testYear = 2030;
 
+
+
         [Fact]
-        public async Task GetAllRedirectedPeriods_ShouldReturnExpectedPeriods()
+        public async Task GetAllNoSolutionReturnsPeriods_ShouldReturnExpectedPeriods()
         {
             var expectedPeriods = new string[] { "period1", "period2", "period3" };
 
-            var result = await _sutRedirectedAppealRepository.GetAllRedirectedPeriods(_testYear);
+            var result = await _sutNoSolutionReturnsAppealRepository.GetAllNoSolutionReturnsPeriods(_testYear);
 
             Assert.Equal(expectedPeriods, result);
         }
 
         [Fact]
-        public async Task GetRedirectedPeriodsByDistrict_ShouldReturnExpectedPeriods()
+        public async Task GetNoSolutionReturnsPeriodsByDistrict_ShouldReturnExpectedPeriods()
         {
             var testDistrict = "district3";
 
             var expectedPeriods = new string[] { "period1", "period3" };
 
-            var result = await _sutRedirectedAppealRepository.GetRedirectedPeriodsByDistrict(testDistrict, _testYear);
+            var result = await _sutNoSolutionReturnsAppealRepository.GetNoSolutionReturnsPeriodsByDistrict(testDistrict, _testYear);
 
             Assert.Equal(expectedPeriods, result);
         }
 
         [Fact]
-        public async Task GetRedirectedPeriodsForDepartment_ShouldReturnExpectedPeriods()
+        public async Task GetNoSolutionReturnsPeriodsForDepartment_ShouldReturnExpectedPeriods()
         {
             var testDepartmentIdx = "D01";
 
             var expectedPeriods = new string[] { "period1", "period2" };
 
-            var result = await _sutRedirectedAppealRepository.GetRedirectedPeriodsForDepartment(testDepartmentIdx, _testYear);
+            var result = await _sutNoSolutionReturnsAppealRepository.GetNoSolutionReturnsPeriodsForDepartment(testDepartmentIdx, _testYear);
 
             Assert.Equal(expectedPeriods, result);
         }
 
         [Fact]
-        public async Task GetAllRedirectedAppeals_ShouldReturnExpectedAppeals()
+        public async Task GetAllNoSolutionReturnsAppeals_ShouldReturnExpectedAppeals()
         {
             var testPeriod = "period1";
             var testDistrict = "district3";
 
-            var result = await _sutRedirectedAppealRepository.GetAllRedirectedAppeals(testDistrict, testPeriod, _testYear);
+            var result = await _sutNoSolutionReturnsAppealRepository.GetAllNoSolutionReturnsAppeals(testDistrict, testPeriod, _testYear);
 
             Assert.Equal(4, result.Count());
             Assert.Collection(result,
@@ -59,14 +70,14 @@ namespace WorkGroupProsecutor.Tests.RepositoriesTests
         }
 
         [Fact]
-        public async Task GetAllRedirectedAppealsByDepartment_ShouldReturnExpectedAppeals()
+        public async Task GetAllNoSolutionReturnsAppealsByDepartment_ShouldReturnExpectedAppeals()
         {
             var testPeriod = "period1";
             var testDistrict = "district3";
             var department = "D01";
 
-            var result = await _sutRedirectedAppealRepository.GetAllRedirectedAppealsByDepartment(testDistrict, department, testPeriod, _testYear);
-            
+            var result = await _sutNoSolutionReturnsAppealRepository.GetAllNoSolutionReturnsAppealsByDepartment(testDistrict, department, testPeriod, _testYear);
+
             Assert.Equal(2, result.Count());
             Assert.Collection(result,
                 a => { Assert.Equal(department, a.Department.DepartmentIndex); Assert.Equal(_testYear, a.YearInfo); Assert.Equal(testPeriod, a.PeriodInfo); Assert.Equal(testDistrict, a.District); },
@@ -74,17 +85,17 @@ namespace WorkGroupProsecutor.Tests.RepositoriesTests
         }
 
         [Fact]
-        public async Task GetAllRedirectedUnansweredForDepartment_ShouldReturnExpectedAppeals()
+        public async Task GetAllNoSolutionReturnsUnansweredForDepartment_ShouldReturnExpectedAppeals()
         {
             var testPeriod = "period1";
             var department = "K01";
 
-            var result = await _sutRedirectedAppealRepository.GetAllRedirectedUnansweredForDepartment(department, testPeriod, _testYear);
+            var result = await _sutNoSolutionReturnsAppealRepository.GetAllNoSolutionReturnsUnansweredForDepartment(department, testPeriod, _testYear);
 
             Assert.Equal(2, result.Count());
             Assert.Collection(result,
-                a => { Assert.Equal(department, a.Department.DepartmentIndex); Assert.Equal(_testYear, a.YearInfo); Assert.Equal(testPeriod, a.PeriodInfo);},
-                a => { Assert.Equal(department, a.Department.DepartmentIndex); Assert.Equal(_testYear, a.YearInfo); Assert.Equal(testPeriod, a.PeriodInfo);});
+                a => { Assert.Equal(department, a.Department.DepartmentIndex); Assert.Equal(_testYear, a.YearInfo); Assert.Equal(testPeriod, a.PeriodInfo); },
+                a => { Assert.Equal(department, a.Department.DepartmentIndex); Assert.Equal(_testYear, a.YearInfo); Assert.Equal(testPeriod, a.PeriodInfo); });
         }
 
         [Fact]
@@ -93,41 +104,41 @@ namespace WorkGroupProsecutor.Tests.RepositoriesTests
             var testPeriod = "period1";
             var department = "K01";
 
-            var result = await _sutRedirectedAppealRepository.GetUnansweredNumberForDepartment(department, testPeriod, _testYear);
+            var result = await _sutNoSolutionReturnsAppealRepository.GetUnansweredNumberForDepartment(department, testPeriod, _testYear);
 
             Assert.Equal(2, result);
         }
-                        
+
         [Fact]
-        public async Task GetRedirectedAppealsByDistricts_ShouldReturnExpectedDistricts()
+        public async Task GetNoSolutionReturnsAppealsByDistricts_ShouldReturnExpectedDistricts()
         {
             var testPeriod = "period1";
             var expectedDistricts = new string[] { "district3", "district2" };
 
-            var result = await _sutRedirectedAppealRepository.GetRedirectedAppealsByDistricts(testPeriod, _testYear);
+            var result = await _sutNoSolutionReturnsAppealRepository.GetNoSolutionReturnsAppealsByDistricts(testPeriod, _testYear);
 
             Assert.Equal(expectedDistricts, result);
         }
 
         [Fact]
-        public async Task GetRedirectedAppelsByDistrictsForDepartment_ShouldReturnExpectedDistricts()
+        public async Task GetNoSolutionReturnsAppelsByDistrictsForDepartment_ShouldReturnExpectedDistricts()
         {
             var testPeriod = "period1";
             var department = "K01";
             var expectedDistricts = new string[] { "district3" };
 
-            var result = await _sutRedirectedAppealRepository.GetRedirectedAppelsByDistrictsForDepartment(department, testPeriod, _testYear);
+            var result = await _sutNoSolutionReturnsAppealRepository.GetNoSolutionReturnsAppelsByDistrictsForDepartment(department, testPeriod, _testYear);
 
             Assert.Equal(expectedDistricts, result);
         }
 
         [Fact]
-        public async Task GetRedirectedAppealById_ShouldReturnExpectedAppeal()
+        public async Task GetNoSolutionReturnsAppealById_ShouldReturnExpectedAppeal()
         {
-            var id = 10;                   
-            var expectedAppeal = new RedirectedAppealModelDTO { Id = 10, YearInfo = 2030, PeriodInfo = "period1", District = "district3"}; //_mapper.Map<RedirectedAppealModelDTO>(appealToAdd);
+            var id = 10;
+            var expectedAppeal = new RedirectedAppealModelDTO { Id = 10, YearInfo = 2030, PeriodInfo = "period1", District = "district3" }; //_mapper.Map<RedirectedAppealModelDTO>(appealToAdd);
 
-            var result = await _sutRedirectedAppealRepository.GetRedirectedAppealById(id);
+            var result = await _sutNoSolutionReturnsAppealRepository.GetNoSolutionReturnsAppealById(id);
 
             Assert.Equal(expectedAppeal.Id, result.Id);
             Assert.Equal(expectedAppeal.YearInfo, result.YearInfo);
@@ -136,9 +147,9 @@ namespace WorkGroupProsecutor.Tests.RepositoriesTests
         }
 
         [Fact]
-        public async Task AddRedirectedAppeal_ShouldAdd_1Appeal()
+        public async Task AddNoSolutionReturnsAppeal_ShouldAdd_1Appeal()
         {
-            var appealToAdd = new RedirectedAppealModelDTO
+            var appealToAdd = new NoSolutionReturnsAppealModelDTO
             {
                 Id = 11,
                 YearInfo = _testYear,
@@ -146,17 +157,17 @@ namespace WorkGroupProsecutor.Tests.RepositoriesTests
                 District = GetRandom.String(),
                 ApplicantFullName = GetRandom.String(),
                 RegistrationNumber = GetRandom.String(),
+                DepartmentResolution = GetRandom.String(),
                 DecisionBasis = GetRandom.String(),
                 DepartmentAssessment = GetRandom.String(),
-                RecipientAgency = GetRandom.String(),
                 NadzorHyperlink = GetRandom.String(),
                 DepartmentId = GetRandom.Byte()
             };
 
-            await _sutRedirectedAppealRepository.AddRedirectedAppeal(appealToAdd);
+            await _sutNoSolutionReturnsAppealRepository.AddNoSolutionReturnsAppeal(appealToAdd);
 
-            Assert.Equal(11,_dbContext.RedirectedAppeal.Count());
-            Assert.Contains(_dbContext.RedirectedAppeal, a => a.Id == 11);
+            Assert.Equal(11, _dbContext.NoSolutionAppeal.Count());
+            Assert.Contains(_dbContext.NoSolutionAppeal, a => a.Id == 11);
         }
 
         [Fact]
@@ -164,7 +175,7 @@ namespace WorkGroupProsecutor.Tests.RepositoriesTests
         {
             int targetId = 5;
 
-            var expectedAppeal = new RedirectedAppealModelDTO
+            var expectedAppeal = new NoSolutionReturnsAppealModelDTO
             {
                 Id = targetId,
                 YearInfo = _testYear,
@@ -174,15 +185,15 @@ namespace WorkGroupProsecutor.Tests.RepositoriesTests
                 RegistrationNumber = GetRandom.String(),
                 DecisionBasis = GetRandom.String(),
                 DepartmentAssessment = GetRandom.String(),
-                RecipientAgency = GetRandom.String(),
                 NadzorHyperlink = GetRandom.String(),
-                DepartmentId = GetRandom.Byte()
+                DepartmentId = GetRandom.Byte(),
+                DepartmentResolution= GetRandom.String()
             };
-            await _sutRedirectedAppealRepository.UpdateRedirectedAppeal(expectedAppeal);
+            await _sutNoSolutionReturnsAppealRepository.UpdateNoSolutionReturnsAppeal(expectedAppeal);
 
-            var result = await _sutRedirectedAppealRepository.GetRedirectedAppealById(targetId);
+            var result = await _sutNoSolutionReturnsAppealRepository.GetNoSolutionReturnsAppealById(targetId);
 
-            Assert.Equal(10, _dbContext.RedirectedAppeal.Count());
+            Assert.Equal(10, _dbContext.NoSolutionAppeal.Count());
 
             Assert.Equal(expectedAppeal.Id, result.Id);
             Assert.Equal(expectedAppeal.YearInfo, result.YearInfo);
@@ -192,18 +203,19 @@ namespace WorkGroupProsecutor.Tests.RepositoriesTests
             Assert.Equal(expectedAppeal.RegistrationNumber, result.RegistrationNumber);
             Assert.Equal(expectedAppeal.DecisionBasis, result.DecisionBasis);
             Assert.Equal(expectedAppeal.DepartmentAssessment, result.DepartmentAssessment);
-            Assert.Equal(expectedAppeal.RecipientAgency, result.RecipientAgency);
+            Assert.Equal(expectedAppeal.DepartmentResolution, result.DepartmentResolution);
             Assert.Equal(expectedAppeal.NadzorHyperlink, result.NadzorHyperlink);
             Assert.Equal(expectedAppeal.DepartmentId, result.DepartmentId);
         }
 
         [Fact]
-        public async Task DeleteRedirectedAppeal_ShouldDelete_1Appeal()
+        public async Task DeleteNoSolutionReturnsAppeal_ShouldDelete_1Appeal()
         {
-            await _sutRedirectedAppealRepository.DeleteRedirectedAppeal(10);
+            await _sutNoSolutionReturnsAppealRepository.DeleteNoSolutionReturnsAppeal(10);
 
-            Assert.Equal(9, _dbContext.RedirectedAppeal.Count());
-            Assert.DoesNotContain(_dbContext.RedirectedAppeal, a => a.Id == 10);
+            Assert.Equal(9, _dbContext.NoSolutionAppeal.Count());
+            Assert.DoesNotContain(_dbContext.NoSolutionAppeal, a => a.Id == 10);
         }
+
     }
 }
