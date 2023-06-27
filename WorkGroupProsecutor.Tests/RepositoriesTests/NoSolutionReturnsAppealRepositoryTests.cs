@@ -1,14 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WorkGroupProsecutor.Server.Data.Context;
-using WorkGroupProsecutor.Server.Data.Repositories;
-using WorkGroupProsecutor.Server.Mapper;
-using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
+﻿using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
 using WorkGroupProsecutor.Tests.Services;
 
 namespace WorkGroupProsecutor.Tests.RepositoriesTests

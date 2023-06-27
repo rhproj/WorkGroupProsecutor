@@ -1,5 +1,4 @@
 ﻿using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
-using WorkGroupProsecutor.Shared.Models.Participants;
 using WorkGroupProsecutor.Tests.Services;
 
 namespace WorkGroupProsecutor.Tests.RepositoriesTests
