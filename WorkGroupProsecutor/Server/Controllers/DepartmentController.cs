@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using WorkGroupProsecutor.Server.Data.Repositories;
-using WorkGroupProsecutor.Shared.Models.Participants;
-
 
 namespace WorkGroupProsecutor.Server.Controllers
 {

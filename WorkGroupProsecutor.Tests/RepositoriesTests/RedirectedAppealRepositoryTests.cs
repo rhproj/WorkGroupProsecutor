@@ -1,48 +1,11 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WorkGroupProsecutor.Server.Controllers;
-using WorkGroupProsecutor.Server.Data.Context;
-using WorkGroupProsecutor.Server.Data.Repositories;
-using WorkGroupProsecutor.Server.Mapper;
-using WorkGroupProsecutor.Shared.Models.Appeal;
-using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
-using WorkGroupProsecutor.Shared.Models.Participants;
+﻿using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
 using WorkGroupProsecutor.Tests.Services;
 
 namespace WorkGroupProsecutor.Tests.RepositoriesTests
 {
-    public class RedirectedAppealRepositoryTests : IDisposable
+    public class RedirectedAppealRepositoryTests : RedirectedAppealRepositoryTestBase // IDisposable
     {
-        private RedirectedAppealRepository _sutRedirectedAppealRepository;
-        private readonly ApplicationDbContext _dbContext;
         private int testYear = 2030;
-
-        public RedirectedAppealRepositoryTests()
-        {
-            var mapperСonfig = new MapperConfiguration(с => с.AddProfile(new MappingProfile()));
-            var mapper = mapperСonfig.CreateMapper();   //new Mock<IMapper>();
-
-            var options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: GetRandom.String()).Options;   // GetRandom.String()
-
-            _dbContext = new ApplicationDbContext(options);
-            _dbContext.Database.EnsureCreated();
-
-            if (!_dbContext.RedirectedAppeal.Any())
-            {
-                SeedTestData(_dbContext);
-            }
-
-            _sutRedirectedAppealRepository = new RedirectedAppealRepository(_dbContext, mapper);   //.Object);
-        }
-
 
         [Fact]
         public async Task GetAllRedirectedPeriods_ShouldReturnExpectedPeriods()
@@ -133,9 +96,7 @@ namespace WorkGroupProsecutor.Tests.RepositoriesTests
 
             Assert.Equal(2, result);
         }
-
-
-        //GetRedirectedAppealsByDistricts
+                        
         [Fact]
         public async Task GetRedirectedAppealsByDistricts_ShouldReturnExpectedDistricts()
         {
@@ -199,19 +160,6 @@ namespace WorkGroupProsecutor.Tests.RepositoriesTests
 
             Assert.Equal(9, _dbContext.RedirectedAppeal.Count());
             Assert.DoesNotContain(_dbContext.RedirectedAppeal, a => a.Id == 10);
-        }
-
-        private void SeedTestData(ApplicationDbContext dbContext)
-        {
-            var testAppeals = RedirectedAppealTestProvider.RedirectedAppealModelTestCollection();
-            dbContext.RedirectedAppeal.AddRange(testAppeals);
-            dbContext.SaveChanges();
-        }
-
-        public void Dispose()
-        {
-            _dbContext.Database.EnsureDeleted();
-            _dbContext.Dispose();
         }
     }
 }

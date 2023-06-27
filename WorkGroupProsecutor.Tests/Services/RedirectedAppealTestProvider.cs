@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WorkGroupProsecutor.Shared.Models.Appeal;
+using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
 using WorkGroupProsecutor.Shared.Models.Participants;
 
 namespace WorkGroupProsecutor.Tests.Services
@@ -59,6 +60,35 @@ namespace WorkGroupProsecutor.Tests.Services
                 Id = GetRandom.Id(),
                 DepartmentIndex = departmentIndex,
                 DepartmentName = GetRandom.String()
+            };
+        }
+
+
+        internal static IEnumerable<RedirectedAppealModelDTO> GetTestRedirectedAppealModelDTOs(int capacity)
+        {
+            var resultList = new RedirectedAppealModelDTO[capacity];
+            for (int i = 0; i < capacity; i++)
+            {
+                resultList[i] = GenerateAppealModelDTO();
+            }
+            return resultList;
+        }
+
+        internal static RedirectedAppealModelDTO GenerateAppealModelDTO()
+        {
+            return new RedirectedAppealModelDTO()
+            {
+                Id = GetRandom.Id(),
+                RegistrationNumber = GetRandom.String(),
+                NadzorHyperlink = GetRandom.String(),
+                ApplicantFullName = GetRandom.String(),
+                DepartmentAssessment = GetRandom.String(),
+                YearInfo = GetRandom.Byte(),
+                PeriodInfo = GetRandom.String(),
+                District = GetRandom.String(),
+                RecipientAgency = GetRandom.String(),
+                DecisionBasis = GetRandom.String(),
+                Department = GenerateDepartment(GetRandom.String(3))
             };
         }
     }

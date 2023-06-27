@@ -1,10 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WorkGroupProsecutor.Server.Controllers;
 using WorkGroupProsecutor.Server.Data.Repositories;
 using WorkGroupProsecutor.Shared.Models.Participants;
@@ -52,7 +47,6 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
         public async Task Get_ShouldPass_GivenNumberOf_DepartmentObjects(int generatedCount)
         {
             _departmentRepositoryMock.Setup(m => m.GetAllDepartments()).ReturnsAsync(GetTestGeneratedDepartments(generatedCount));
-            _departmentController = new DepartmentController(_departmentRepositoryMock.Object);
 
             var actionResutl = await _departmentController.Get();
             var okObjectResult = Assert.IsType<OkObjectResult>(actionResutl).Value;
@@ -78,7 +72,6 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             var expectedCollection = new Department[] { department1, department2 };
 
             _departmentRepositoryMock.Setup(m => m.GetAllDepartments()).ReturnsAsync(expectedCollection);
-            _departmentController = new DepartmentController(_departmentRepositoryMock.Object);
 
             //Act
             var actionResutl = await _departmentController.Get();
@@ -104,7 +97,6 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             var expectedDepartment = SetIdForElemntOfCollection(testId, arrayIndex, testCollection);
 
             _departmentRepositoryMock.Setup(m => m.GetDepartmentById(testId)).ReturnsAsync(expectedDepartment);
-            _departmentController = new DepartmentController(_departmentRepositoryMock.Object);
 
             //Act
             var actionResutl = await _departmentController.Get(testId);
@@ -119,12 +111,12 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             var result = new Department[count];
             for (int i = 0; i < count; i++)
             {
-                result[i] = (new Department()
+                result[i] = new Department
                 {
                     Id = GetRandom.Id(),
                     DepartmentIndex = GetRandom.String(),
                     DepartmentName = GetRandom.String()
-                });
+                };
             }
             return result;
         }
