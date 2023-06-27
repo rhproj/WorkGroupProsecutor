@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using WorkGroupProsecutor.Shared.Models.Appeal;
+﻿using WorkGroupProsecutor.Shared.Models.Appeal;
 using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
 using WorkGroupProsecutor.Shared.Models.Participants;
 
