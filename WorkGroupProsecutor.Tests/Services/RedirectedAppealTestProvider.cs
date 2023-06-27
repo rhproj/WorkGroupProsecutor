@@ -72,6 +72,7 @@ namespace WorkGroupProsecutor.Tests.Services
                 District = GetRandom.String(),
                 RecipientAgency = GetRandom.String(),
                 DecisionBasis = GetRandom.String(),
+                DepartmentId = GetRandom.Byte(),
                 Department = DepartmentGenerator.GenerateDepartment(GetRandom.String(3))
             };
         }

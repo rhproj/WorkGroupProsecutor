@@ -1,21 +1,26 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Moq;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using WorkGroupProsecutor.Server.Controllers;
 using WorkGroupProsecutor.Server.Data.Repositories;
 using WorkGroupProsecutor.Tests.Services;
 
 namespace WorkGroupProsecutor.Tests.ControllersTests
 {
-    public class RedirectedAppealControllerTests
+    public class NoSolutionReturnsAppealControllerTests
     {
-        private RedirectedAppealController _sutAppealController;
-        private Mock<IRedirectedAppealRepository> _appealRepositoryMock;
+        private NoSolutionReturnsAppealController _sutAppealController;
+        private Mock<INoSolutionReturnsAppealRepository> _appealRepositoryMock;
         private int _testYear = 2030;
 
-        public RedirectedAppealControllerTests()
+        public NoSolutionReturnsAppealControllerTests()
         {
-            _appealRepositoryMock = new Mock<IRedirectedAppealRepository>();
-            _sutAppealController = new RedirectedAppealController(_appealRepositoryMock.Object);
+            _appealRepositoryMock = new Mock<INoSolutionReturnsAppealRepository>();
+            _sutAppealController = new NoSolutionReturnsAppealController(_appealRepositoryMock.Object);
         }
 
         [Fact]
@@ -25,8 +30,8 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             int periodType = 5;
 
             var periodsExpected = GetRandom.StringCollection(periodsCount, periodType);
-            
-            _appealRepositoryMock.Setup(m => m.GetAllRedirectedPeriods(_testYear)).ReturnsAsync(periodsExpected);
+
+            _appealRepositoryMock.Setup(m => m.GetAllNoSolutionReturnsPeriods(_testYear)).ReturnsAsync(periodsExpected);
 
             var actionResutl = await _sutAppealController.GetPeriods(_testYear);
             var resultPeriods = Assert.IsType<OkObjectResult>(actionResutl).Value;
@@ -42,8 +47,8 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             string district = GetRandom.String();
 
             var periodsExpected = GetRandom.StringCollection(periodsCount, periodType);
-            
-            _appealRepositoryMock.Setup(m => m.GetRedirectedPeriodsByDistrict(district, _testYear)).ReturnsAsync(periodsExpected);
+
+            _appealRepositoryMock.Setup(m => m.GetNoSolutionReturnsPeriodsByDistrict(district, _testYear)).ReturnsAsync(periodsExpected);
 
             var actionResutl = await _sutAppealController.GetPeriodsByDistrict(district, _testYear);
             var resultPeriods = Assert.IsType<OkObjectResult>(actionResutl).Value;
@@ -59,8 +64,8 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             string department = GetRandom.String();
 
             var periodsExpected = GetRandom.StringCollection(periodsCount, periodType);
-            
-            _appealRepositoryMock.Setup(m => m.GetRedirectedPeriodsForDepartment(department, _testYear)).ReturnsAsync(periodsExpected);
+
+            _appealRepositoryMock.Setup(m => m.GetNoSolutionReturnsPeriodsForDepartment(department, _testYear)).ReturnsAsync(periodsExpected);
 
             var actionResult = await _sutAppealController.GetForDepartment(department, _testYear);
             var resultPeriods = Assert.IsType<OkObjectResult>(actionResult).Value;
@@ -73,15 +78,15 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
         {
             string district = GetRandom.String();
             string period = GetRandom.String();
-            
-            var expectedRedirectedAppeals = RedirectedAppealTestProvider.GetTestRedirectedAppealModelDTOs(10);
 
-            _appealRepositoryMock.Setup(m => m.GetAllRedirectedAppeals(district,period, _testYear)).ReturnsAsync(expectedRedirectedAppeals);
+            var expectedAppeals = NoSolutionReturnsAppealTestProvider.GetTestNoSolutionReturnsAppealModelDTOs(10);
+
+            _appealRepositoryMock.Setup(m => m.GetAllNoSolutionReturnsAppeals(district, period, _testYear)).ReturnsAsync(expectedAppeals);
 
             var actionResult = await _sutAppealController.GetAppeals(district, period, _testYear);
             var resultAppeals = Assert.IsType<OkObjectResult>(actionResult).Value;
 
-            Assert.Equal(expectedRedirectedAppeals, resultAppeals);
+            Assert.Equal(expectedAppeals, resultAppeals);
         }
 
         [Fact]
@@ -90,15 +95,15 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
             string district = GetRandom.String();
             string department = GetRandom.String();
             string period = GetRandom.String();
-           
-            var expectedRedirectedAppeals = RedirectedAppealTestProvider.GetTestRedirectedAppealModelDTOs(10);
 
-            _appealRepositoryMock.Setup(m => m.GetAllRedirectedAppealsByDepartment(district, department, period, _testYear)).ReturnsAsync(expectedRedirectedAppeals);
+            var expectedAppeals = NoSolutionReturnsAppealTestProvider.GetTestNoSolutionReturnsAppealModelDTOs(10);
+
+            _appealRepositoryMock.Setup(m => m.GetAllNoSolutionReturnsAppealsByDepartment(district, department, period, _testYear)).ReturnsAsync(expectedAppeals);
 
             var actionResult = await _sutAppealController.GetAppealsByDepartment(district, department, period, _testYear);
             var resultAppeals = Assert.IsType<OkObjectResult>(actionResult).Value;
 
-            Assert.Equal(expectedRedirectedAppeals, resultAppeals);
+            Assert.Equal(expectedAppeals, resultAppeals);
         }
 
         [Fact]
@@ -106,24 +111,24 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
         {
             string department = GetRandom.String();
             string period = GetRandom.String();
-            
-            var expectedRedirectedAppeals = RedirectedAppealTestProvider.GetTestRedirectedAppealModelDTOs(10);
 
-            _appealRepositoryMock.Setup(m => m.GetAllRedirectedUnansweredForDepartment(department, period, _testYear)).ReturnsAsync(expectedRedirectedAppeals);
+            var expectedAppeals = NoSolutionReturnsAppealTestProvider.GetTestNoSolutionReturnsAppealModelDTOs(10);
+
+            _appealRepositoryMock.Setup(m => m.GetAllNoSolutionReturnsUnansweredForDepartment(department, period, _testYear)).ReturnsAsync(expectedAppeals);
 
             var actionResult = await _sutAppealController.GetAllUnansweredForDepartment(department, period, _testYear);
-            var resultRedirectedAppeals = Assert.IsType<OkObjectResult>(actionResult).Value;
+            var resultAppeals = Assert.IsType<OkObjectResult>(actionResult).Value;
 
-            Assert.Equal(expectedRedirectedAppeals, resultRedirectedAppeals);
+            Assert.Equal(expectedAppeals, resultAppeals);
         }
 
         [Fact]
         public async Task GetUnansweredNumber_ShouldPass_ExpectedNumber()
         {
-            int expectedNumber = 10;
+            int expectedNumber = 5;
             string department = GetRandom.String();
             string period = GetRandom.String();
-            
+
             _appealRepositoryMock.Setup(m => m.GetUnansweredNumberForDepartment(department, period, _testYear)).ReturnsAsync(expectedNumber);
 
             var actionResult = await _sutAppealController.GetUnansweredNumber(department, period, _testYear);
@@ -136,10 +141,10 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
         public async Task GetByDistricts_ShouldPass_ExpectedCollectionOfDistricts()
         {
             string period = GetRandom.String();
-            
+
             var expectedDistricts = GetRandom.StringCollection(10, 7);
 
-            _appealRepositoryMock.Setup(m => m.GetRedirectedAppealsByDistricts(period, _testYear)).ReturnsAsync(expectedDistricts);
+            _appealRepositoryMock.Setup(m => m.GetNoSolutionReturnsAppealsByDistricts(period, _testYear)).ReturnsAsync(expectedDistricts);
 
             var actionResult = await _sutAppealController.GetByDistricts(period, _testYear);
             var resultDistricts = Assert.IsType<OkObjectResult>(actionResult).Value;
@@ -152,10 +157,10 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
         {
             string department = GetRandom.String();
             string period = GetRandom.String();
-            
+
             var expectedDistricts = GetRandom.StringCollection(10, 7);
 
-            _appealRepositoryMock.Setup(m => m.GetRedirectedAppelsByDistrictsForDepartment(department, period, _testYear)).ReturnsAsync(expectedDistricts);
+            _appealRepositoryMock.Setup(m => m.GetNoSolutionReturnsAppelsByDistrictsForDepartment(department, period, _testYear)).ReturnsAsync(expectedDistricts);
 
             var actionResult = await _sutAppealController.GetByDistrictsForDepartment(department, period, _testYear);
             var resultDistricts = Assert.IsType<OkObjectResult>(actionResult).Value;
@@ -167,9 +172,9 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
         public async Task GetAppealById_ShouldPass_ExpectedAppeal()
         {
             int appealId = GetRandom.Byte();
-            var expectedAppeal = RedirectedAppealTestProvider.GenerateAppealModelDTO();
+            var expectedAppeal = NoSolutionReturnsAppealTestProvider.GenerateAppealModelDTO();
 
-            _appealRepositoryMock.Setup(m => m.GetRedirectedAppealById(appealId)).ReturnsAsync(expectedAppeal);
+            _appealRepositoryMock.Setup(m => m.GetNoSolutionReturnsAppealById(appealId)).ReturnsAsync(expectedAppeal);
 
             var actionResult = await _sutAppealController.GetAppeal(appealId);
             var resultAppeal = Assert.IsType<OkObjectResult>(actionResult).Value;
@@ -180,25 +185,25 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
         [Fact]
         public async Task Post_ShouldCall_AddRedirectedAppeal()
         {
-            var appeal = RedirectedAppealTestProvider.GenerateAppealModelDTO();
+            var appeal = NoSolutionReturnsAppealTestProvider.GenerateAppealModelDTO();
 
-            _appealRepositoryMock.Setup(m => m.AddRedirectedAppeal(appeal));
+            _appealRepositoryMock.Setup(m => m.AddNoSolutionReturnsAppeal(appeal));
 
             await _sutAppealController.Post(appeal);
 
-            _appealRepositoryMock.Verify(m => m.AddRedirectedAppeal(appeal), Times.Once);
+            _appealRepositoryMock.Verify(m => m.AddNoSolutionReturnsAppeal(appeal), Times.Once);
         }
 
         [Fact]
         public async Task Put_ShouldCall_UpdateRedirectedAppeal()
         {
-            var appeal = RedirectedAppealTestProvider.GenerateAppealModelDTO();
+            var appeal = NoSolutionReturnsAppealTestProvider.GenerateAppealModelDTO();
 
-            _appealRepositoryMock.Setup(m => m.UpdateRedirectedAppeal(appeal));
+            _appealRepositoryMock.Setup(m => m.UpdateNoSolutionReturnsAppeal(appeal));
 
             await _sutAppealController.Put(appeal);
 
-            _appealRepositoryMock.Verify(m => m.UpdateRedirectedAppeal(appeal), Times.Once);
+            _appealRepositoryMock.Verify(m => m.UpdateNoSolutionReturnsAppeal(appeal), Times.Once);
         }
 
         [Fact]
@@ -206,11 +211,11 @@ namespace WorkGroupProsecutor.Tests.ControllersTests
         {
             var appealId = GetRandom.Byte();
 
-            _appealRepositoryMock.Setup(m => m.DeleteRedirectedAppeal(appealId));
+            _appealRepositoryMock.Setup(m => m.DeleteNoSolutionReturnsAppeal(appealId));
 
             await _sutAppealController.Delete(appealId);
 
-            _appealRepositoryMock.Verify(m => m.DeleteRedirectedAppeal(appealId), Times.Once);
+            _appealRepositoryMock.Verify(m => m.DeleteNoSolutionReturnsAppeal(appealId), Times.Once);
         }
     }
 }

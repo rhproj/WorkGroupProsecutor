@@ -1,4 +1,5 @@
 ﻿using WorkGroupProsecutor.Shared.Models.Appeal;
+using WorkGroupProsecutor.Shared.Models.Appeal.DTO;
 using WorkGroupProsecutor.Shared.Models.Participants;
 
 namespace WorkGroupProsecutor.Tests.Services
@@ -43,6 +44,36 @@ namespace WorkGroupProsecutor.Tests.Services
                 District = district,
                 Department = DepartmentGenerator.GenerateDepartment(department),
                 DepartmentAssessment = assessment
+            };
+        }
+
+
+        internal static IEnumerable<NoSolutionReturnsAppealModelDTO> GetTestNoSolutionReturnsAppealModelDTOs(int capacity)
+        {
+            var resultList = new NoSolutionReturnsAppealModelDTO[capacity];
+            for (int i = 0; i < capacity; i++)
+            {
+                resultList[i] = GenerateAppealModelDTO();
+            }
+            return resultList;
+        }
+
+        internal static NoSolutionReturnsAppealModelDTO GenerateAppealModelDTO()
+        {
+            return new NoSolutionReturnsAppealModelDTO()
+            {
+                Id = GetRandom.Id(),
+                RegistrationNumber = GetRandom.String(),
+                NadzorHyperlink = GetRandom.String(),
+                ApplicantFullName = GetRandom.String(),
+                DepartmentAssessment = GetRandom.String(),
+                YearInfo = GetRandom.Byte(),
+                PeriodInfo = GetRandom.String(),
+                District = GetRandom.String(),
+                DecisionBasis = GetRandom.String(),
+                DepartmentId = GetRandom.Byte(),
+                Department = DepartmentGenerator.GenerateDepartment(GetRandom.String(3)),
+                DepartmentResolution = GetRandom.String()
             };
         }
     }
